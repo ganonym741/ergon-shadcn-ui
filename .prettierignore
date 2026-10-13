@@ -1,0 +1,10 @@
+node_modules
+dist
+output
+.playwright-cli
+public/r
+public/api
+public/registry.json
+src/generated
+registry.json
+bun.lock
