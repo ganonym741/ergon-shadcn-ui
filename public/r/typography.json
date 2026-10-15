@@ -1,0 +1,36 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "typography",
+  "type": "registry:ui",
+  "title": "Typography",
+  "description": "Give every word the right hierarchy.",
+  "dependencies": [
+    "clsx@2.1.1",
+    "lucide-react@1.65.0",
+    "tailwind-merge@3.7.0"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/typography.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nimport { Copy, Check, Pencil } from 'lucide-react'\nimport { cn } from '@/lib/utils'\nexport interface TypographyProps extends React.HTMLAttributes<HTMLElement> {\n  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'span' | 'blockquote' | 'code'\n  muted?: boolean\n  copyable?: boolean\n  editable?: boolean\n  onTextChange?: (text: string) => void\n  ellipsis?: number\n  expandable?: boolean\n  tooltip?: string\n  editTrigger?: 'icon' | 'text' | 'doubleClick'\n}\nexport function Typography({\n  as: Tag = 'p',\n  muted,\n  copyable,\n  editable,\n  onTextChange,\n  ellipsis,\n  expandable,\n  tooltip,\n  editTrigger = 'icon',\n  children,\n  className,\n  style,\n  ...props\n}: TypographyProps) {\n  const [copied, setCopied] = React.useState(false),\n    [editing, setEditing] = React.useState(false),\n    [expanded, setExpanded] = React.useState(false),\n    [draft, setDraft] = React.useState(String(children))\n  const committed = React.useRef(false)\n  const start = () => {\n    committed.current = false\n    setDraft(String(children))\n    setEditing(true)\n  }\n  const commit = () => {\n    if (committed.current) return\n    committed.current = true\n    onTextChange?.(draft)\n    setEditing(false)\n  }\n  return (\n    <Tag\n      className={cn(\n        'leading-relaxed',\n        Tag === 'h1' && 'text-4xl font-semibold tracking-tight',\n        Tag === 'h2' && 'text-3xl font-semibold tracking-tight',\n        Tag === 'h3' && 'text-xl font-semibold',\n        Tag === 'blockquote' && 'border-l-2 pl-5 italic',\n        Tag === 'code' && 'rounded bg-muted px-1.5 py-0.5 font-mono text-sm',\n        muted && 'text-muted-foreground',\n        className,\n      )}\n      style={style}\n      {...props}\n    >\n      {editing ? (\n        <input\n          autoFocus\n          aria-label=\"Edit text\"\n          value={draft}\n          className=\"rounded border bg-background px-2 font-[inherit] outline-ring\"\n          onChange={(e) => setDraft(e.target.value)}\n          onBlur={commit}\n          onKeyDown={(e) => {\n            if (e.key === 'Enter') commit()\n            if (e.key === 'Escape') {\n              committed.current = true\n              setEditing(false)\n            }\n          }}\n        />\n      ) : (\n        <span\n          title={tooltip ?? (ellipsis ? String(children) : undefined)}\n          onClick={editable && editTrigger === 'text' ? start : undefined}\n          onDoubleClick={editable && editTrigger === 'doubleClick' ? start : undefined}\n          style={\n            ellipsis && !expanded\n              ? {\n                  display: '-webkit-box',\n                  WebkitLineClamp: ellipsis,\n                  WebkitBoxOrient: 'vertical',\n                  overflow: 'hidden',\n                }\n              : undefined\n          }\n        >\n          {children}\n        </span>\n      )}\n      {ellipsis && expandable && (\n        <button\n          type=\"button\"\n          className=\"mt-1 text-sm text-primary\"\n          aria-expanded={expanded}\n          onClick={() => setExpanded((v) => !v)}\n        >\n          {expanded ? 'Show less' : 'Read more'}\n        </button>\n      )}\n      {copyable && (\n        <button\n          type=\"button\"\n          aria-label=\"Copy text\"\n          className=\"ml-2 inline-flex text-muted-foreground\"\n          onClick={async () => {\n            await navigator.clipboard.writeText(String(children))\n            setCopied(true)\n            setTimeout(() => setCopied(false), 1600)\n          }}\n        >\n          {copied ? <Check size={14} /> : <Copy size={14} />}\n        </button>\n      )}\n      {editable && !editing && editTrigger === 'icon' && (\n        <button\n          type=\"button\"\n          aria-label=\"Edit text\"\n          className=\"ml-2 inline-flex text-muted-foreground hover:text-primary\"\n          onClick={start}\n        >\n          <Pencil size={13} />\n        </button>\n      )}\n    </Tag>\n  )\n}\n"
+    },
+    {
+      "path": "src/lib/utils.ts",
+      "type": "registry:lib",
+      "content": "import { clsx, type ClassValue } from 'clsx'\nimport { twMerge } from 'tailwind-merge'\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs))\n}\n"
+    },
+    {
+      "path": "LICENSES/shadcn-ui.txt",
+      "type": "registry:file",
+      "target": "~/LICENSES/shadcn-ui.txt",
+      "content": "MIT License\n\nCopyright (c) 2023 shadcn\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    },
+    {
+      "path": "LICENSES/ergonui.txt",
+      "type": "registry:file",
+      "target": "~/LICENSES/ergonui.txt",
+      "content": "MIT License\n\nCopyright (c) 2026 ErgonUI contributors\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    }
+  ]
+}
