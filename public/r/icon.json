@@ -1,0 +1,29 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "icon",
+  "type": "registry:ui",
+  "title": "Icon",
+  "description": "A consistent visual language, down to the pixel.",
+  "dependencies": [
+    "lucide-react@1.65.0"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/icon.tsx",
+      "type": "registry:ui",
+      "content": "import type { LucideIcon, LucideProps } from 'lucide-react'\nexport function Icon({ icon: Component, size = 18, ...props }: LucideProps & { icon: LucideIcon }) {\n  return <Component size={size} aria-hidden={!props['aria-label']} {...props} />\n}\nexport function SpriteIcon({\n  name,\n  spriteUrl = '/icons.svg',\n  size = 18,\n  ...props\n}: React.SVGProps<SVGSVGElement> & { name: string; spriteUrl?: string; size?: number }) {\n  return (\n    <svg\n      width={size}\n      height={size}\n      fill=\"none\"\n      stroke=\"currentColor\"\n      aria-hidden={!props['aria-label']}\n      {...props}\n    >\n      <use href={`${spriteUrl}#${name}`} />\n    </svg>\n  )\n}\n"
+    },
+    {
+      "path": "LICENSES/shadcn-ui.txt",
+      "type": "registry:file",
+      "target": "~/LICENSES/shadcn-ui.txt",
+      "content": "MIT License\n\nCopyright (c) 2023 shadcn\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    },
+    {
+      "path": "LICENSES/ergonui.txt",
+      "type": "registry:file",
+      "target": "~/LICENSES/ergonui.txt",
+      "content": "MIT License\n\nCopyright (c) 2026 ErgonUI contributors\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    }
+  ]
+}
