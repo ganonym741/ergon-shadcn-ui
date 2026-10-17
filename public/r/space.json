@@ -1,0 +1,45 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "space",
+  "type": "registry:ui",
+  "title": "Space",
+  "description": "Consistent spacing, without the guesswork.",
+  "dependencies": [
+    "clsx@2.1.1",
+    "tailwind-merge@3.7.0"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/space.tsx",
+      "type": "registry:ui",
+      "content": "import { Flex } from '@/components/ui/flex'\nexport function Space(props: React.ComponentProps<typeof Flex>) {\n  return <Flex wrap {...props} />\n}\nexport function Compact({\n  children,\n  vertical,\n  className,\n}: {\n  children: React.ReactNode\n  vertical?: boolean\n  className?: string\n}) {\n  return (\n    <div\n      className={`inline-flex ${vertical ? 'flex-col [&>*]:rounded-none [&>:first-child]:rounded-t-md [&>:last-child]:rounded-b-md [&>*+*]:-mt-px' : '[&>*]:rounded-none [&>:first-child]:rounded-l-md [&>:last-child]:rounded-r-md [&>*+*]:-ml-px'} [&>*:focus-within]:relative [&>*:focus-within]:z-10 ${className ?? ''}`}\n    >\n      {children}\n    </div>\n  )\n}\n"
+    },
+    {
+      "path": "src/components/ui/flex.tsx",
+      "type": "registry:ui",
+      "content": "import type { HTMLAttributes, CSSProperties } from 'react'\nimport { cn } from '@/lib/utils'\nimport { responsiveStyle, responsiveCSS, type Responsive } from '@/lib/responsive'\nexport interface FlexProps extends HTMLAttributes<HTMLDivElement> {\n  vertical?: boolean\n  gap?: Responsive<number>\n  align?: CSSProperties['alignItems']\n  justify?: CSSProperties['justifyContent']\n  wrap?: boolean\n  direction?: Responsive<CSSProperties['flexDirection']>\n}\nexport function Flex({\n  vertical,\n  gap = 12,\n  align = 'center',\n  justify = 'flex-start',\n  wrap,\n  className,\n  style,\n  direction,\n  children,\n  ...props\n}: FlexProps) {\n  const spacing =\n    typeof gap === 'number'\n      ? `${gap}px`\n      : Object.fromEntries(Object.entries(gap).map(([key, value]) => [key, `${value}px`]))\n  return (\n    <div\n      className={cn('ergon-flex flex', className)}\n      style={{\n        ...responsiveStyle(spacing, 'gap'),\n        ...responsiveStyle(direction ?? (vertical ? 'column' : 'row'), 'direction'),\n        alignItems: align,\n        justifyContent: justify,\n        flexWrap: wrap ? 'wrap' : undefined,\n        ...style,\n      }}\n      {...props}\n    >\n      <style>{responsiveCSS}</style>\n      {children}\n    </div>\n  )\n}\n"
+    },
+    {
+      "path": "src/lib/utils.ts",
+      "type": "registry:lib",
+      "content": "import { clsx, type ClassValue } from 'clsx'\nimport { twMerge } from 'tailwind-merge'\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs))\n}\n"
+    },
+    {
+      "path": "src/lib/responsive.ts",
+      "type": "registry:lib",
+      "content": "import type { CSSProperties } from 'react'\nexport const breakpoints = { xs: 0, sm: 640, md: 768, lg: 1024, xl: 1280, '2xl': 1536 } as const\nexport type Breakpoint = keyof typeof breakpoints\nexport type Responsive<T> = T | Partial<Record<Breakpoint, T>>\nexport function responsiveStyle<T>(value: Responsive<T> | undefined, name: string): CSSProperties {\n  if (value === undefined) return {}\n  const values = typeof value === 'object' && value !== null ? value : { xs: value }\n  return Object.fromEntries(\n    Object.entries(values).map(([key, v]) => [`--${name}-${key}`, v]),\n  ) as CSSProperties\n}\nexport const responsiveCSS = Object.entries(breakpoints)\n  .map(([point, min], index) => {\n    const fallback = (name: string, initial: string) =>\n      Object.keys(breakpoints)\n        .slice(0, index + 1)\n        .reduce((result, key) => `var(--${name}-${key},${result})`, initial)\n    return `@media(min-width:${min}px){.ergon-col{width:calc(${fallback('span', '24')} / 24 * 100%);margin-inline-start:calc(${fallback('offset', '0')} / 24 * 100%);order:${fallback('order', '0')}}.ergon-flex{gap:${fallback('gap', '12px')};flex-direction:${fallback('direction', 'row')}}}`\n  })\n  .join('')\n"
+    },
+    {
+      "path": "LICENSES/shadcn-ui.txt",
+      "type": "registry:file",
+      "target": "~/LICENSES/shadcn-ui.txt",
+      "content": "MIT License\n\nCopyright (c) 2023 shadcn\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    },
+    {
+      "path": "LICENSES/ergonui.txt",
+      "type": "registry:file",
+      "target": "~/LICENSES/ergonui.txt",
+      "content": "MIT License\n\nCopyright (c) 2026 ErgonUI contributors\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    }
+  ]
+}
