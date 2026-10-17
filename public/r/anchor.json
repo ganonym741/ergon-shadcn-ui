@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "anchor",
+  "type": "registry:ui",
+  "title": "Anchor",
+  "description": "Find your place in a long conversation.",
+  "dependencies": [
+    "clsx@2.1.1",
+    "tailwind-merge@3.7.0"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/anchor.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nimport { cn } from '@/lib/utils'\nexport interface AnchorItem {\n  href: string\n  title: string\n  children?: AnchorItem[]\n}\nexport function Anchor({\n  items,\n  className,\n  label = 'On this page',\n  horizontal,\n  offset = 100,\n  onActiveChange,\n}: {\n  items: AnchorItem[]\n  className?: string\n  label?: string\n  horizontal?: boolean\n  offset?: number\n  onActiveChange?: (href: string) => void\n}) {\n  const [active, setActive] = React.useState('')\n  React.useEffect(() => {\n    const all = items.flatMap(function flat(item): AnchorItem[] {\n      return [item, ...(item.children?.flatMap(flat) ?? [])]\n    })\n    const update = () => {\n      let current = all[0]?.href ?? ''\n      for (const item of all) {\n        const el = document.getElementById(decodeURIComponent(item.href.replace(/^#/, '')))\n        if (el && el.getBoundingClientRect().top <= offset + 8) current = item.href\n      }\n      setActive((previous) => {\n        if (previous !== current) queueMicrotask(() => onActiveChange?.(current))\n        return current\n      })\n    }\n    update()\n    window.addEventListener('scroll', update, true)\n    return () => window.removeEventListener('scroll', update, true)\n  }, [items, offset, onActiveChange])\n  return (\n    <nav\n      aria-label={label}\n      className={cn(horizontal ? 'flex flex-wrap border-b' : 'border-l', className)}\n    >\n      {items.map((item) => (\n        <div key={item.href}>\n          <a\n            aria-current={active === item.href ? 'location' : undefined}\n            className={cn(\n              'block px-4 py-2 text-sm text-muted-foreground hover:text-primary',\n              horizontal ? 'border-b-2' : 'border-l-2',\n              active === item.href ? 'border-primary text-primary' : 'border-transparent',\n            )}\n            href={item.href}\n          >\n            {item.title}\n          </a>\n          {item.children && !horizontal && (\n            <Anchor className=\"ml-4\" items={item.children} offset={offset} />\n          )}\n        </div>\n      ))}\n    </nav>\n  )\n}\n"
+    },
+    {
+      "path": "src/lib/utils.ts",
+      "type": "registry:lib",
+      "content": "import { clsx, type ClassValue } from 'clsx'\nimport { twMerge } from 'tailwind-merge'\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs))\n}\n"
+    },
+    {
+      "path": "LICENSES/shadcn-ui.txt",
+      "type": "registry:file",
+      "target": "~/LICENSES/shadcn-ui.txt",
+      "content": "MIT License\n\nCopyright (c) 2023 shadcn\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    },
+    {
+      "path": "LICENSES/ergonui.txt",
+      "type": "registry:file",
+      "target": "~/LICENSES/ergonui.txt",
+      "content": "MIT License\n\nCopyright (c) 2026 ErgonUI contributors\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    }
+  ]
+}
