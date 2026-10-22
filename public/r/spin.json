@@ -1,0 +1,36 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "spin",
+  "type": "registry:ui",
+  "title": "Spin",
+  "description": "A little movement while things come together.",
+  "dependencies": [
+    "clsx@2.1.1",
+    "lucide-react@1.65.0",
+    "tailwind-merge@3.7.0"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/spin.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nimport { Loader2 } from 'lucide-react'\nimport { cn } from '@/lib/utils'\nexport function Spin({\n  spinning = true,\n  children,\n  label = 'Loading',\n  className,\n  delay = 0,\n  minimumDuration = 0,\n}: {\n  spinning?: boolean\n  children?: React.ReactNode\n  label?: string\n  className?: string\n  delay?: number\n  minimumDuration?: number\n}) {\n  const [visible, setVisible] = React.useState(spinning && delay === 0),\n    shown = React.useRef(visible ? Date.now() : 0)\n  React.useEffect(() => {\n    const duration = spinning ? delay : Math.max(0, minimumDuration - (Date.now() - shown.current)),\n      timer = setTimeout(() => {\n        setVisible(spinning)\n        if (spinning) shown.current = Date.now()\n      }, duration)\n    return () => clearTimeout(timer)\n  }, [spinning, delay, minimumDuration])\n  const indicator = (\n    <span role=\"status\" className=\"inline-flex items-center gap-2 text-sm text-muted-foreground\">\n      <Loader2 className=\"size-5 animate-spin\" />\n      {label}\n    </span>\n  )\n  return children ? (\n    <div className={cn('relative', className)} aria-busy={spinning}>\n      {children}\n      {visible && (\n        <div className=\"absolute inset-0 flex items-center justify-center rounded-lg bg-background/75 backdrop-blur-[1px]\">\n          {indicator}\n        </div>\n      )}\n    </div>\n  ) : visible ? (\n    <span className={className}>{indicator}</span>\n  ) : null\n}\n"
+    },
+    {
+      "path": "src/lib/utils.ts",
+      "type": "registry:lib",
+      "content": "import { clsx, type ClassValue } from 'clsx'\nimport { twMerge } from 'tailwind-merge'\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs))\n}\n"
+    },
+    {
+      "path": "LICENSES/shadcn-ui.txt",
+      "type": "registry:file",
+      "target": "~/LICENSES/shadcn-ui.txt",
+      "content": "MIT License\n\nCopyright (c) 2023 shadcn\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    },
+    {
+      "path": "LICENSES/ergonui.txt",
+      "type": "registry:file",
+      "target": "~/LICENSES/ergonui.txt",
+      "content": "MIT License\n\nCopyright (c) 2026 ErgonUI contributors\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    }
+  ]
+}
