@@ -1,0 +1,36 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tag",
+  "type": "registry:ui",
+  "title": "Tag",
+  "description": "A touch of color. A useful distinction.",
+  "dependencies": [
+    "clsx@2.1.1",
+    "lucide-react@1.65.0",
+    "tailwind-merge@3.7.0"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/tag.tsx",
+      "type": "registry:ui",
+      "content": "import { X } from 'lucide-react'\nimport { cn } from '@/lib/utils'\nexport function Tag({\n  children,\n  color = 'neutral',\n  onClose,\n  selected,\n  onSelectedChange,\n  className,\n}: {\n  children: React.ReactNode\n  color?: 'neutral' | 'coral' | 'green' | 'blue' | 'purple' | 'amber'\n  onClose?: () => void\n  selected?: boolean\n  onSelectedChange?: (value: boolean) => void\n  className?: string\n}) {\n  const classes = {\n    neutral: 'bg-muted text-muted-foreground',\n    coral: 'bg-orange-100 text-orange-800 dark:bg-orange-950 dark:text-orange-300',\n    green: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300',\n    blue: 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300',\n    purple: 'bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-300',\n    amber: 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300',\n  }\n  return (\n    <span\n      className={cn(\n        'inline-flex items-center gap-1.5 rounded-md border border-transparent px-2 py-0.5 text-xs font-medium',\n        classes[color],\n        selected && 'border-current',\n        className,\n      )}\n    >\n      {onSelectedChange ? (\n        <button\n          type=\"button\"\n          aria-label={typeof children === 'string' ? undefined : 'Toggle tag'}\n          aria-pressed={selected}\n          onClick={() => onSelectedChange(!selected)}\n        >\n          {children}\n        </button>\n      ) : (\n        children\n      )}\n      {onClose && (\n        <button\n          type=\"button\"\n          aria-label={`Remove ${typeof children === 'string' ? children : 'tag'}`}\n          onClick={onClose}\n        >\n          <X size={11} />\n        </button>\n      )}\n    </span>\n  )\n}\n"
+    },
+    {
+      "path": "src/lib/utils.ts",
+      "type": "registry:lib",
+      "content": "import { clsx, type ClassValue } from 'clsx'\nimport { twMerge } from 'tailwind-merge'\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs))\n}\n"
+    },
+    {
+      "path": "LICENSES/shadcn-ui.txt",
+      "type": "registry:file",
+      "target": "~/LICENSES/shadcn-ui.txt",
+      "content": "MIT License\n\nCopyright (c) 2023 shadcn\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    },
+    {
+      "path": "LICENSES/ergonui.txt",
+      "type": "registry:file",
+      "target": "~/LICENSES/ergonui.txt",
+      "content": "MIT License\n\nCopyright (c) 2026 ErgonUI contributors\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    }
+  ]
+}
