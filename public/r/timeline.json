@@ -1,0 +1,36 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "timeline",
+  "type": "registry:ui",
+  "title": "Timeline",
+  "description": "Every milestone has a place in the story.",
+  "dependencies": [
+    "clsx@2.1.1",
+    "lucide-react@1.65.0",
+    "tailwind-merge@3.7.0"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/timeline.tsx",
+      "type": "registry:ui",
+      "content": "import { CircleCheck } from 'lucide-react'\nimport { cn } from '@/lib/utils'\nexport interface TimelineItem {\n  key: string\n  title: React.ReactNode\n  description?: React.ReactNode\n  time?: React.ReactNode\n  status?: 'complete' | 'active' | 'pending'\n  icon?: React.ReactNode\n}\nexport function Timeline({\n  items,\n  className,\n  reverse,\n  layout = 'vertical',\n}: {\n  items: TimelineItem[]\n  className?: string\n  reverse?: boolean\n  layout?: 'vertical' | 'horizontal' | 'alternate'\n}) {\n  return (\n    <ol className={cn('space-y-0', layout === 'horizontal' && 'flex overflow-x-auto', className)}>\n      {(reverse ? [...items].reverse() : items).map((item, i) => (\n        <li\n          key={item.key}\n          className={cn(\n            'relative flex gap-4 pb-7 last:pb-0',\n            layout === 'horizontal' && 'min-w-40 flex-1 flex-col pb-0 pr-5',\n            layout === 'alternate' && 'w-1/2',\n            layout === 'alternate' && (i % 2 ? 'ml-auto' : 'flex-row-reverse text-right'),\n          )}\n        >\n          {i < items.length - 1 && (\n            <span\n              className={cn(\n                'absolute bg-border',\n                layout === 'horizontal'\n                  ? 'top-[9px] right-0 left-5 h-px'\n                  : layout === 'alternate' && i % 2 === 0\n                    ? 'top-5 bottom-0 right-[9px] w-px'\n                    : 'top-5 bottom-0 left-[9px] w-px',\n              )}\n            />\n          )}\n          <span\n            className={cn(\n              'relative z-1 flex size-5 shrink-0 items-center justify-center rounded-full bg-background text-primary',\n              item.status === 'pending' && 'text-muted-foreground',\n            )}\n          >\n            {item.icon ??\n              (item.status === 'complete' ? (\n                <CircleCheck size={19} />\n              ) : (\n                <span\n                  className={cn(\n                    'size-2 rounded-full bg-primary ring-4 ring-primary/10',\n                    item.status === 'pending' && 'bg-border ring-muted',\n                  )}\n                />\n              ))}\n          </span>\n          <div className=\"min-w-0 flex-1\">\n            <div className=\"flex flex-wrap justify-between gap-2\">\n              <div className=\"text-sm font-medium\">{item.title}</div>\n              {item.time && <span className=\"text-xs text-muted-foreground\">{item.time}</span>}\n            </div>\n            {item.description && (\n              <p className=\"mt-1 text-sm text-muted-foreground\">{item.description}</p>\n            )}\n          </div>\n        </li>\n      ))}\n    </ol>\n  )\n}\n"
+    },
+    {
+      "path": "src/lib/utils.ts",
+      "type": "registry:lib",
+      "content": "import { clsx, type ClassValue } from 'clsx'\nimport { twMerge } from 'tailwind-merge'\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs))\n}\n"
+    },
+    {
+      "path": "LICENSES/shadcn-ui.txt",
+      "type": "registry:file",
+      "target": "~/LICENSES/shadcn-ui.txt",
+      "content": "MIT License\n\nCopyright (c) 2023 shadcn\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    },
+    {
+      "path": "LICENSES/ergonui.txt",
+      "type": "registry:file",
+      "target": "~/LICENSES/ergonui.txt",
+      "content": "MIT License\n\nCopyright (c) 2026 ErgonUI contributors\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    }
+  ]
+}
