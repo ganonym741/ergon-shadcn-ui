@@ -1,0 +1,144 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: 'Geist Variable', 'Segoe UI', sans-serif;
+  --font-mono: 'Geist Mono Variable', Consolas, monospace;
+}
+:root {
+  --radius: 0.625rem;
+  --background: #ffffff;
+  --foreground: #262725;
+  --card: #ffffff;
+  --card-foreground: #262725;
+  --popover: #ffffff;
+  --popover-foreground: #262725;
+  --primary: #b93e28;
+  --primary-foreground: #ffffff;
+  --secondary: #f3f2ef;
+  --secondary-foreground: #444740;
+  --muted: #f5f4f1;
+  --muted-foreground: #62695e;
+  --accent: #f2f1ee;
+  --accent-foreground: #262725;
+  --destructive: #c93434;
+  --border: #e9e9e3;
+  --input: #e1e2db;
+  --ring: #b93e28;
+  --docs-bg: #fcfcfa;
+  --preview-bg: #f8f8f5;
+  --chart-1: #b93e28;
+  --chart-2: #4c9779;
+  --chart-3: #7b78bc;
+  --chart-4: #dbab5e;
+  --chart-5: #6391bc;
+}
+.dark {
+  --background: #1b1d1c;
+  --foreground: #eeeeea;
+  --card: #202321;
+  --card-foreground: #eeeeea;
+  --popover: #242724;
+  --popover-foreground: #eeeeea;
+  --primary: #f17c5e;
+  --primary-foreground: #171917;
+  --secondary: #292d28;
+  --secondary-foreground: #e0e3dc;
+  --muted: #272b27;
+  --muted-foreground: #a2a79e;
+  --accent: #30362e;
+  --accent-foreground: #eeeeea;
+  --destructive: #f47777;
+  --border: #343a32;
+  --input: #3d453b;
+  --ring: #f17c5e;
+  --docs-bg: #181b18;
+  --preview-bg: #20241f;
+}
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    -webkit-tap-highlight-color: transparent;
+  }
+  button:not(:disabled),
+  [role='button'] {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: default;
+  }
+  ::selection {
+    background: #b93e2830;
+  }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px;
+  }
+  a {
+    text-decoration: none;
+  }
+  button:focus-visible,
+  a:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
+  input,
+  button,
+  select,
+  textarea {
+    font: inherit;
+  }
+  [data-density='compact'] [data-slot='button'][data-size='default'] {
+    height: 30px;
+    padding-block: 4px;
+  }
+  [data-density='compact'] [data-slot='input'] {
+    height: 30px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
