@@ -1,0 +1,40 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "notification",
+  "type": "registry:ui",
+  "title": "Notification",
+  "description": "Keep people informed, thoughtfully.",
+  "dependencies": [
+    "lucide-react@1.65.0",
+    "sonner@2.0.8"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/notification.tsx",
+      "type": "registry:ui",
+      "content": "export { toast as notification } from 'sonner'\nexport { Toaster as NotificationProvider } from '@/components/ui/sonner'\n"
+    },
+    {
+      "path": "src/components/ui/sonner.tsx",
+      "type": "registry:ui",
+      "content": "'use client'\n\nimport {\n  CircleCheckIcon,\n  InfoIcon,\n  Loader2Icon,\n  OctagonXIcon,\n  TriangleAlertIcon,\n} from 'lucide-react'\nimport { useTheme } from '@/components/ui/theme-provider'\nimport { Toaster as Sonner, type ToasterProps } from 'sonner'\n\nconst Toaster = ({ ...props }: ToasterProps) => {\n  const { theme = 'system' } = useTheme()\n\n  return (\n    <Sonner\n      theme={theme as ToasterProps['theme']}\n      className=\"toaster group\"\n      icons={{\n        success: <CircleCheckIcon className=\"size-4\" />,\n        info: <InfoIcon className=\"size-4\" />,\n        warning: <TriangleAlertIcon className=\"size-4\" />,\n        error: <OctagonXIcon className=\"size-4\" />,\n        loading: <Loader2Icon className=\"size-4 animate-spin\" />,\n      }}\n      style={\n        {\n          '--normal-bg': 'var(--popover)',\n          '--normal-text': 'var(--popover-foreground)',\n          '--normal-border': 'var(--border)',\n          '--border-radius': 'var(--radius)',\n        } as React.CSSProperties\n      }\n      {...props}\n    />\n  )\n}\n\nexport { Toaster }\n"
+    },
+    {
+      "path": "src/components/ui/theme-provider.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nexport type Theme = 'light' | 'dark' | 'system'\nconst ThemeContext = React.createContext<{\n  theme: Theme\n  resolvedTheme: 'light' | 'dark'\n  setTheme: (theme: string) => void\n}>({ theme: 'light', resolvedTheme: 'light', setTheme: () => {} })\nexport function ThemeProvider({\n  children,\n  defaultTheme = 'system',\n}: {\n  children: React.ReactNode\n  defaultTheme?: Theme\n  attribute?: 'class'\n  enableSystem?: boolean\n}) {\n  const [theme, setTheme] = React.useState<Theme>(() => {\n    try {\n      const saved = localStorage.getItem('ergon-appearance')\n      return saved === 'light' || saved === 'dark' || saved === 'system' ? saved : defaultTheme\n    } catch {\n      return defaultTheme\n    }\n  })\n  const [system, setSystem] = React.useState<'light' | 'dark'>(() =>\n    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',\n  )\n  React.useEffect(() => {\n    const media = window.matchMedia('(prefers-color-scheme: dark)')\n    const listener = () => setSystem(media.matches ? 'dark' : 'light')\n    media.addEventListener('change', listener)\n    return () => media.removeEventListener('change', listener)\n  }, [])\n  const resolvedTheme = theme === 'system' ? system : theme\n  React.useLayoutEffect(() => {\n    document.documentElement.classList.toggle('dark', resolvedTheme === 'dark')\n    document.documentElement.style.colorScheme = resolvedTheme\n    localStorage.setItem('ergon-appearance', theme)\n  }, [theme, resolvedTheme])\n  return (\n    <ThemeContext.Provider\n      value={{\n        theme,\n        resolvedTheme,\n        setTheme: (next) => {\n          if (next === 'light' || next === 'dark' || next === 'system') setTheme(next)\n        },\n      }}\n    >\n      {children}\n    </ThemeContext.Provider>\n  )\n}\nexport function useTheme() {\n  return React.useContext(ThemeContext)\n}\n"
+    },
+    {
+      "path": "LICENSES/shadcn-ui.txt",
+      "type": "registry:file",
+      "target": "~/LICENSES/shadcn-ui.txt",
+      "content": "MIT License\n\nCopyright (c) 2023 shadcn\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    },
+    {
+      "path": "LICENSES/ergonui.txt",
+      "type": "registry:file",
+      "target": "~/LICENSES/ergonui.txt",
+      "content": "MIT License\n\nCopyright (c) 2026 ErgonUI contributors\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    }
+  ]
+}
