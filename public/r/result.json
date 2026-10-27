@@ -1,0 +1,36 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "result",
+  "type": "registry:ui",
+  "title": "Result",
+  "description": "A clear outcome. A confident next step.",
+  "dependencies": [
+    "clsx@2.1.1",
+    "lucide-react@1.65.0",
+    "tailwind-merge@3.7.0"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/result.tsx",
+      "type": "registry:ui",
+      "content": "import { CircleCheck, CircleX, Info, TriangleAlert } from 'lucide-react'\nimport { cn } from '@/lib/utils'\nexport function Result({\n  status = 'success',\n  title,\n  description,\n  children,\n}: {\n  status?: 'success' | 'error' | 'info' | 'warning' | '403' | '404' | '500'\n  title: string\n  description?: string\n  children?: React.ReactNode\n}) {\n  const Icon = { success: CircleCheck, error: CircleX, info: Info, warning: TriangleAlert }[\n    status as 'success'\n  ]\n  return (\n    <section className=\"flex flex-col items-center px-5 py-10 text-center\">\n      {Icon ? (\n        <Icon\n          className={cn(\n            'mb-5 size-14',\n            {\n              success: 'text-emerald-500',\n              error: 'text-destructive',\n              info: 'text-blue-500',\n              warning: 'text-amber-500',\n            }[status as 'success'],\n          )}\n        />\n      ) : (\n        <div\n          aria-label={`HTTP ${status}`}\n          className=\"relative mb-5 grid h-32 w-64 place-items-center overflow-hidden rounded-3xl border bg-primary/5\"\n        >\n          <span\n            aria-hidden\n            className=\"absolute -right-4 -bottom-10 size-32 rounded-full bg-primary/10\"\n          />\n          <span className=\"font-mono text-7xl font-semibold tracking-widest text-primary\">\n            {status}\n          </span>\n        </div>\n      )}\n      <h3 className=\"text-xl font-semibold\">{title}</h3>\n      {description && <p className=\"mt-2 max-w-md text-sm text-muted-foreground\">{description}</p>}\n      <div className=\"mt-6 flex gap-3\">{children}</div>\n    </section>\n  )\n}\n"
+    },
+    {
+      "path": "src/lib/utils.ts",
+      "type": "registry:lib",
+      "content": "import { clsx, type ClassValue } from 'clsx'\nimport { twMerge } from 'tailwind-merge'\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs))\n}\n"
+    },
+    {
+      "path": "LICENSES/shadcn-ui.txt",
+      "type": "registry:file",
+      "target": "~/LICENSES/shadcn-ui.txt",
+      "content": "MIT License\n\nCopyright (c) 2023 shadcn\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    },
+    {
+      "path": "LICENSES/ergonui.txt",
+      "type": "registry:file",
+      "target": "~/LICENSES/ergonui.txt",
+      "content": "MIT License\n\nCopyright (c) 2026 ErgonUI contributors\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    }
+  ]
+}
