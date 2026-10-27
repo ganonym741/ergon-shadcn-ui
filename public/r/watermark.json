@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "watermark",
+  "type": "registry:ui",
+  "title": "Watermark",
+  "description": "A subtle signature across your content.",
+  "dependencies": [
+    "clsx@2.1.1",
+    "tailwind-merge@3.7.0"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/watermark.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nimport { cn } from '@/lib/utils'\nexport function Watermark({\n  text = 'CONFIDENTIAL',\n  image,\n  opacity = 0.13,\n  protect = true,\n  children,\n  className,\n}: {\n  text?: string\n  image?: string\n  opacity?: number\n  protect?: boolean\n  children: React.ReactNode\n  className?: string\n}) {\n  const root = React.useRef<HTMLDivElement>(null),\n    layer = React.useRef<HTMLDivElement>(null),\n    escaped = text.replace(\n      /[<>&\"']/g,\n      (char) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '\"': '&quot;', \"'\": '&apos;' })[char]!,\n    )\n  const svg = `<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"220\" height=\"140\"><text x=\"110\" y=\"70\" text-anchor=\"middle\" fill=\"#888\" font-family=\"sans-serif\" font-size=\"15\" transform=\"rotate(-25 110 70)\">${escaped}</text></svg>`,\n    background = `url(\"${image ?? `data:image/svg+xml,${encodeURIComponent(svg)}`}\")`\n  React.useEffect(() => {\n    if (!protect || !root.current || !layer.current) return\n    const container = root.current,\n      overlay = layer.current,\n      attributes = { style: overlay.getAttribute('style')!, class: overlay.className }\n    const observer = new MutationObserver(() => {\n      observer.disconnect()\n      if (overlay.parentElement !== container) container.appendChild(overlay)\n      overlay.setAttribute('style', attributes.style)\n      overlay.className = attributes.class\n      observe()\n    })\n    const observe = () => {\n      observer.observe(container, { childList: true })\n      observer.observe(overlay, { attributes: true })\n    }\n    observe()\n    return () => observer.disconnect()\n  }, [protect, background, opacity])\n  return (\n    <div ref={root} className={cn('relative isolate overflow-hidden', className)}>\n      {children}\n      <div\n        ref={layer}\n        aria-hidden\n        className=\"pointer-events-none absolute inset-0 z-10\"\n        style={{ opacity, backgroundImage: background, backgroundSize: '220px 140px' }}\n      />\n    </div>\n  )\n}\n"
+    },
+    {
+      "path": "src/lib/utils.ts",
+      "type": "registry:lib",
+      "content": "import { clsx, type ClassValue } from 'clsx'\nimport { twMerge } from 'tailwind-merge'\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs))\n}\n"
+    },
+    {
+      "path": "LICENSES/shadcn-ui.txt",
+      "type": "registry:file",
+      "target": "~/LICENSES/shadcn-ui.txt",
+      "content": "MIT License\n\nCopyright (c) 2023 shadcn\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    },
+    {
+      "path": "LICENSES/ergonui.txt",
+      "type": "registry:file",
+      "target": "~/LICENSES/ergonui.txt",
+      "content": "MIT License\n\nCopyright (c) 2026 ErgonUI contributors\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    }
+  ]
+}
