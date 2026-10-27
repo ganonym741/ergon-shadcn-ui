@@ -1,0 +1,27 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "affix",
+  "type": "registry:ui",
+  "title": "Affix",
+  "description": "Keep important things in view.",
+  "dependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/affix.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nexport function Affix({\n  offsetTop = 16,\n  offsetBottom,\n  target,\n  onAffixChange,\n  style,\n  ...props\n}: React.HTMLAttributes<HTMLDivElement> & {\n  offsetTop?: number\n  offsetBottom?: number\n  target?: () => HTMLElement | null\n  onAffixChange?: (affixed: boolean) => void\n}) {\n  const ref = React.useRef<HTMLDivElement>(null),\n    previous = React.useRef(false)\n  React.useEffect(() => {\n    const container = target?.() ?? window\n    const update = () => {\n      if (!ref.current) return\n      const rect = ref.current.getBoundingClientRect(),\n        bounds =\n          container instanceof HTMLElement\n            ? container.getBoundingClientRect()\n            : { top: 0, bottom: innerHeight }\n      const affixed =\n        offsetBottom === undefined\n          ? rect.top <= bounds.top + offsetTop + 1\n          : rect.bottom >= bounds.bottom - offsetBottom - 1\n      if (affixed !== previous.current) {\n        previous.current = affixed\n        onAffixChange?.(affixed)\n      }\n    }\n    container.addEventListener('scroll', update, { passive: true })\n    window.addEventListener('resize', update)\n    update()\n    return () => {\n      container.removeEventListener('scroll', update)\n      window.removeEventListener('resize', update)\n    }\n  }, [target, offsetTop, offsetBottom, onAffixChange])\n  return (\n    <div\n      {...props}\n      ref={ref}\n      style={{\n        position: 'sticky',\n        ...(offsetBottom === undefined ? { top: offsetTop } : { bottom: offsetBottom }),\n        zIndex: 10,\n        ...style,\n      }}\n    />\n  )\n}\n"
+    },
+    {
+      "path": "LICENSES/shadcn-ui.txt",
+      "type": "registry:file",
+      "target": "~/LICENSES/shadcn-ui.txt",
+      "content": "MIT License\n\nCopyright (c) 2023 shadcn\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    },
+    {
+      "path": "LICENSES/ergonui.txt",
+      "type": "registry:file",
+      "target": "~/LICENSES/ergonui.txt",
+      "content": "MIT License\n\nCopyright (c) 2026 ErgonUI contributors\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    }
+  ]
+}
