@@ -1,0 +1,86 @@
+# ErgonUI
+React components built on shadcn/ui component source and community work, including copied/adapted MIT-licensed components alongside original ErgonUI components.
+
+- Rich Text Editor: /r/rich-text-editor.json — Give stories shape, with images right where they belong.
+- Button: /r/button.json — A small surface for your next big action.
+- Float Button: /r/float-button.json — Keep useful actions within easy reach.
+- Icon: /r/icon.json — A consistent visual language, down to the pixel.
+- Typography: /r/typography.json — Give every word the right hierarchy.
+- Divider: /r/divider.json — A little breathing room between ideas.
+- Flex: /r/flex.json — Align, distribute, and wrap with intention.
+- Grid: /r/grid.json — Responsive structure for any screen.
+- Layout: /r/layout.json — The foundation of a well-composed application.
+- Layout+: /r/layout-plus.json — An application shell, ready for real work.
+- Masonry: /r/masonry.json — Let content find its natural rhythm.
+- Space: /r/space.json — Consistent spacing, without the guesswork.
+- Splitter: /r/splitter.json — A workspace that adapts to the way you work.
+- Anchor: /r/anchor.json — Find your place in a long conversation.
+- Breadcrumb: /r/breadcrumb.json — A clear path back to where you started.
+- Dropdown: /r/dropdown.json — The right options, right when you need them.
+- Menu: /r/menu.json — Make every destination easy to discover.
+- Pagination: /r/pagination.json — Big collections, manageable chapters.
+- Steps: /r/steps.json — Turn a complex process into a clear path.
+- Tabs: /r/tabs.json — Related views, one focused space.
+- Auto Complete: /r/auto-complete.json — A helpful suggestion, a little less typing.
+- Cascader: /r/cascader.json — Navigate layered choices with confidence.
+- Checkbox: /r/checkbox.json — One choice, or a few. You decide.
+- Check Card+: /r/check-card-plus.json — Make choosing feel more considered.
+- Color Picker: /r/color-picker.json — Find exactly the right shade.
+- Date Picker: /r/date-picker.json — Make time for the dates that matter.
+- Form: /r/form.json — Thoughtful forms, from first field to submit.
+- Form+: /r/form-plus.json — From a simple question to a complete workflow.
+- Field+: /r/field-plus.json — One field. Many ways to read and edit.
+- Input: /r/input.json — A welcoming place for every answer.
+- Input Number: /r/input-number.json — Precise values, effortless adjustments.
+- Mentions: /r/mentions.json — Bring people into the conversation.
+- Radio: /r/radio.json — One clear choice from a set of possibilities.
+- Rate: /r/rate.json — A little feedback goes a long way.
+- Select: /r/select.json — Rich choices in a beautifully simple control.
+- Slider: /r/slider.json — Explore the space between minimum and maximum.
+- Switch: /r/switch.json — A small gesture. An immediate change.
+- Time Picker: /r/time-picker.json — The right moment, to the minute.
+- Transfer: /r/transfer.json — Move items between two clear perspectives.
+- Tree Select: /r/tree-select.json — Structured options, a simple selection.
+- Upload: /r/upload.json — From your device to your next creation.
+- Avatar: /r/avatar.json — Put a face to a name.
+- Badge: /r/badge.json — Small details that tell a bigger story.
+- Calendar: /r/calendar.json — See the shape of your month.
+- Card: /r/card.json — A considered home for your content.
+- Card+: /r/card-plus.json — Compose rich dashboards one panel at a time.
+- Carousel: /r/carousel.json — A sequence worth exploring.
+- Collapse: /r/collapse.json — More information, only when you need it.
+- Descriptions: /r/descriptions.json — Present the details with clarity.
+- Descriptions+: /r/descriptions-plus.json — Rich records, beautifully presented.
+- Empty: /r/empty.json — An empty state with a useful next step.
+- Image: /r/image.json — Give your images a little more room.
+- List: /r/list.json — Flexible collections for modern interfaces.
+- List+: /r/list-plus.json — More context for every item in your collection.
+- Popover: /r/popover.json — A little extra context, close at hand.
+- QR Code: /r/qr-code.json — Connect the physical and the digital.
+- Segmented: /r/segmented.json — Switch perspectives without losing your place.
+- Statistic: /r/statistic.json — Make the numbers mean something.
+- Table: /r/table.json — Serious data. Surprisingly approachable.
+- Table+: /r/table-plus.json — Your data workspace, fully equipped.
+- Editable Table+: /r/editable-table-plus.json — Work directly with your data.
+- Tag: /r/tag.json — A touch of color. A useful distinction.
+- Timeline: /r/timeline.json — Every milestone has a place in the story.
+- Tooltip: /r/tooltip.json — Helpful details, exactly where they belong.
+- Tour: /r/tour.json — A friendly introduction to what comes next.
+- Tree: /r/tree.json — Make complex hierarchies feel natural.
+- Alert: /r/alert.json — The right message in the right tone.
+- Drawer: /r/drawer.json — A little more space, without leaving the page.
+- Message: /r/message.json — Quick feedback that keeps things moving.
+- Modal: /r/modal.json — A focused moment for an important decision.
+- Notification: /r/notification.json — Keep people informed, thoughtfully.
+- Popconfirm: /r/popconfirm.json — A moment to double-check before acting.
+- Progress: /r/progress.json — Make every bit of progress visible.
+- Result: /r/result.json — A clear outcome. A confident next step.
+- Skeleton: /r/skeleton.json — A considered first impression while loading.
+- Skeleton+: /r/skeleton-plus.json — Loading states that match your workspace.
+- Spin: /r/spin.json — A little movement while things come together.
+- Watermark: /r/watermark.json — A subtle signature across your content.
+- Affix: /r/affix.json — Keep important things in view.
+- App: /r/app.json — One place for your application providers.
+- Border Beam: /r/border-beam.json — A quiet spotlight on something special.
+- Config Provider: /r/config-provider.json — One design language, across your application.
+- Util: /r/util.json — Small utilities that make everything fit.
