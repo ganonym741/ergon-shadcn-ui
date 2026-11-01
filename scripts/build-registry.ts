@@ -42,6 +42,17 @@ async function collect(path: string, files = new Map<string, string>(), deps = n
       ? [statement.moduleSpecifier.text]
       : [],
   )
+  function collectDynamicImports(node: ts.Node) {
+    if (
+      ts.isCallExpression(node) &&
+      node.expression.kind === ts.SyntaxKind.ImportKeyword &&
+      node.arguments[0] &&
+      ts.isStringLiteral(node.arguments[0])
+    )
+      imports.push(node.arguments[0].text)
+    ts.forEachChild(node, collectDynamicImports)
+  }
+  collectDynamicImports(source)
   for (const importPath of imports) {
     if (importPath.startsWith('@/')) {
       const local = resolve(root, 'src', importPath.slice(2))
