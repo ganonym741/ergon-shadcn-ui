@@ -3,8 +3,21 @@ import { Check, Copy, Terminal } from 'lucide-react'
 import { toast } from 'sonner'
 export function BrandMark() {
   return (
-    <svg className="brand-mark" viewBox="0 0 32 36" fill="none" aria-hidden="true">
-      <path d="M4 4h24v6H11v6h14v6H11v6h17v6H4z" fill="currentColor" />
+    <svg
+      className="brand-mark"
+      viewBox="0 0 40 40"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path
+        d="M29.5 4H20C10.1 4 4 10.4 4 20s6.1 16 16 16h8.5a4.5 4.5 0 0 0 0-9H20c-4.4 0-7-2.7-7-7s2.6-7 7-7h9.5a4.5 4.5 0 0 0 0-9Z"
+        fill="currentColor"
+      />
+      <path
+        d="m23.1 17.1 8.9-1.6a3.5 3.5 0 1 1 1.2 6.9l-8.9 1.6a3.5 3.5 0 0 1-1.2-6.9Z"
+        fill="currentColor"
+      />
     </svg>
   )
 }

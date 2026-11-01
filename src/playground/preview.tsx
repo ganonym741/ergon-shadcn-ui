@@ -23,6 +23,7 @@ import { type Config, parseData } from './schema'
 import { AdvancedDataPreview } from './table-preview'
 import { treeData, frameworkOptions, makeProjects } from '@/docs/demo-data'
 const RichTextPreview = React.lazy(() => import('./rich-text-preview'))
+const ChartPreview = React.lazy(() => import('./chart-preview'))
 export interface PlaygroundEvent {
   type: string
   value: unknown
@@ -66,7 +67,7 @@ export function PlaygroundPreview({ id, config: v, onEvent }: PreviewProps) {
     emit = (type: string, value: unknown) => onEvent({ type, value, time: Date.now() })
   const [state, setState] = React.useState<Record<string, any>>({
     text: s('value') || s('content'),
-    checked: v.checked ?? true,
+    checked: id === 'spin' ? b('loading') : (v.checked ?? true),
     value: s('path') || s('selected') || s('value') || 'overview',
     number: Number(v.value ?? 24),
     keys: id === 'check-card-plus' ? ['Starter', 'Team', 'Business'].slice(0, n('min')) : [],
@@ -164,6 +165,20 @@ export function PlaygroundPreview({ id, config: v, onEvent }: PreviewProps) {
     submitLabel: s('submitLabel') || 'Save changes',
   }
   switch (id) {
+    case 'chart':
+    case 'line-chart':
+    case 'area-chart':
+    case 'bar-chart':
+    case 'pie-chart':
+    case 'scatter-chart':
+    case 'radar-chart':
+    case 'heatmap-chart':
+    case 'gauge-chart':
+      return (
+        <React.Suspense fallback={<p className="text-sm text-muted-foreground">Loading charts…</p>}>
+          <ChartPreview id={id} config={v} onEvent={onEvent} />
+        </React.Suspense>
+      )
     case 'rich-text-editor':
       return (
         <React.Suspense fallback={<p className="text-sm text-muted-foreground">Loading editor…</p>}>
@@ -1536,20 +1551,32 @@ export function PlaygroundPreview({ id, config: v, onEvent }: PreviewProps) {
           type={s('type') as any}
           rows={n('rows')}
           animated={b('animated')}
+          animation={s('animation') as 'wave' | 'pulse'}
         />,
       )
     case 'skeleton-plus':
-      return stack(<UI.SkeletonPlus type={s('type') as any} rows={n('rows')} />)
+      return stack(
+        <UI.SkeletonPlus
+          type={s('type') as any}
+          rows={n('rows')}
+          animated={b('animated')}
+          animation={s('animation') as 'wave' | 'pulse'}
+        />,
+      )
     case 'spin':
       return stack(
         <>
-          <UI.Button variant="outline" onClick={() => set('checked', !state.checked)}>
+          <UI.Button
+            variant="outline"
+            aria-pressed={state.checked}
+            onClick={() => set('checked', !state.checked)}
+          >
             Toggle loading
           </UI.Button>
           <UI.Spin
             delay={n('delay')}
             minimumDuration={n('minimum')}
-            spinning={b('loading') && state.checked}
+            spinning={state.checked}
             label={s('label')}
           >
             <UI.Card>

@@ -146,9 +146,13 @@ export default function ComponentPlayground({
             {(() => {
               try {
                 const parsed = JSON.parse(String(value))
-                return !Array.isArray(parsed) ? (
+                const object = control.jsonShape === 'object'
+                const valid = object
+                  ? parsed !== null && typeof parsed === 'object' && !Array.isArray(parsed)
+                  : Array.isArray(parsed)
+                return !valid ? (
                   <span role="alert" className="text-destructive">
-                    Provide an array.
+                    {object ? 'Provide an object.' : 'Provide an array.'}
                   </span>
                 ) : null
               } catch {
@@ -247,6 +251,7 @@ export default function ComponentPlayground({
               radius={Number(config._radius)}
               accent={themeAccent(String(config._accent), resolvedTheme)}
               data-playground-canvas=""
+              data-preview-motion="full"
               role="region"
               aria-label="Component preview"
               className="flex min-h-80 min-w-0 items-center justify-center p-5"
