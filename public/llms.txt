@@ -67,6 +67,15 @@ React components built on shadcn/ui component source and community work, includi
 - Tooltip: /r/tooltip.json — Helpful details, exactly where they belong.
 - Tour: /r/tour.json — A friendly introduction to what comes next.
 - Tree: /r/tree.json — Make complex hierarchies feel natural.
+- Chart: /r/chart.json — A flexible canvas for the stories in your data.
+- Line Chart: /r/line-chart.json — Follow the shape of change.
+- Area Chart: /r/area-chart.json — Give trends a little more depth.
+- Bar Chart: /r/bar-chart.json — Make every comparison clear.
+- Pie Chart: /r/pie-chart.json — See how each part contributes to the whole.
+- Scatter Chart: /r/scatter-chart.json — Find patterns between the points.
+- Radar Chart: /r/radar-chart.json — Compare strengths from every angle.
+- Heatmap Chart: /r/heatmap-chart.json — Let intensity reveal the pattern.
+- Gauge Chart: /r/gauge-chart.json — A clear reading of progress toward a goal.
 - Alert: /r/alert.json — The right message in the right tone.
 - Drawer: /r/drawer.json — A little more space, without leaving the page.
 - Message: /r/message.json — Quick feedback that keeps things moving.
