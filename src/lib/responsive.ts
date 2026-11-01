@@ -10,7 +10,7 @@ export function responsiveStyle<T>(value: Responsive<T> | undefined, name: strin
   ) as CSSProperties
 }
 export const responsiveCSS = Object.entries(breakpoints)
-  .map(([point, min], index) => {
+  .map(([, min], index) => {
     const fallback = (name: string, initial: string) =>
       Object.keys(breakpoints)
         .slice(0, index + 1)

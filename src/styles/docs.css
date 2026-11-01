@@ -25,8 +25,9 @@
   white-space: nowrap;
 }
 .brand-mark {
-  width: 30px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
+  flex: none;
   display: block;
   color: var(--primary);
 }
@@ -1212,8 +1213,8 @@
     font-size: 21px;
   }
   .brand-mark {
-    width: 25px;
-    height: 27px;
+    width: 29px;
+    height: 29px;
   }
   .header-nav {
     display: none;

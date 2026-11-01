@@ -1,18 +1,29 @@
-import { Skeleton } from '@/components/ui/skeleton'
+import { Skeleton, type SkeletonProps } from '@/components/ui/skeleton'
+export interface SkeletonPlusProps {
+  type?: 'dashboard' | 'list' | 'form' | 'table' | 'chart'
+  rows?: number
+  animated?: boolean
+  animation?: SkeletonProps['animation']
+}
 export function SkeletonPlus({
   type = 'dashboard',
   rows = 4,
-}: {
-  type?: 'dashboard' | 'list' | 'form' | 'table' | 'chart'
-  rows?: number
-}) {
+  animated = true,
+  animation = 'wave',
+}: SkeletonPlusProps) {
+  const skeletonProps = { animated, animation }
   return (
     <div role="status" aria-label="Loading content" className="space-y-5">
-      <Skeleton className="h-5 w-40" />
+      <Skeleton {...skeletonProps} className="h-5 w-40" />
       {type === 'chart' && (
         <div className="flex h-48 items-end gap-3 rounded-lg border p-4">
           {Array.from({ length: rows }, (_, i) => (
-            <Skeleton key={i} className="flex-1" style={{ height: `${30 + ((i * 37) % 70)}%` }} />
+            <Skeleton
+              {...skeletonProps}
+              key={i}
+              className="flex-1"
+              style={{ height: `${30 + ((i * 37) % 70)}%` }}
+            />
           ))}
         </div>
       )}
@@ -21,7 +32,7 @@ export function SkeletonPlus({
           {Array.from({ length: rows + 1 }, (_, i) => (
             <div key={i} className="flex gap-4 border-b p-4">
               {[1, 2, 3, 4].map((n) => (
-                <Skeleton key={n} className="h-3 flex-1" />
+                <Skeleton {...skeletonProps} key={n} className="h-3 flex-1" />
               ))}
             </div>
           ))}
@@ -30,7 +41,7 @@ export function SkeletonPlus({
       {type === 'dashboard' && (
         <div className="grid grid-cols-3 gap-3">
           {[1, 2, 3].map((i) => (
-            <Skeleton key={i} className="h-24 rounded-xl" />
+            <Skeleton {...skeletonProps} key={i} className="h-24 rounded-xl" />
           ))}
         </div>
       )}
@@ -38,10 +49,15 @@ export function SkeletonPlus({
         type !== 'chart' &&
         Array.from({ length: rows }, (_, i) => (
           <div key={i} className="flex items-center gap-3">
-            {type === 'list' && <Skeleton className="size-10 shrink-0 rounded-full" />}
+            {type === 'list' && (
+              <Skeleton {...skeletonProps} className="size-10 shrink-0 rounded-full" />
+            )}
             <div className="flex-1 space-y-2">
-              <Skeleton className="h-3 w-1/3" />
-              <Skeleton className={type === 'form' ? 'h-9 w-full' : 'h-3 w-3/4'} />
+              <Skeleton {...skeletonProps} className="h-3 w-1/3" />
+              <Skeleton
+                {...skeletonProps}
+                className={type === 'form' ? 'h-9 w-full' : 'h-3 w-3/4'}
+              />
             </div>
           </div>
         ))}

@@ -1,4 +1,4 @@
-import { Check, Loader2, X } from 'lucide-react'
+import { Check, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 export interface StepItem {
   title: string
