@@ -93,6 +93,20 @@ Each component provides editable source, typed APIs, and an interactive playgrou
 | Tour | Step navigation and skip/finish; Target-anchored popovers; Target spotlight with scroll/resize updates; Centered fallback and keyboard dismissal; Animated target transitions; Cross-route walkthroughs | beforeEnter can await navigation or target preparation before each step. |
 | Tree | Controlled checking and expansion; Descendant propagation and mixed parents; Keyboard traversal; Virtual rows and async children; Cycle/disabled drop guards with external mutation callback; Drag placement/reordering UI | Playground and source available. |
 
+## Chart
+
+| Component | Capabilities | Verification / integration notes |
+| --- | --- | --- |
+| Chart | Composable ECharts canvas, header, legend and data-table parts with typed options and imperative handle; SVG/Canvas renderers, automatic resize/disposal, light/dark themes and custom palettes; Typed click, legend and zoom events; native option overrides and extension module registration; Loading, empty and error states; image export; reduced-motion-aware default animations | The base includes SVG and accessibility support; chart entries register their own series and required components. Pass modules or use registerChartModules for custom series/features. Canvas and data zoom load on demand. The React wrapper renders in the browser. |
+| Line Chart | Multiple line series with smooth or straight interpolation, missing values and stable IDs; Stacking, horizontal orientation, labels, tooltips, grid and data zoom; Keyboard-operable legend, readable data table and shared Chart configuration | Playground and source available. |
+| Area Chart | Filled line series with smooth curves and configurable stacking; Horizontal orientation, labels, tooltips and data zoom; Keyboard-operable legend, readable data table and native ECharts overrides | Playground and source available. |
+| Bar Chart | Grouped/stacked bars and horizontal orientation; Labels, tooltips, grid, zoom and per-series colors; Keyboard-operable legend, readable data table and native ECharts overrides | Playground and source available. |
+| Pie Chart | Pie, donut and rose layouts with per-slice colors; Slice labels, hover tooltips and keyboard-operable legend; Readable data table and shared Chart configuration | Playground and source available. |
+| Scatter Chart | Multiple scatter series with named points and variable bubble sizes; Tooltips, grid and data zoom; Keyboard-operable legend and readable data table | Playground and source available. |
+| Radar Chart | Named indicators and comparison series with custom axis limits; Polygon/circular grids and optional filled areas; Tooltips, keyboard-operable legend and readable data table | Playground and source available. |
+| Heatmap Chart | Categorical matrix with stable point IDs and configurable value range; Interactive visual-map range, cell labels and tooltips; Readable data table and native ECharts overrides | Playground and source available. |
+| Gauge Chart | Gauge value, range, unit and label with optional pointer; Animated progress arc, loading/error states and image export; Readable data table and native ECharts overrides | Playground and source available. |
+
 ## Feedback
 
 | Component | Capabilities | Verification / integration notes |
@@ -105,8 +119,8 @@ Each component provides editable source, typed APIs, and an interactive playgrou
 | Popconfirm | Accessible confirmation dialog; Custom labels through lower-level parts; Destructive treatment; Anchored popover confirmation preset | Playground and source available. |
 | Progress | Progress bar with statuses; SVG circle and discrete step variants; Controlled values; Dashboard arc variant; Multiple success segments | Playground and source available. |
 | Result | Success/error/info/warning outcomes; Title, description and action content; HTTP error-code illustrations | Playground and source available. |
-| Skeleton | Composable block/text/avatar placeholders; Shape/size overrides; Preset skeleton buttons, inputs and images | Playground and source available. |
-| Skeleton+ | Dashboard, list and form presets; Configurable row count; Chart/table-specific loading layouts | Playground and source available. |
+| Skeleton | Composable block/text/avatar placeholders; Shape/size overrides; Preset skeleton buttons, inputs and images; Default wave animation with optional pulse and animation toggle | Playground and source available. |
+| Skeleton+ | Dashboard, list and form presets; Configurable row count; Chart/table-specific loading layouts; Default wave or optional pulse across every placeholder, with animation toggle and reduced-motion support | Playground and source available. |
 | Spin | Standalone loading status; Content overlay with aria-busy; Delayed/minimum-duration spinner helper | Playground and source available. |
 | Watermark | Encoded SVG repeating text; Noninteractive overlay; Safe text escaping; Image watermark; Mutation-resistant rendering | Playground and source available. |
 

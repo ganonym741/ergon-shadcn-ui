@@ -405,7 +405,7 @@ describe('data transactions', () => {
 })
 describe('catalog and playground contract', () => {
   it('keeps enhanced components in functional categories and supplies typed control recipes', () => {
-    expect(categories).toHaveLength(7)
+    expect(categories).toHaveLength(8)
     for (const component of components) {
       const spec = playgrounds[component.id]
       expect(spec.controls.length, component.id).toBeGreaterThan(0)
