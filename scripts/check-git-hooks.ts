@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
 import { copyFile, mkdir, mkdtemp, readFile, symlink, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import { pathToFileURL } from 'node:url'
 
 const root = resolve(import.meta.dir, '..')
 await mkdir(resolve(root, 'output'), { recursive: true })
@@ -127,14 +128,35 @@ try {
   console.log('PASS: failed verification blocks push; passing verification allows local push')
 
   const head = git('rev-parse', 'HEAD')
+  const prettierConfigPath = resolve(worktree, '.prettierrc.json')
+  const prettierConfig = await readFile(prettierConfigPath, 'utf8')
+  const auditMarker = resolve(fixture, 'prettier-invoked')
+  const auditPlugin = resolve(fixture, 'prettier-audit.mjs')
+  await writeFile(
+    auditPlugin,
+    `import {writeFileSync} from 'node:fs'; writeFileSync(${JSON.stringify(auditMarker)}, 'invoked'); export default {}\n`,
+  )
+  await writeFile(
+    prettierConfigPath,
+    JSON.stringify({ ...JSON.parse(prettierConfig), plugins: [pathToFileURL(auditPlugin).href] }),
+  )
+  git('add', '.prettierrc.json')
   const lintInvalid = 'debugger;\nexport const first=5;\n'
   await writeFile(example, lintInvalid)
   git('add', 'example.ts')
   const lintFailure = run(['git', 'commit', '-m', 'fix(fixture): test lint gate'], worktree, true)
   assert.match(lintFailure, /no-debugger/)
-  assert.doesNotMatch(lintFailure, /\[STARTED\] prettier/)
+  await assert.rejects(readFile(auditMarker), { code: 'ENOENT' })
   assert.equal(await readFile(example, 'utf8'), lintInvalid)
   assert.equal(git('rev-parse', 'HEAD'), head)
+  run(
+    [process.execPath, resolve(root, 'node_modules/prettier/bin/prettier.cjs'), '--check', example],
+    worktree,
+    true,
+  )
+  assert.equal(await readFile(auditMarker, 'utf8'), 'invoked')
+  await writeFile(prettierConfigPath, prettierConfig)
+  git('add', '.prettierrc.json')
   console.log('PASS: ESLint errors block commits before Prettier starts')
 
   await writeFile(example, 'export const first =\n')
