@@ -11,18 +11,17 @@ import {
   Folder,
   Plus,
   ArrowRight,
-  Check,
   Mail,
-  Trash2,
   Layers,
 } from 'lucide-react'
-import { toast } from 'sonner'
+
 import * as UI from '@/components/library'
 import { useDebouncedValue, useBreakpoints } from '@/components/ui/util'
 import { type Config, parseData } from './schema'
 import { AdvancedDataPreview } from './table-preview'
-import { treeData, frameworkOptions, makeProjects } from '@/docs/demo-data'
+import { treeData, frameworkOptions } from '@/docs/demo-data'
 const RichTextPreview = React.lazy(() => import('./rich-text-preview'))
+const ChartPreview = React.lazy(() => import('./chart-preview'))
 export interface PlaygroundEvent {
   type: string
   value: unknown
@@ -66,7 +65,7 @@ export function PlaygroundPreview({ id, config: v, onEvent }: PreviewProps) {
     emit = (type: string, value: unknown) => onEvent({ type, value, time: Date.now() })
   const [state, setState] = React.useState<Record<string, any>>({
     text: s('value') || s('content'),
-    checked: v.checked ?? true,
+    checked: id === 'spin' ? b('loading') : (v.checked ?? true),
     value: s('path') || s('selected') || s('value') || 'overview',
     number: Number(v.value ?? 24),
     keys: id === 'check-card-plus' ? ['Starter', 'Team', 'Business'].slice(0, n('min')) : [],
@@ -124,46 +123,27 @@ export function PlaygroundPreview({ id, config: v, onEvent }: PreviewProps) {
       {index + 1}
     </div>
   ))
-  const fields: UI.FormPlusField[] = [
-    {
-      name: 'name',
-      label: 'Project name',
-      required: v.required !== false,
-      placeholder: 'Your next idea',
-    },
-    {
-      name: 'email',
-      label: 'Contact email',
-      required: v.required !== false,
-      rules: {
-        pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Enter an email address' },
-      },
-    },
-    { name: 'framework', label: 'Framework', type: 'select', options: frameworkOptions },
-    { name: 'budget', label: 'Budget', type: 'money' },
-    { name: 'updates', label: 'Updates', type: 'switch' },
-  ]
   const save = async (values: Record<string, any>) => {
     emit('submit', values)
     await wait(350)
     if (b('failure')) throw new Error('The demonstration save was rejected.')
     emit('saved', values)
   }
-  const formProps = {
-    fields,
-    columns: n('columns') as 1 | 2 | 3,
-    defaultValues: {
-      name: '',
-      email: '',
-      framework: 'react',
-      budget: 2500,
-      updates: true,
-      members: [],
-    },
-    onSubmit: save,
-    submitLabel: s('submitLabel') || 'Save changes',
-  }
   switch (id) {
+    case 'chart':
+    case 'line-chart':
+    case 'area-chart':
+    case 'bar-chart':
+    case 'pie-chart':
+    case 'scatter-chart':
+    case 'radar-chart':
+    case 'heatmap-chart':
+    case 'gauge-chart':
+      return (
+        <React.Suspense fallback={<p className="text-sm text-muted-foreground">Loading charts…</p>}>
+          <ChartPreview id={id} config={v} onEvent={onEvent} />
+        </React.Suspense>
+      )
     case 'rich-text-editor':
       return (
         <React.Suspense fallback={<p className="text-sm text-muted-foreground">Loading editor…</p>}>
@@ -1536,20 +1516,32 @@ export function PlaygroundPreview({ id, config: v, onEvent }: PreviewProps) {
           type={s('type') as any}
           rows={n('rows')}
           animated={b('animated')}
+          animation={s('animation') as 'wave' | 'pulse'}
         />,
       )
     case 'skeleton-plus':
-      return stack(<UI.SkeletonPlus type={s('type') as any} rows={n('rows')} />)
+      return stack(
+        <UI.SkeletonPlus
+          type={s('type') as any}
+          rows={n('rows')}
+          animated={b('animated')}
+          animation={s('animation') as 'wave' | 'pulse'}
+        />,
+      )
     case 'spin':
       return stack(
         <>
-          <UI.Button variant="outline" onClick={() => set('checked', !state.checked)}>
+          <UI.Button
+            variant="outline"
+            aria-pressed={state.checked}
+            onClick={() => set('checked', !state.checked)}
+          >
             Toggle loading
           </UI.Button>
           <UI.Spin
             delay={n('delay')}
             minimumDuration={n('minimum')}
-            spinning={b('loading') && state.checked}
+            spinning={state.checked}
             label={s('label')}
           >
             <UI.Card>

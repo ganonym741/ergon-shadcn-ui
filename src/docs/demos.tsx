@@ -4,12 +4,9 @@ import {
   ArrowUp,
   ArrowUpRight,
   Bell,
-  Check,
   ChevronDown,
-  ChevronRight,
   Copy,
   Download,
-  Folder,
   Home,
   LayoutDashboard,
   Layers,
@@ -31,7 +28,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
@@ -69,8 +66,6 @@ import {
   SheetHeader,
   SheetTitle,
   SheetDescription,
-  SheetFooter,
-  SheetClose,
 } from '@/components/ui/sheet'
 import {
   Drawer,
@@ -99,7 +94,6 @@ import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Progress, ProgressCircle, ProgressSteps } from '@/components/ui/progress'
-import { Calendar } from '@/components/ui/calendar'
 import {
   Carousel,
   CarouselContent,

@@ -1,7 +1,6 @@
 import {
   ArrowUpRight,
   ArrowRight,
-  ArrowDown,
   ChevronDown,
   ChevronRight,
   Check,
@@ -12,19 +11,15 @@ import {
   Clock,
   UploadCloud,
   Bell,
-  Copy,
   Settings2,
   LayoutDashboard,
   Layers,
   Folder,
   File,
   CircleCheck,
-  Info,
-  PanelLeft,
   Inbox,
   Loader2,
   GripVertical,
-  Hash,
   Sun,
   MoreHorizontal,
   X,
@@ -84,6 +79,163 @@ function FormThumb() {
 export function Thumbnail({ id }: { id: string }) {
   let content: React.ReactNode
   switch (id) {
+    case 'chart':
+    case 'line-chart':
+    case 'area-chart':
+    case 'bar-chart':
+    case 'pie-chart':
+    case 'scatter-chart':
+    case 'radar-chart':
+    case 'heatmap-chart':
+    case 'gauge-chart':
+      content = (
+        <svg
+          viewBox="0 0 220 130"
+          width="220"
+          height="130"
+          aria-hidden="true"
+          style={{ color: 'var(--primary)' }}
+        >
+          {id === 'pie-chart' ? (
+            <>
+              <circle cx="110" cy="65" r="42" fill="none" stroke="var(--border)" strokeWidth="20" />
+              <circle
+                cx="110"
+                cy="65"
+                r="42"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="20"
+                strokeDasharray="110 264"
+              />
+              <circle
+                cx="110"
+                cy="65"
+                r="42"
+                fill="none"
+                stroke="#5579bd"
+                strokeWidth="20"
+                strokeDasharray="70 264"
+                strokeDashoffset="-115"
+              />
+            </>
+          ) : id === 'gauge-chart' ? (
+            <>
+              <path
+                d="M60 103 A58 58 0 1 1 160 103"
+                stroke="var(--border)"
+                strokeWidth="14"
+                fill="none"
+                strokeLinecap="round"
+              />
+              <path
+                d="M60 103 A58 58 0 1 1 165 60"
+                stroke="currentColor"
+                strokeWidth="14"
+                fill="none"
+                strokeLinecap="round"
+              />
+              <text
+                x="110"
+                y="85"
+                textAnchor="middle"
+                fill="var(--foreground)"
+                fontSize="24"
+                fontWeight="600"
+              >
+                72%
+              </text>
+            </>
+          ) : id === 'radar-chart' ? (
+            <>
+              <path d="M110 8 168 50 146 113 74 113 52 50Z" stroke="var(--border)" fill="none" />
+              <path
+                d="M110 24 154 55 136 94 82 100 68 56Z"
+                fill="currentColor"
+                fillOpacity=".15"
+                stroke="currentColor"
+                strokeWidth="2"
+              />
+              <path
+                d="M110 42 164 51 129 109 85 88 62 53Z"
+                stroke="#5579bd"
+                fill="none"
+                strokeWidth="2"
+              />
+            </>
+          ) : id === 'heatmap-chart' ? (
+            Array.from({ length: 24 }, (_, i) => (
+              <rect
+                key={i}
+                x={18 + (i % 6) * 31}
+                y={16 + Math.floor(i / 6) * 26}
+                width="26"
+                height="21"
+                rx="3"
+                fill="currentColor"
+                opacity={0.15 + ((i * 17) % 9) / 12}
+              />
+            ))
+          ) : (
+            <>
+              <path
+                d="M18 16 V112 H208 M18 80 H208 M18 48 H208"
+                stroke="var(--border)"
+                fill="none"
+              />
+              {id === 'bar-chart' ? (
+                [58, 34, 70, 45, 87, 62].map((h, i) => (
+                  <rect
+                    key={i}
+                    x={30 + i * 28}
+                    y={112 - h}
+                    width="18"
+                    height={h}
+                    rx="3"
+                    fill={i % 2 ? '#5579bd' : 'currentColor'}
+                    opacity=".85"
+                  />
+                ))
+              ) : id === 'scatter-chart' ? (
+                Array.from({ length: 18 }, (_, i) => (
+                  <circle
+                    key={i}
+                    cx={28 + ((i * 29) % 170)}
+                    cy={24 + ((i * 17) % 80)}
+                    r={3 + (i % 4)}
+                    fill={i % 2 ? '#5579bd' : 'currentColor'}
+                    opacity=".7"
+                  />
+                ))
+              ) : (
+                <>
+                  <path
+                    d="M22 98 52 82 82 90 112 48 142 64 172 30 202 18"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    strokeLinejoin="round"
+                    fill="none"
+                  />
+                  {id === 'area-chart' && (
+                    <path
+                      d="M22 98 52 82 82 90 112 48 142 64 172 30 202 18 V112 H22Z"
+                      fill="currentColor"
+                      opacity=".12"
+                    />
+                  )}
+                  <path
+                    d="M22 88 52 91 82 65 112 70 142 40 172 45 202 32"
+                    stroke="#5579bd"
+                    strokeWidth="2"
+                    fill="none"
+                  />
+                </>
+              )}
+            </>
+          )}
+        </svg>
+      )
+      break
     case 'rich-text-editor':
       content = (
         <div className="w-44 overflow-hidden rounded-md border bg-background text-[8px]">

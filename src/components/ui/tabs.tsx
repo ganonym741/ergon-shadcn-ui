@@ -2,6 +2,7 @@ import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 import { Tabs as TabsPrimitive } from 'radix-ui'
+import { X } from 'lucide-react'
 
 function Tabs({
   className,
@@ -20,7 +21,7 @@ function Tabs({
 }
 
 const tabsListVariants = cva(
-  'group/tabs-list inline-flex w-fit items-center justify-center rounded-lg p-[3px] text-muted-foreground group-data-[orientation=horizontal]/tabs:h-9 group-data-[orientation=vertical]/tabs:h-fit group-data-[orientation=vertical]/tabs:flex-col data-[variant=line]:rounded-none',
+  'group/tabs-list inline-flex h-10 w-fit shrink-0 items-center justify-center rounded-lg p-1 text-muted-foreground group-data-[orientation=vertical]/tabs:h-fit group-data-[orientation=vertical]/tabs:flex-col data-[variant=line]:rounded-none',
   {
     variants: {
       variant: {
@@ -54,10 +55,10 @@ function TabsTrigger({ className, ...props }: React.ComponentProps<typeof TabsPr
     <TabsPrimitive.Trigger
       data-slot="tabs-trigger"
       className={cn(
-        "relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-2 py-1 text-sm font-medium whitespace-nowrap text-muted-foreground transition-all group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-sm group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "relative inline-flex h-8 flex-1 shrink-0 items-center justify-center gap-1.5 rounded-md border border-transparent px-2 py-1 text-sm font-medium whitespace-nowrap text-muted-foreground transition-all group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-sm group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         'group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent',
         'data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground',
-        'after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100',
+        'after:pointer-events-none after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-0 group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:end-0 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100',
         className,
       )}
       {...props}
@@ -69,7 +70,7 @@ function TabsContent({ className, ...props }: React.ComponentProps<typeof TabsPr
   return (
     <TabsPrimitive.Content
       data-slot="tabs-content"
-      className={cn('flex-1 outline-none', className)}
+      className={cn('min-w-0 flex-1 outline-none', className)}
       {...props}
     />
   )
@@ -98,15 +99,48 @@ export function WorkspaceTabs({
   reorderable?: boolean
   orientation?: 'horizontal' | 'vertical'
 }) {
+  const triggers = React.useRef(new Map<string, HTMLButtonElement>())
+  const pendingFocus = React.useRef<string | null>(null)
+  const emptyState = React.useRef<HTMLParagraphElement>(null)
+  const navigation = React.useRef<HTMLDivElement>(null)
+
+  React.useEffect(() => {
+    if (pendingFocus.current === null) return
+    const target =
+      triggers.current.get(pendingFocus.current) ?? emptyState.current ?? navigation.current
+    target?.focus()
+    pendingFocus.current = null
+  }, [items, value])
+
   return (
-    <Tabs orientation={orientation} value={value} onValueChange={onValueChange}>
-      <div className="max-w-full overflow-x-auto">
-        <div className="flex flex-wrap items-center gap-1">
-          <TabsList className="h-auto min-w-max bg-muted p-1">
+    <Tabs
+      className="w-full min-w-0"
+      orientation={orientation}
+      value={value}
+      onValueChange={onValueChange}
+    >
+      {items.length > 0 ? (
+        <div
+          data-slot="tabs-viewport"
+          className={cn(
+            'min-w-0 p-1',
+            orientation === 'vertical'
+              ? 'max-h-80 w-48 max-w-1/2 shrink-0 overflow-y-auto'
+              : 'max-w-full overflow-x-auto',
+          )}
+        >
+          <TabsList
+            ref={navigation}
+            className={cn('h-auto', orientation === 'vertical' ? 'w-full' : 'min-w-max')}
+          >
             {items.map((item, index) => (
               <div
                 key={item.value}
-                className="flex items-center"
+                data-slot="workspace-tab"
+                className={cn(
+                  'relative flex h-8 shrink-0 items-center',
+                  orientation === 'vertical' && 'w-full',
+                )}
                 draggable={!!onItemsChange && reorderable}
                 onDragStart={(event) => event.dataTransfer.setData('text/plain', item.value)}
                 onDragOver={(event) => event.preventDefault()}
@@ -122,38 +156,54 @@ export function WorkspaceTabs({
                   onItemsChange?.(next)
                 }}
               >
-                <TabsTrigger value={item.value} disabled={item.disabled}>
-                  {item.label}
+                <TabsTrigger
+                  ref={(node) => {
+                    if (node) triggers.current.set(item.value, node)
+                    else triggers.current.delete(item.value)
+                  }}
+                  className={cn('min-w-0', item.closable && onItemsChange && 'pe-8')}
+                  value={item.value}
+                  disabled={item.disabled}
+                >
+                  <span className="truncate">{item.label}</span>
                 </TabsTrigger>
+                {item.closable && onItemsChange && (
+                  <button
+                    type="button"
+                    className="absolute end-1 top-1/2 inline-flex size-6 -translate-y-1/2 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:bg-foreground/10 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50"
+                    aria-label={`Close ${typeof item.label === 'string' ? item.label : 'tab'}`}
+                    disabled={item.disabled}
+                    onClick={() => {
+                      const next = items.filter((tab) => tab.value !== item.value)
+                      const nextValue =
+                        value === item.value
+                          ? ([...items.slice(0, index)].reverse().find((tab) => !tab.disabled)
+                              ?.value ??
+                            items.slice(index + 1).find((tab) => !tab.disabled)?.value ??
+                            '')
+                          : value
+                      pendingFocus.current = nextValue
+                      onItemsChange(next)
+                      if (value === item.value) onValueChange(nextValue)
+                    }}
+                  >
+                    <X className="size-3" aria-hidden="true" />
+                  </button>
+                )}
               </div>
             ))}
           </TabsList>
-          {items
-            .filter((item) => item.closable)
-            .map(
-              (item, index) =>
-                onItemsChange && (
-                  <button
-                    key={item.value}
-                    type="button"
-                    className="px-1 text-xs text-muted-foreground"
-                    aria-label={`Close ${typeof item.label === 'string' ? item.label : 'tab'}`}
-                    onClick={() => {
-                      const next = items.filter((i) => i.value !== item.value)
-                      onItemsChange(next)
-                      if (value === item.value)
-                        onValueChange(
-                          next[Math.max(0, items.findIndex((tab) => tab.value === item.value) - 1)]
-                            ?.value ?? '',
-                        )
-                    }}
-                  >
-                    × <span className="sr-only">{item.label}</span>
-                  </button>
-                ),
-            )}
         </div>
-      </div>
+      ) : (
+        <p
+          ref={emptyState}
+          tabIndex={-1}
+          role="status"
+          className="p-4 text-sm text-muted-foreground"
+        >
+          No open tabs
+        </p>
+      )}
       {items.map((item) => (
         <TabsContent key={item.value} value={item.value}>
           {item.content}

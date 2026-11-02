@@ -1,0 +1,45 @@
+{
+  "name": "@ergonui/cli",
+  "version": "0.2.0",
+  "description": "Create React applications and install editable ErgonUI components with your package manager.",
+  "type": "module",
+  "bin": {
+    "ergonui": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ganonym741/ergon-shadcn-ui.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://ergonui.netlify.app",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "scripts": {
+    "build": "bun build.ts",
+    "test": "bun run build && bun test test",
+    "check": "tsc -p tsconfig.json",
+    "prepack": "bun run build"
+  },
+  "dependencies": {
+    "cross-spawn": "7.0.6",
+    "jsonc-parser": "3.3.1",
+    "postcss": "8.5.6",
+    "typescript": "5.9.3",
+    "yaml": "2.9.1"
+  },
+  "devDependencies": {
+    "@types/bun": "1.4.4",
+    "@types/cross-spawn": "6.0.6"
+  }
+}

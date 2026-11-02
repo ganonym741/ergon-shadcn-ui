@@ -1,70 +1,68 @@
 # ErgonUI
 
-A React component library built on **[shadcn/ui](https://ui.shadcn.com) component source and community work**, extended with expressive controls, customization, and heavy data workflows. ErgonUI includes copied and adapted MIT-licensed shadcn/ui components alongside original components, with an interactive playground for each component.
+Editable React components with typed, composable APIs, interactive playgrounds, and advanced data controls. Built on [shadcn/ui](https://ui.shadcn.com) component source and community work.
 
-**Bun · Vite · React · TypeScript · Tailwind CSS · Radix UI**
+[Browse components](https://ergonui.netlify.app/#/components) · [Documentation](https://ergonui.netlify.app/#/docs/installation) · [CLI on npm](https://www.npmjs.com/package/@ergonui/cli)
 
-## Development
+## Get started
+
+Components require React 19 and Tailwind CSS 4. The CLI provides automatic Vite setup; other React frameworks need manual setup and client-only rendering for browser-dependent components.
+
+These commands require CLI **0.2 or later**.
+
+| Package manager | Runner                  | Development command |
+| --------------- | ----------------------- | ------------------- |
+| npm             | `npx @ergonui/cli`      | `npm run dev`       |
+| Bun             | `bunx @ergonui/cli`     | `bun run dev`       |
+| Deno            | `dx @ergonui/cli`       | `deno task dev`     |
+| pnpm            | `pnpm dlx @ergonui/cli` | `pnpm run dev`      |
+| Yarn            | `yarn dlx @ergonui/cli` | `yarn run dev`      |
+
+Examples below use npm; substitute your runner and development command from the table. For Deno 2.6+, set up `dx` once with `deno x --install-alias`. Yarn's `dlx` requires Yarn 2+.
+
+**New application:** create a project and install the selected components.
+
+```sh
+npx @ergonui/cli create my-app --components line-chart,pie-chart
+cd my-app
+npm run dev
+```
+
+**Existing application:** run inside your Vite + React 19 TypeScript project to initialize and install components in one step.
+
+```sh
+npx @ergonui/cli init --components line-chart,pie-chart
+```
+
+**Add more components:** after initialization, run only `add`.
+
+```sh
+npx @ergonui/cli add button table-plus
+```
+
+`init` configures aliases, Tailwind, and theme styles while preserving existing CSS. Import installed components from your local source, for example `import { LineChart } from '@/components/ui/line-chart'`.
+
+Components are copied into your application for you to customize. Enhanced compositions use the **+** suffix, such as Table+ and Form+.
+
+- [Installation and usage](docs/INSTALLATION.md)
+- [Charts](docs/CHARTS.md)
+- [Component capabilities](docs/COVERAGE.md)
+- [CLI options](packages/cli/README.md)
+
+## Contribute
+
+Repository tooling uses Bun and Node.js 24.
 
 ```sh
 bun install --frozen-lockfile
+bun install --cwd packages/cli --frozen-lockfile
 bun run dev
 ```
 
-Open Vite's printed Local URL. Component source and API documentation are generated before startup. Run `bun run registry:build` after changing component source to refresh registry and API payloads.
+Before submitting changes, run `bun run verify`. Run `bun run registry:build` after editing component source. CLI development and deployment are covered in the [maintainer guide](docs/PUBLISHING.md); testing scope is documented in [verification](docs/VERIFICATION.md).
 
-```sh
-bun run check
-bun run test
-bun run build
-bun run preview
-```
-
-## Component collections
-
-All components belong to General, Layout, Navigation, Data entry, Data display, Feedback, or Other. The + suffix identifies enhanced compositions: Table+, Form+, Layout+, Descriptions+, List+, Editable Table+, Card+, Field+, Skeleton+, and Check Card+.
-
-Each component page offers an interactive playground, property controls, state examples, event inspection, configuration export, installation instructions, source, and typed API documentation.
-
-## Source installation
-
-ErgonUI uses an open registry format. A compatible CLI can copy components and their local source dependencies into your application:
-
-```sh
-bunx --bun shadcn@latest add <documentation-origin>/r/button.json
-bunx --bun shadcn@latest add <documentation-origin>/r/table-plus.json
-```
-
-Configure React, Tailwind, and the @ import alias first. Initialize `components.json` using the compatible CLI when needed, or copy the files and dependencies from a component's Source tab. CLI compatibility is a distribution option; the library has no shadcn runtime dependency.
-
-Import Tailwind and `tw-animate-css` in your stylesheet (`bun add tw-animate-css`). Install `/r/theme.json` with the same CLI to apply ErgonUI's light and dark tokens, or keep your application's tokens.
-
-```tsx
-import { Button } from '@/components/ui/button'
-import { TablePlus } from '@/components/ui/table-plus'
-```
-
-## Architecture
-
-```text
-src/components/ui/     shadcn/ui-derived and original component source
-src/playground/        Component controls, presets, previews, and events
-src/lib/               Shared utilities
-src/catalog.ts         Component inventory and functional collections
-src/docs/              Documentation and example compositions
-src/test/              Behavior and distribution tests
-scripts/build-registry.ts
-public/r/              Generated installable source
-public/api/            Generated API metadata
-docs/COVERAGE.md       Capability and verification record
-```
-
-Components never import documentation or demo data. Public APIs use typed schemas and callbacks, controlled/uncontrolled state, native props, compound parts, and render slots. Runtime data, uploads, routing, and permissions are injected by the consuming application.
-
-See [capabilities](docs/COVERAGE.md) and the [verification record](docs/VERIFICATION.md) for the supported behavior and tested scenarios.
+Husky runs ESLint before formatting staged files and validates Conventional Commit messages. Use `bun run commit` for the Commitizen prompt; pushes run the full `bun run verify` checks.
 
 ## Attribution
 
-Built on shadcn/ui component source and community work. Thank you to shadcn and the contributors sharing ideas, code, and accessibility improvements. ErgonUI extends this foundation with original components and workflows and is maintained separately from shadcn/ui.
-
-Required copyright and license notices for included MIT-licensed code are retained in [LICENSES/shadcn-ui.txt](LICENSES/shadcn-ui.txt) and distributed with the relevant source. See [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) and [LICENSE](LICENSE).
+ErgonUI includes copied and adapted MIT-licensed shadcn/ui components alongside original work. Thank you to shadcn and the community. Retained notices: [shadcn/ui license](LICENSES/shadcn-ui.txt), [third-party notices](THIRD-PARTY-NOTICES.md), and [ErgonUI license](LICENSE).

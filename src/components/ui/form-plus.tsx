@@ -5,7 +5,6 @@ import {
   FormProvider,
   useFormContext,
   useFieldArray,
-  type RegisterOptions,
   type Resolver,
   type FieldValues,
   type FieldPath,

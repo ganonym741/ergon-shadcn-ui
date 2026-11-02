@@ -1,1 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><rect width="40" height="40" rx="12" fill="#e66043"/><path d="M11 9h19v5H16v4h11v5H16v4h14v5H11z" fill="white"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none">
+  <title>ErgonUI</title>
+  <style>
+    :root {
+      color: #b93e28;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        color: #f17c5e;
+      }
+    }
+  </style>
+  <path
+    d="M29.5 4H20C10.1 4 4 10.4 4 20s6.1 16 16 16h8.5a4.5 4.5 0 0 0 0-9H20c-4.4 0-7-2.7-7-7s2.6-7 7-7h9.5a4.5 4.5 0 0 0 0-9Z"
+    fill="currentColor"
+  />
+  <path
+    d="m23.1 17.1 8.9-1.6a3.5 3.5 0 1 1 1.2 6.9l-8.9 1.6a3.5 3.5 0 0 1-1.2-6.9Z"
+    fill="currentColor"
+  />
+</svg>

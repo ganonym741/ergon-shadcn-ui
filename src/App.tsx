@@ -1,25 +1,21 @@
 import { contrastForeground, themeAccent } from '@/lib/contrast'
 import * as React from 'react'
 import {
-  ArrowDown,
   ArrowLeft,
   ArrowRight,
   ArrowUpRight,
   Blocks,
   BookOpen,
   Box,
+  ChartNoAxesCombined,
   Check,
-  ChevronDown,
   ChevronRight,
   CircleHelp,
   Code2,
-  Command as CommandIcon,
   Component,
-  ExternalLink,
   FileCode2,
   Grid2X2,
   Home,
-  Keyboard,
   Layers,
   LayoutDashboard,
   List,
@@ -27,23 +23,19 @@ import {
   Moon,
   MousePointer2,
   Navigation,
-  Package,
   Palette,
   Search,
-  Settings2,
   ShieldCheck,
   SlidersHorizontal,
   Sparkles,
   Sun,
   Terminal,
-  Type,
   X,
-  Zap,
 } from 'lucide-react'
 import { useTheme } from '@/components/ui/theme-provider'
 import { components, categories, slug, getComponent, type Category } from './catalog'
 import { Thumbnail } from './docs/thumbnails'
-import { BrandMark, CodeBlock, Footer } from './docs/ui'
+import { BrandMark, CodeBlock, Footer, GitHubMark } from './docs/ui'
 import {
   Playground,
   DocumentPage,
@@ -52,6 +44,8 @@ import {
   type ThemeSettings,
 } from './docs/pages'
 import { examples } from './docs/examples'
+import { ergonInstallCommand, usageInstallIds, type DocsPackageManager } from './docs/installation'
+import { PackageManagerSelect } from './docs/package-manager-select'
 import { coverage } from './coverage'
 import { Button } from './components/ui/button'
 import {
@@ -83,6 +77,7 @@ const categoryIcons: Record<Category, typeof Box> = {
   Navigation: Navigation,
   'Data entry': MousePointer2,
   'Data display': Layers,
+  Chart: ChartNoAxesCombined,
   Feedback: CircleHelp,
   Other: Blocks,
 }
@@ -331,6 +326,7 @@ function Catalog({
 }
 
 function Detail({ id, settings }: { id: string; settings: ThemeSettings }) {
+  const [manager, setManager] = React.useState<DocsPackageManager>('npm')
   const info = getComponent(id)
   const [tab, setTab] = React.useState('preview')
   const [file, setFile] = React.useState('')
@@ -437,12 +433,14 @@ function Detail({ id, settings }: { id: string; settings: ThemeSettings }) {
       <h2 className="docs-subheading" id="installation">
         Installation
       </h2>
+      <PackageManagerSelect value={manager} onChange={setManager} />
       <CodeBlock
-        title="Terminal · Bun"
-        code={`bunx --bun shadcn@latest add ${window.location.origin}/r/${id}.json`}
+        title="Terminal"
+        code={ergonInstallCommand(usageInstallIds(id, examples[id]), '', manager)}
       />
       <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
-        Copies the component and its local dependencies into your project.{' '}
+        CLI 0.2+ commands. Run inside an application prepared by ergonui create or init. Copies this
+        component, additional entries imported by the example, and their local dependencies.{' '}
         <a href="#/docs/installation" className="text-primary">
           Read the setup guide.
         </a>{' '}
@@ -451,6 +449,11 @@ function Detail({ id, settings }: { id: string; settings: ThemeSettings }) {
       <h2 className="docs-subheading" id="usage">
         Usage
       </h2>
+      <p className="mb-3 text-xs leading-relaxed text-muted-foreground">
+        Examples show component composition. Place JSX and hooks inside your own React component;
+        provide the state, data, and callbacks referenced in each snippet. Application requests and
+        upload endpoints are examples for you to implement.
+      </p>
       <CodeBlock title="React + TypeScript" code={examples[id] ?? ''} />
       <h2 className="docs-subheading">Available capabilities</h2>
       <div className="rounded-xl border bg-background p-5">
@@ -635,6 +638,16 @@ export default function App() {
             <kbd>⌘ K</kbd>
           </button>
           <span className="version-chip">v0.2.0</span>
+          <a
+            className="header-icon inline-flex shrink-0 items-center justify-center rounded-md"
+            href="https://github.com/ganonym741/ergon-shadcn-ui"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="ErgonUI GitHub repository (opens in a new tab)"
+            title="View ErgonUI on GitHub"
+          >
+            <GitHubMark />
+          </a>
           <button
             className="header-icon"
             aria-label="Customize theme"

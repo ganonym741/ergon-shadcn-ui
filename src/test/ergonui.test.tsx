@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { describe, it, expect, vi } from 'vitest'
-import { render, screen, waitFor, within } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { addDecimal, compareDecimal } from '@/lib/decimal'
 import { toZonedInput, fromZonedInput } from '@/lib/date-adapter'
@@ -405,7 +405,7 @@ describe('data transactions', () => {
 })
 describe('catalog and playground contract', () => {
   it('keeps enhanced components in functional categories and supplies typed control recipes', () => {
-    expect(categories).toHaveLength(7)
+    expect(categories).toHaveLength(8)
     for (const component of components) {
       const spec = playgrounds[component.id]
       expect(spec.controls.length, component.id).toBeGreaterThan(0)

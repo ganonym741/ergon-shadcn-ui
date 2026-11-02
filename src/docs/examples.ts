@@ -1,4 +1,59 @@
+import { installationSnippets } from './installation'
+
 export const examples: Record<string, string> = {
+  chart: `import { Chart, ChartHeader, ChartTitle, ChartCanvas, ChartLegend, ChartDataTable, type ChartHandle } from "@/components/ui/chart"
+import { useRef } from "react"
+import { BarChart as BarSeries } from "echarts/charts"
+import { GridComponent, TooltipComponent, LegendComponent } from "echarts/components"
+
+const modules = [BarSeries, GridComponent, TooltipComponent, LegendComponent]
+
+function RevenueChart() {
+  const chart = useRef<ChartHandle>(null)
+  return <Chart ref={chart} modules={modules} label="Revenue by month" option={{
+    tooltip: { trigger: "axis" }, legend: { show: false, data: ["Revenue"] },
+    xAxis: { type: "category", data: ["Jan", "Feb"] }, yAxis: { type: "value" },
+    series: [{ name: "Revenue", type: "bar", data: [42, 58] }]
+  }} events={{ click: event => console.log(event.name, event.value) }}>
+    <ChartHeader><ChartTitle>Revenue</ChartTitle></ChartHeader>
+    <ChartCanvas />
+    <ChartLegend items={[{ name: "Revenue" }]} />
+    <ChartDataTable columns={["Month", "Revenue"]} rows={[{ id: "jan", cells: ["Jan", 42] }, { id: "feb", cells: ["Feb", 58] }]} />
+  </Chart>
+}
+// ChartHandle exposes getInstance(), resize(), dispatchAction() and getDataURL().
+// Export SVG with renderer="svg", PNG with renderer="canvas".
+// Chart includes the SVG renderer and accessibility support. Register only the series
+// and features you need through modules (or registerChartModules).
+// Canvas and features={{ dataZoom: true }} load their optional modules on demand.`,
+  'line-chart': `import { LineChart } from "@/components/ui/line-chart"
+
+<LineChart label="Monthly revenue" data={[{ id: "jan", label: "Jan", revenue: 42, target: 48 }, { id: "feb", label: "Feb", revenue: 58, target: 50 }]} series={[{ key: "revenue", label: "Revenue" }, { key: "target", label: "Target", color: "#5579bd" }]} smooth zoom />
+// Shared props: height, renderer, theme, palette, animated, loading, empty, error,
+// events, onReady, onError, ref and native option overrides.
+// Replace children to compose ChartCanvas/ChartLegend/ChartDataTable yourself.`,
+  'area-chart': `import { AreaChart } from "@/components/ui/area-chart"
+
+<AreaChart label="Monthly signups" stacked data={[{ id: "jan", label: "Jan", organic: 40, paid: 20 }, { id: "feb", label: "Feb", organic: 60, paid: 30 }]} series={[{ key: "organic", label: "Organic" }, { key: "paid", label: "Paid" }]} />`,
+  'bar-chart': `import { BarChart } from "@/components/ui/bar-chart"
+
+<BarChart label="Team capacity" horizontal data={[{ id: "design", label: "Design", hours: 32 }, { id: "engineering", label: "Engineering", hours: 48 }]} series={[{ key: "hours", label: "Hours" }]} showLabels />`,
+  'pie-chart': `import { PieChart } from "@/components/ui/pie-chart"
+
+<PieChart label="Traffic sources" donut data={[{ id: "direct", name: "Direct", value: 420 }, { id: "search", name: "Search", value: 320 }]} />
+// Set donut={false} for a pie, rose for variable-radius sectors.`,
+  'scatter-chart': `import { ScatterChart } from "@/components/ui/scatter-chart"
+
+<ScatterChart label="Effort and impact" zoom series={[{ id: "projects", name: "Projects", data: [{ id: "a", name: "Launch", x: 12, y: 48, size: 20 }, { id: "b", name: "Refresh", x: 30, y: 62, size: 12 }] }]} />`,
+  'radar-chart': `import { RadarChart } from "@/components/ui/radar-chart"
+
+<RadarChart label="Team capabilities" indicators={[{ name: "Design", max: 100 }, { name: "Speed", max: 100 }, { name: "Quality", max: 100 }]} series={[{ id: "current", name: "Current", values: [82, 76, 94] }]} filled />`,
+  'heatmap-chart': `import { HeatmapChart } from "@/components/ui/heatmap-chart"
+
+<HeatmapChart label="Weekly activity" xCategories={["Mon", "Tue"]} yCategories={["Morning", "Evening"]} data={[{ id: "mon-am", x: "Mon", y: "Morning", value: 24 }, { id: "tue-pm", x: "Tue", y: "Evening", value: 68 }]} />`,
+  'gauge-chart': `import { GaugeChart } from "@/components/ui/gauge-chart"
+
+<GaugeChart label="Quarterly target" name="Goal completed" value={72} min={0} max={100} unit="%" />`,
   'rich-text-editor': `import { RichTextEditor, RichTextEditorToolbar, RichTextEditorContent, RichTextEditorStatus, type RichTextImageUploader } from "@/components/ui/rich-text-editor"
 import { useState } from "react"
 
@@ -25,7 +80,7 @@ function ArticleEditor() {
 // onContentChange receives { html, json, text }. Use onReady/useRichTextEditor for custom controls.
 // Paste/drop and file picker share the same callback; report progress with onProgress(percent).
 // Store the returned HTML/JSON yourself. Sanitize HTML server-side before public rendering.`,
-  button: `import { Button } from "@/components/ui/button"\n\n<Button onClick={save}>Save changes</Button>\n<Button variant="outline">Cancel</Button>`,
+  button: installationSnippets.buttonApp,
   'float-button': `import { FloatButton, BackTop } from "@/components/ui/float-button"\nimport { Plus } from "lucide-react"\n\n<FloatButton aria-label="New project" onClick={createProject}><Plus /></FloatButton>\n<BackTop />`,
   icon: `import { Icon } from "@/components/ui/icon"\nimport { Sparkles } from "lucide-react"\n\n<Icon icon={Sparkles} size={24} strokeWidth={1.5} aria-label="Featured" />`,
   typography: `import { Typography } from "@/components/ui/typography"\n\n<Typography as="h1">Make it meaningful.</Typography>\n<Typography muted>A little context.</Typography>\n<Typography copyable>Something worth sharing.</Typography>`,
@@ -48,7 +103,25 @@ function ArticleEditor() {
   checkbox: `import { Checkbox } from "@/components/ui/checkbox"\n\n<label><Checkbox checked={checked} onCheckedChange={setChecked} />Design with intention</label>\n<Checkbox checked="indeterminate" aria-label="Some items selected" />`,
   'color-picker': `import { ColorPicker } from "@/components/ui/color-picker"\n\n<ColorPicker value={color} onValueChange={setColor} presets={["#e66043", "#3b82f6", "#10b981"]} />`,
   'date-picker': `import { DatePicker, DateRangePicker } from "@/components/ui/date-picker"\n\n<DatePicker value={date} onValueChange={setDate} />\n<DateRangePicker value={range} onValueChange={setRange} />`,
-  form: `import { useForm } from "react-hook-form"\nimport { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"\nimport { Input } from "@/components/ui/input"\n\nconst form = useForm({ defaultValues: { name: "" } })\n\n<Form {...form}><form onSubmit={form.handleSubmit(save)}>\n  <FormField control={form.control} name="name" rules={{ required: "Add a name" }} render={({ field }) => (\n    <FormItem><FormLabel>Name</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>\n  )} />\n  <button type="submit">Save</button>\n</form></Form>`,
+  form: `import { useForm } from 'react-hook-form'
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+
+export default function ProjectForm() {
+  const form = useForm({ defaultValues: { name: '' } })
+  return (
+    <Form {...form}>
+      <form className="space-y-4 p-8" onSubmit={form.handleSubmit(values => console.log(values))}>
+        <FormField control={form.control} name="name" rules={{ required: 'Add a name' }} render={({ field }) => (
+          <FormItem><FormLabel>Name</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+        )} />
+        <Button type="submit">Save</Button>
+      </form>
+    </Form>
+  )
+}
+// Replace the submit callback with your own persistence.`,
   input: `import { Input } from "@/components/ui/input"\nimport { Textarea } from "@/components/ui/textarea"\n\n<Input placeholder="Your next big idea" value={value} onChange={e => setValue(e.target.value)} />\n<Input type="password" aria-label="Password" />\n<Textarea aria-label="Description" placeholder="A little more context…" />`,
   'input-number': `import { InputNumber } from "@/components/ui/input-number"\n\n<InputNumber value={quantity} onValueChange={setQuantity} min={0} max={100} step={0.5} />`,
   mentions: `import { Mentions } from "@/components/ui/mentions"\n\n<Mentions options={[{ value: "sarah", label: "Sarah Kim" }, { value: "alex", label: "Alex Morgan" }]} value={message} onValueChange={setMessage} />`,
@@ -83,9 +156,32 @@ function ArticleEditor() {
   tree: `import { Tree, type TreeNode } from "@/components/ui/tree"\n\nconst nodes: TreeNode[] = [{ key: "root", label: "Workspace", children: [{ key: "file", label: "notes.md", isLeaf: true }] }]\n<Tree nodes={nodes} checkable value={keys} onValueChange={setKeys} defaultExpandedKeys={["root"]} />\n// Large trees: virtual height={400}\n// Async children: loadChildren={async key => { /* load then update nodes */ }}`,
   alert: `import { Alert } from "@/components/ui/alert"\n\n<Alert variant="success" title="Looking good!" closable>Your changes have been saved.</Alert>`,
   drawer: `import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet"\nimport { Button } from "@/components/ui/button"\n\n<Sheet><SheetTrigger asChild><Button>Open drawer</Button></SheetTrigger><SheetContent side="right"><SheetHeader><SheetTitle>Project details</SheetTitle><SheetDescription>A little more context.</SheetDescription></SheetHeader>{content}</SheetContent></Sheet>\n// Import Drawer from ui/drawer for a swipeable bottom drawer.`,
-  message: `import { message, MessageProvider } from "@/components/ui/message"\n\n<MessageProvider /> // Mount once in your application.\nmessage.success("Your changes are saved.")\nmessage.promise(saveProject(), { loading: "Saving…", success: "Saved!", error: "Please try again." })`,
+  message: `import { message, MessageProvider } from '@/components/ui/message'
+import { Button } from '@/components/ui/button'
+
+export default function MessageExample() {
+  return <main className="p-8">
+    <MessageProvider />
+    <Button onClick={() => message.success('Your changes are saved.')}>Show message</Button>
+  </main>
+}
+// Mount one global MessageProvider for the global message API.
+// AppProvider includes a global toast host; omit MessageProvider when using it.
+// Inside AppProvider, useApp().message targets that application's scoped host.
+// useMessage() returns [api, holder]; render holder to use a separate local scope.`,
   modal: `import { Modal, ModalTrigger, ModalContent, ModalHeader, ModalTitle, ModalDescription } from "@/components/ui/modal"\nimport { Button } from "@/components/ui/button"\n\n<Modal><ModalTrigger asChild><Button>Open modal</Button></ModalTrigger><ModalContent><ModalHeader><ModalTitle>A moment of focus</ModalTitle><ModalDescription>Give your next idea some space.</ModalDescription></ModalHeader>{content}</ModalContent></Modal>`,
-  notification: `import { notification, NotificationProvider } from "@/components/ui/notification"\n\n<NotificationProvider /> // Mount once.\nnotification("A little something new", { description: "Sarah invited you to a workspace.", action: { label: "View invite", onClick: viewInvite } })`,
+  notification: `import { notification, NotificationProvider } from '@/components/ui/notification'
+import { Button } from '@/components/ui/button'
+
+export default function NotificationExample() {
+  return <main className="p-8">
+    <NotificationProvider />
+    <Button onClick={() => notification('A little something new', {
+      description: 'Sarah invited you to a workspace.',
+    })}>Show notification</Button>
+  </main>
+}
+// Mount one global toast host; omit NotificationProvider when AppProvider already supplies it.`,
   popconfirm: `import { Popconfirm } from "@/components/ui/popconfirm"\nimport { Button } from "@/components/ui/button"\n\n<Popconfirm title="Delete this project?" description="This action cannot be undone." onConfirm={remove} destructive><Button variant="destructive">Delete</Button></Popconfirm>`,
   progress: `import { Progress } from "@/components/ui/progress"\n\n<Progress value={64} aria-label="Project completion" />`,
   result: `import { Result } from "@/components/ui/result"\nimport { Button } from "@/components/ui/button"\n\n<Result status="success" title="You’re all set" description="Your project is ready."><Button onClick={openWorkspace}>Open workspace</Button></Result>`,
@@ -93,10 +189,27 @@ function ArticleEditor() {
   spin: `import { Spin } from "@/components/ui/spin"\n\n<Spin spinning={loading} label="Loading your workspace">{content}</Spin>`,
   watermark: `import { Watermark } from "@/components/ui/watermark"\n\n<Watermark text="ACME WORKSPACE">{content}</Watermark>`,
   affix: `import { Affix } from "@/components/ui/affix"\n\n<Affix offsetTop={20}>{actions}</Affix>`,
-  app: `import { AppProvider } from "@/components/ui/app"\n\n<AppProvider density="comfortable" direction="ltr" locale="en-US">{children}</AppProvider>`,
+  app: installationSnippets.providerApp,
   'border-beam': `import { BorderBeam } from "@/components/ui/border-beam"\n\n<BorderBeam className="max-w-sm"><h3>Something worth noticing.</h3></BorderBeam>`,
-  'config-provider': `import { ConfigProvider } from "@/components/ui/config-provider"\n\n<ConfigProvider accent="#e66043" radius={10} density="compact" direction="ltr" locale="en-US">{children}</ConfigProvider>`,
-  util: `import { useControllableState, useMediaQuery, useDebouncedValue, copyToClipboard } from "@/components/ui/util"\n\nconst [value, setValue] = useControllableState({ value: props.value, defaultValue: "", onChange: props.onChange })\nconst desktop = useMediaQuery("(min-width: 768px)")\nconst query = useDebouncedValue(search, 300)\nawait copyToClipboard("Something worth sharing")`,
+  'config-provider': installationSnippets.configApp,
+  util: `import { useState } from 'react'
+import { useControllableState, useMediaQuery, useDebouncedValue, copyToClipboard } from '@/components/ui/util'
+
+export default function UtilityExample() {
+  const [value, setValue] = useControllableState({ defaultValue: '' })
+  const desktop = useMediaQuery('(min-width: 768px)')
+  const query = useDebouncedValue(value, 300)
+  const [status, setStatus] = useState('')
+  return <main className="space-y-4 p-8">
+    <input aria-label="Search" value={value} onChange={event => setValue(event.target.value)} />
+    <p>{desktop ? 'Wide layout' : 'Narrow layout'} · Debounced search: {query}</p>
+    <button onClick={async () => {
+      try { await copyToClipboard(query); setStatus('Copied') }
+      catch { setStatus('Unable to copy') }
+    }}>Copy search</button>
+    <p role="status">{status}</p>
+  </main>
+}`,
   'layout-plus': `import { LayoutPlus } from "@/components/ui/layout-plus"\n\n<LayoutPlus logo="Acme" title="Overview" value={page} onNavigate={setPage} breadcrumb={["Workspace", "Overview"]} items={[{ key: "home", label: "Home" }, { key: "projects", label: "Projects" }]}>{children}</LayoutPlus>`,
   'form-plus': `import { FormPlus, FormPlusList, type FormPlusField } from "@/components/ui/form-plus"\n\nconst fields: FormPlusField[] = [\n  { name: "name", label: "Project name", required: true },\n  { name: "budget", label: "Budget", type: "money", rules: { min: { value: 0, message: "Use a positive budget" } } },\n]\n<FormPlus fields={fields} defaultValues={{ name: "", budget: 0, members: [] }} columns={2} onSubmit={save}>\n  <FormPlusList name="members" label="Members" fields={[{ name: "email", placeholder: "Member email" }]} defaultItem={{ email: "" }} />\n</FormPlus>\n// Add steps={["Details", "Review"]} and field.step for a wizard.\n// Compose inside Modal or Sheet for modal and drawer forms.\n// Pass resolver={zodResolver(schema)} for Zod validation.`,
   'table-plus': `import { TablePlus } from "@/components/ui/table-plus"\n\n<TablePlus title="Projects" columns={columns} getRowId={row => row.id} onCreate={createProject} request={async (params, signal) => {\n  const query = new URLSearchParams({ page: String(params.page), pageSize: String(params.pageSize), keyword: params.keyword })\n  const response = await fetch("/api/projects?" + query, { signal })\n  if (!response.ok) throw new Error("Unable to load projects")\n  return response.json() // { data: Project[], total: number }\n}} />\n// params.sorting and params.filters contain the controlled column state.\n// Send them to your backend to implement server-side sorting/filtering.`,
@@ -144,3 +257,6 @@ type ProjectNode = { id: string; name: string; children?: ProjectNode[] }
 //   columns={columns} getRowId={child => child.id} />}
 // Playground: Nested rows, Row details and Nested table presets.
 `
+examples.skeleton += `\n// Wave is the default; pulse remains available.\n<Skeleton animation="pulse" className="h-4 w-40" />\n// animated={false} renders a static placeholder.`
+examples['skeleton-plus'] +=
+  `\n// All layout placeholders use wave by default.\n<SkeletonPlus type="table" animation="wave" />\n// Use animation="pulse" for pulsing placeholders, or animated={false} to stop motion.`

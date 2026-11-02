@@ -2,6 +2,14 @@
 @import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
+/* Component previews always demonstrate motion; the surrounding page respects the device setting. */
+@custom-variant motion-reduce {
+  @media (prefers-reduced-motion: reduce) {
+    &:not(:where([data-preview-motion='full'], [data-preview-motion='full'] *)) {
+      @slot;
+    }
+  }
+}
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -135,10 +143,11 @@
   html {
     scroll-behavior: auto;
   }
-  *,
-  *::before,
-  *::after {
+  *:not(:where([data-preview-motion='full'], [data-preview-motion='full'] *)),
+  *:not(:where([data-preview-motion='full'], [data-preview-motion='full'] *))::before,
+  *:not(:where([data-preview-motion='full'], [data-preview-motion='full'] *))::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
 }

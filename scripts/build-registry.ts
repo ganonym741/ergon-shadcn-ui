@@ -1,4 +1,5 @@
-import { readdir, readFile, writeFile, mkdir, unlink } from 'node:fs/promises'
+import { readdir, readFile, mkdir, unlink } from 'node:fs/promises'
+import { writeGeneratedFile as writeFile } from './write-generated-file'
 import { resolve, relative, basename } from 'node:path'
 import ts from 'typescript'
 import { components } from '../src/catalog'
@@ -14,7 +15,6 @@ for (const directory of [output, resolve(root, 'public/api')]) {
       await unlink(resolve(directory, file))
   }
 }
-const pkg = JSON.parse(await readFile(resolve(root, 'package.json'), 'utf8'))
 const cache = new Map<string, string>()
 async function read(path: string) {
   if (!cache.has(path)) cache.set(path, await readFile(path, 'utf8'))
@@ -42,6 +42,17 @@ async function collect(path: string, files = new Map<string, string>(), deps = n
       ? [statement.moduleSpecifier.text]
       : [],
   )
+  function collectDynamicImports(node: ts.Node) {
+    if (
+      ts.isCallExpression(node) &&
+      node.expression.kind === ts.SyntaxKind.ImportKeyword &&
+      node.arguments[0] &&
+      ts.isStringLiteral(node.arguments[0])
+    )
+      imports.push(node.arguments[0].text)
+    ts.forEachChild(node, collectDynamicImports)
+  }
+  collectDynamicImports(source)
   for (const importPath of imports) {
     if (importPath.startsWith('@/')) {
       const local = resolve(root, 'src', importPath.slice(2))
@@ -150,7 +161,7 @@ for (const component of components) {
       },
     ],
   }
-  const sourceEntry = { ...entry, files: entry.files.map(({ content, ...f }) => f) }
+  const sourceEntry = { ...entry, files: entry.files.map(({ content: _content, ...f }) => f) }
   items.push(sourceEntry)
   await writeFile(
     resolve(output, `${component.id}.json`),

@@ -1,0 +1,80 @@
+name: Publish CLI to npm
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: npm-publish-main
+  cancel-in-progress: false
+  queue: max
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      HUSKY: '0'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: '1.4.4'
+      - run: bun install --frozen-lockfile
+      - run: bun install --cwd packages/cli --frozen-lockfile
+      - run: bun run verify
+      - run: bun run hooks:check
+
+  publish:
+    if: github.ref == 'refs/heads/main'
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      HUSKY: '0'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: '1.4.4'
+      - run: npm install --global npm@11.21.1
+      - run: bun install --frozen-lockfile
+      - run: bun install --cwd packages/cli --frozen-lockfile
+      - name: Select the next version
+        id: release
+        run: bun scripts/npm-release.ts
+      - name: Pack and check the release
+        if: steps.release.outputs.publish == 'true'
+        env:
+          RELEASE_VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          mkdir -p output/npm
+          npm pack ./packages/cli --pack-destination "$PWD/output/npm" --silent
+          tarball="$PWD/output/npm/ergonui-cli-$RELEASE_VERSION.tgz"
+          actual="$(npm exec --yes --package "$tarball" -- ergonui --version)"
+          test "$actual" = "$RELEASE_VERSION"
+      - name: Publish through npm trusted publishing
+        if: steps.release.outputs.publish == 'true'
+        env:
+          RELEASE_VERSION: ${{ steps.release.outputs.version }}
+        run: npm publish "output/npm/ergonui-cli-$RELEASE_VERSION.tgz" --access public --tag latest --provenance

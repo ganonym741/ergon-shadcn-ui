@@ -118,7 +118,7 @@ export function DescriptionsPlus({
       )}
       <Descriptions
         columns={columns}
-        items={fields.map(({ key, label, validate, ...field }) => ({
+        items={fields.map(({ key, label, validate: _validate, ...field }) => ({
           key,
           label,
           children: (

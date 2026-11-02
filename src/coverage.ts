@@ -3,6 +3,81 @@ export interface Coverage {
   notes: string[]
 }
 export const coverage: Record<string, Coverage> = {
+  chart: {
+    implemented: [
+      'Composable ECharts canvas, header, legend and data-table parts with typed options and imperative handle',
+      'SVG/Canvas renderers, automatic resize/disposal, light/dark themes and custom palettes',
+      'Typed click, legend and zoom events; native option overrides and extension module registration',
+      'Loading, empty and error states; image export; reduced-motion-aware default animations',
+    ],
+    notes: [
+      'The base includes SVG and accessibility support; chart entries register their own series and required components. Pass modules or use registerChartModules for custom series/features. Canvas and data zoom load on demand. The React wrapper renders in the browser.',
+    ],
+  },
+  'line-chart': {
+    implemented: [
+      'Multiple line series with smooth or straight interpolation, missing values and stable IDs',
+      'Stacking, horizontal orientation, labels, tooltips, grid and data zoom',
+      'Keyboard-operable legend, readable data table and shared Chart configuration',
+    ],
+    notes: [],
+  },
+  'area-chart': {
+    implemented: [
+      'Filled line series with smooth curves and configurable stacking',
+      'Horizontal orientation, labels, tooltips and data zoom',
+      'Keyboard-operable legend, readable data table and native ECharts overrides',
+    ],
+    notes: [],
+  },
+  'bar-chart': {
+    implemented: [
+      'Grouped/stacked bars and horizontal orientation',
+      'Labels, tooltips, grid, zoom and per-series colors',
+      'Keyboard-operable legend, readable data table and native ECharts overrides',
+    ],
+    notes: [],
+  },
+  'pie-chart': {
+    implemented: [
+      'Pie, donut and rose layouts with per-slice colors',
+      'Slice labels, hover tooltips and keyboard-operable legend',
+      'Readable data table and shared Chart configuration',
+    ],
+    notes: [],
+  },
+  'scatter-chart': {
+    implemented: [
+      'Multiple scatter series with named points and variable bubble sizes',
+      'Tooltips, grid and data zoom',
+      'Keyboard-operable legend and readable data table',
+    ],
+    notes: [],
+  },
+  'radar-chart': {
+    implemented: [
+      'Named indicators and comparison series with custom axis limits',
+      'Polygon/circular grids and optional filled areas',
+      'Tooltips, keyboard-operable legend and readable data table',
+    ],
+    notes: [],
+  },
+  'heatmap-chart': {
+    implemented: [
+      'Categorical matrix with stable point IDs and configurable value range',
+      'Interactive visual-map range, cell labels and tooltips',
+      'Readable data table and native ECharts overrides',
+    ],
+    notes: [],
+  },
+  'gauge-chart': {
+    implemented: [
+      'Gauge value, range, unit and label with optional pointer',
+      'Animated progress arc, loading/error states and image export',
+      'Readable data table and native ECharts overrides',
+    ],
+    notes: [],
+  },
   'rich-text-editor': {
     implemented: [
       'Composable, typed Tiptap editor with controlled HTML and HTML/JSON/text change callbacks',
@@ -696,6 +771,7 @@ export const coverage: Record<string, Coverage> = {
       'Composable block/text/avatar placeholders',
       'Shape/size overrides',
       'Preset skeleton buttons, inputs and images',
+      'Default wave animation with optional pulse and animation toggle',
     ],
     notes: [],
   },
@@ -704,6 +780,7 @@ export const coverage: Record<string, Coverage> = {
       'Dashboard, list and form presets',
       'Configurable row count',
       'Chart/table-specific loading layouts',
+      'Default wave or optional pulse across every placeholder, with animation toggle and reduced-motion support',
     ],
     notes: [],
   },

@@ -1,4 +1,5 @@
 import { components } from '@/catalog'
+import { chartIds, chartData, chartSeries, customChartOption, radarIndicators } from './chart-data'
 export type Config = Record<string, string | number | boolean>
 export interface Control {
   key: string
@@ -9,6 +10,7 @@ export interface Control {
   min?: number
   max?: number
   group?: string
+  jsonShape?: 'array' | 'object'
 }
 const text = (key: string, label: string, initial = ''): Control => ({
   key,
@@ -41,6 +43,7 @@ const json = (key: string, label: string, initial: unknown): Control => ({
   key,
   label,
   type: 'json',
+  jsonShape: Array.isArray(initial) ? 'array' : 'object',
   initial: JSON.stringify(initial, null, 2),
   group: 'Data',
 })
@@ -48,7 +51,6 @@ const choices = ['Alpha', 'Beta', 'Gamma', 'Delta']
 const optionData = choices.map((label, index) => ({ value: String(index), label }))
 const title = text('title', 'Title', 'A thoughtful workspace'),
   description = text('description', 'Description', 'Make room for your next idea.'),
-  content = text('content', 'Content', 'Build something useful with ErgonUI.'),
   disabled = bool('disabled', 'Disabled'),
   vertical = bool('vertical', 'Vertical'),
   loading = bool('loading', 'Loading'),
@@ -757,15 +759,18 @@ const controls: Record<string, Control[]> = {
   ],
   skeleton: [
     select('type', 'Shape', 'card', ['card', 'avatar', 'button', 'input', 'image', 'text']),
+    select('animation', 'Animation', 'wave', ['wave', 'pulse']),
     bool('animated', 'Animate', true),
     num('rows', 'Text rows', 4, 1, 10),
   ],
   'skeleton-plus': [
     select('type', 'Layout', 'dashboard', ['dashboard', 'list', 'form', 'table', 'chart']),
+    select('animation', 'Animation', 'wave', ['wave', 'pulse']),
     num('rows', 'Rows', 5, 1, 12),
+    bool('animated', 'Animate', true),
   ],
   spin: [
-    loading,
+    bool('loading', 'Initially loading', true),
     num('delay', 'Delay ms', 250, 0, 2000),
     num('minimum', 'Minimum display ms', 600, 0, 3000),
     text('label', 'Loading message', 'Preparing your workspace'),
@@ -804,6 +809,84 @@ const controls: Record<string, Control[]> = {
     bool('breakpoints', 'Live breakpoint map', true),
   ],
 }
+for (const id of chartIds) {
+  controls[id] = [
+    text(
+      'title',
+      'Title',
+      id === 'chart'
+        ? 'Revenue & targets'
+        : id === 'gauge-chart'
+          ? 'Quarterly goal'
+          : id === 'heatmap-chart'
+            ? 'Weekly activity'
+            : id === 'radar-chart'
+              ? 'Team strengths'
+              : id === 'pie-chart'
+                ? 'Traffic sources'
+                : id === 'scatter-chart'
+                  ? 'Project performance'
+                  : 'Revenue overview',
+    ),
+    text('description', 'Description', 'Sample data. Every detail is yours to shape.'),
+    num('height', 'Chart height', 320, 180, 720),
+    select('renderer', 'Renderer', 'svg', ['svg', 'canvas']),
+    select('theme', 'Chart theme', 'auto', ['auto', 'light', 'dark']),
+    bool('animated', 'Animate', true),
+    bool('showTooltip', 'Tooltips', true),
+    json('palette', 'Custom palette', []),
+    bool('showDataTable', 'Data table', true),
+    ...(!['heatmap-chart', 'gauge-chart'].includes(id) ? [bool('showLegend', 'Legend', true)] : []),
+    bool('loading', 'Loading'),
+    bool('empty', 'Empty data'),
+    bool('error', 'Error state'),
+    ...(id === 'chart'
+      ? [json('option', 'ECharts option', customChartOption)]
+      : id === 'gauge-chart'
+        ? [
+            num('value', 'Value', 72, 0, 200),
+            num('max', 'Maximum', 100, 1, 200),
+            text('unit', 'Unit', '%'),
+            bool('showPointer', 'Show pointer'),
+          ]
+        : [json('data', 'Data', chartData[id])]),
+    ...(['line-chart', 'area-chart', 'bar-chart'].includes(id)
+      ? [
+          json('series', 'Series', chartSeries),
+          bool('stacked', 'Stack series'),
+          bool('horizontal', 'Horizontal'),
+          bool('smooth', 'Smooth curves', true),
+          bool('showGrid', 'Grid lines', true),
+          bool('showLabels', 'Data labels'),
+          bool('zoom', 'Data zoom'),
+        ]
+      : []),
+    ...(id === 'pie-chart'
+      ? [
+          bool('donut', 'Donut', true),
+          bool('rose', 'Rose layout'),
+          bool('showLabels', 'Data labels'),
+        ]
+      : []),
+    ...(id === 'scatter-chart'
+      ? [bool('showGrid', 'Grid lines', true), bool('zoom', 'Data zoom')]
+      : []),
+    ...(id === 'radar-chart'
+      ? [
+          json('indicators', 'Indicators', radarIndicators),
+          select('shape', 'Shape', 'polygon', ['polygon', 'circle']),
+          bool('filled', 'Filled areas', true),
+        ]
+      : []),
+    ...(id === 'heatmap-chart'
+      ? [
+          text('xCategories', 'X categories', 'Mon,Tue,Wed,Thu,Fri'),
+          text('yCategories', 'Y categories', 'Morning,Afternoon,Evening'),
+          bool('showLabels', 'Data labels', true),
+        ]
+      : []),
+  ]
+}
 export interface PlaygroundSpec {
   id: string
   controls: Control[]
@@ -821,6 +904,29 @@ export const playgrounds: Record<string, PlaygroundSpec> = Object.fromEntries(
         controls: fields,
         presets: [
           { name: 'Default', values: defaults },
+          ...(component.category === 'Chart'
+            ? [
+                { name: 'Loading', values: { ...defaults, loading: true } },
+                { name: 'Empty', values: { ...defaults, empty: true } },
+                { name: 'Error', values: { ...defaults, error: true } },
+                { name: 'Dark', values: { ...defaults, theme: 'dark' } },
+                { name: 'Canvas renderer', values: { ...defaults, renderer: 'canvas' } },
+              ]
+            : []),
+          ...(['button', 'card', 'card-plus'].includes(component.id)
+            ? [{ name: 'Loading', values: { ...defaults, loading: true } }]
+            : []),
+          ...(component.id === 'badge'
+            ? [
+                {
+                  name: 'Processing',
+                  values: { ...defaults, mode: 'status', status: 'processing' },
+                },
+              ]
+            : []),
+          ...(component.id === 'progress'
+            ? [{ name: 'Active', values: { ...defaults, type: 'line', status: 'active' } }]
+            : []),
           ...(component.id === 'rich-text-editor'
             ? [
                 { name: 'Blank document', values: { ...defaults, initialHTML: '<p></p>' } },
@@ -856,7 +962,10 @@ export const playgrounds: Record<string, PlaygroundSpec> = Object.fromEntries(
                   .filter((field) => field.type === 'boolean')
                   .map((field) => [
                     field.key,
-                    !['disabled', 'loading', 'error', 'failure', 'collapsed'].includes(field.key),
+                    (component.id === 'spin' && field.key === 'loading') ||
+                      !['disabled', 'loading', 'empty', 'error', 'failure', 'collapsed'].includes(
+                        field.key,
+                      ),
                   ]),
               ),
             },

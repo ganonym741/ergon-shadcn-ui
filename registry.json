@@ -729,6 +729,7 @@
       "dependencies": [
         "class-variance-authority@0.7.1",
         "clsx@2.1.1",
+        "lucide-react@1.65.0",
         "radix-ui@1.8.1",
         "tailwind-merge@3.7.0"
       ],
@@ -950,7 +951,6 @@
       "dependencies": [
         "clsx@2.1.1",
         "lucide-react@1.65.0",
-        "radix-ui@1.8.1",
         "tailwind-merge@3.7.0"
       ],
       "files": [
@@ -973,10 +973,6 @@
         {
           "path": "src/lib/responsive.ts",
           "type": "registry:lib"
-        },
-        {
-          "path": "src/components/ui/label.tsx",
-          "type": "registry:ui"
         },
         {
           "path": "src/lib/color.ts",
@@ -1651,18 +1647,12 @@
       "title": "Rate",
       "description": "A little feedback goes a long way.",
       "dependencies": [
-        "clsx@2.1.1",
-        "lucide-react@1.65.0",
-        "tailwind-merge@3.7.0"
+        "lucide-react@1.65.0"
       ],
       "files": [
         {
           "path": "src/components/ui/rate.tsx",
           "type": "registry:ui"
-        },
-        {
-          "path": "src/lib/utils.ts",
-          "type": "registry:lib"
         },
         {
           "path": "src/components/ui/util.ts",
@@ -3329,6 +3319,401 @@
         {
           "path": "src/lib/responsive.ts",
           "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "chart",
+      "type": "registry:ui",
+      "title": "Chart",
+      "description": "A flexible canvas for the stories in your data.",
+      "dependencies": [
+        "clsx@2.1.1",
+        "echarts@6.1.0",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/chart-canvas-renderer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "line-chart",
+      "type": "registry:ui",
+      "title": "Line Chart",
+      "description": "Follow the shape of change.",
+      "dependencies": [
+        "clsx@2.1.1",
+        "echarts@6.1.0",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/line-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/chart-canvas-renderer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-cartesian.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "area-chart",
+      "type": "registry:ui",
+      "title": "Area Chart",
+      "description": "Give trends a little more depth.",
+      "dependencies": [
+        "clsx@2.1.1",
+        "echarts@6.1.0",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/area-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/chart-canvas-renderer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-cartesian.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "bar-chart",
+      "type": "registry:ui",
+      "title": "Bar Chart",
+      "description": "Make every comparison clear.",
+      "dependencies": [
+        "clsx@2.1.1",
+        "echarts@6.1.0",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/bar-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/chart-canvas-renderer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-cartesian.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "pie-chart",
+      "type": "registry:ui",
+      "title": "Pie Chart",
+      "description": "See how each part contributes to the whole.",
+      "dependencies": [
+        "clsx@2.1.1",
+        "echarts@6.1.0",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/pie-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/chart-canvas-renderer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "scatter-chart",
+      "type": "registry:ui",
+      "title": "Scatter Chart",
+      "description": "Find patterns between the points.",
+      "dependencies": [
+        "clsx@2.1.1",
+        "echarts@6.1.0",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/scatter-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/chart-canvas-renderer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "radar-chart",
+      "type": "registry:ui",
+      "title": "Radar Chart",
+      "description": "Compare strengths from every angle.",
+      "dependencies": [
+        "clsx@2.1.1",
+        "echarts@6.1.0",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/radar-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/chart-canvas-renderer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "heatmap-chart",
+      "type": "registry:ui",
+      "title": "Heatmap Chart",
+      "description": "Let intensity reveal the pattern.",
+      "dependencies": [
+        "clsx@2.1.1",
+        "echarts@6.1.0",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/heatmap-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/chart-canvas-renderer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "gauge-chart",
+      "type": "registry:ui",
+      "title": "Gauge Chart",
+      "description": "A clear reading of progress toward a goal.",
+      "dependencies": [
+        "clsx@2.1.1",
+        "echarts@6.1.0",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/gauge-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/chart-canvas-renderer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
         },
         {
           "path": "LICENSES/shadcn-ui.txt",

@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Switch } from '@/components/ui/switch'
@@ -10,7 +9,7 @@ import { RadioButtons } from '@/components/ui/radio'
 import { CheckboxGroup } from '@/components/ui/checkbox'
 import { DateRangePicker, DateTimeRangePicker } from '@/components/ui/date-picker'
 import { TreeSelect } from '@/components/ui/tree-select'
-import { Upload, type UploadFile } from '@/components/ui/upload'
+import { Upload } from '@/components/ui/upload'
 import { useUIConfig } from '@/components/ui/config-provider'
 import type { TreeNode } from '@/components/ui/tree'
 export type FieldValueType =

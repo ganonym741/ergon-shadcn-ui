@@ -1,0 +1,3 @@
+export default {
+  '*': ['eslint --max-warnings 0 --no-warn-ignored', 'prettier --write --ignore-unknown'],
+}

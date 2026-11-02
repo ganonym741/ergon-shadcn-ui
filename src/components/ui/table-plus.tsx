@@ -123,7 +123,9 @@ export function TablePlus<T>({
       try {
         const saved = JSON.parse(localStorage.getItem(key + ':views') ?? '[]')
         if (Array.isArray(saved)) setViews(saved)
-      } catch {}
+      } catch {
+        // Use the current views when saved browser state is unavailable or malformed.
+      }
     return () => controller.abort()
   }, [loadViews, providedViews, key, showViews])
   React.useEffect(() => {
@@ -236,7 +238,9 @@ export function TablePlus<T>({
       if (!saveView)
         try {
           localStorage.setItem(key + ':views', JSON.stringify(next))
-        } catch {}
+        } catch {
+          // The in-memory view change still applies if browser storage is unavailable.
+        }
       setViewName('')
     })
   }
@@ -334,7 +338,9 @@ export function TablePlus<T>({
                   if (!deleteView)
                     try {
                       localStorage.setItem(key + ':views', JSON.stringify(next))
-                    } catch {}
+                    } catch {
+                      // The in-memory view change still applies if browser storage is unavailable.
+                    }
                 })
               }}
             >

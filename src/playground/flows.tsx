@@ -15,7 +15,7 @@ const wait = (ms: number, signal?: AbortSignal) =>
       { once: true },
     )
   })
-export function FormPreview({ id, config: v, onEvent }: PreviewProps) {
+export function FormPreview({ config: v, onEvent }: PreviewProps) {
   const emit = (type: string, value: unknown) => onEvent({ type, value, time: Date.now() }),
     [result, setResult] = React.useState<unknown>()
   const fields: UI.FormPlusField[] = [

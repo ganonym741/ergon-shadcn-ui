@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { Input } from '@/components/ui/input'
 import { useControllableState } from '@/components/ui/util'
-import { Label } from '@/components/ui/label'
 import { colorChannels, channelsToHex, type ColorFormat } from '@/lib/color'
 export function ColorPicker({
   value,
@@ -26,9 +25,7 @@ export function ColorPicker({
   const [internalFormat, setFormat] = React.useState<ColorFormat>(controlledFormat ?? 'hex'),
     format = internalFormat
   React.useEffect(() => setDraft(safe), [safe])
-  const rgb = [1, 3, 5].map((start) => parseInt(safe.slice(start, start + 2), 16)),
-    alpha = safe.length === 9 ? parseInt(safe.slice(7, 9), 16) / 255 : 1
-  const text = format === 'rgb' ? `rgba(${rgb.join(', ')}, ${alpha.toFixed(2)})` : safe
+  const alpha = safe.length === 9 ? parseInt(safe.slice(7, 9), 16) / 255 : 1
   return (
     <div className="inline-flex flex-col gap-3">
       <div className="flex items-center gap-2">

@@ -8,3 +8,5 @@ public/registry.json
 src/generated
 registry.json
 bun.lock
+docs/COVERAGE.md
+.husky/_
