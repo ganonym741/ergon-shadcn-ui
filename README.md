@@ -1,64 +1,46 @@
 # ErgonUI
 
-A React component library built on **[shadcn/ui](https://ui.shadcn.com) component source**, extended with expressive controls, customization, and heavy data workflows. ErgonUI includes copied and adapted MIT-licensed shadcn/ui components alongside original components, with an interactive playground for each component.
+Editable React components with typed, composable APIs, interactive playgrounds, and advanced data controls. Built on [shadcn/ui](https://ui.shadcn.com) component source and community work.
 
-## Development
+[Browse components](https://ergonui.netlify.app/#/components) · [Documentation](https://ergonui.netlify.app/#/docs/installation) · [CLI on npm](https://www.npmjs.com/package/@ergonui/cli)
 
-These commands run the ErgonUI contributor workspace. To use components in your own application,
-follow the [installation guide](docs/INSTALLATION.md); no ErgonUI clone is needed.
+## Get started
+
+Components require React 19 and Tailwind CSS 4. The CLI provides automatic Vite setup; other React frameworks need manual setup and client-only rendering for browser-dependent components.
+
+These commands require CLI **0.2 or later**.
+
+| Package manager | Command                                                                 |
+| --------------- | ----------------------------------------------------------------------- |
+| npm             | `npx @ergonui/cli create my-app --components line-chart,pie-chart`      |
+| Bun             | `bunx @ergonui/cli create my-app --components line-chart,pie-chart`     |
+| Deno            | `dx @ergonui/cli create my-app --components line-chart,pie-chart`       |
+| pnpm            | `pnpm dlx @ergonui/cli create my-app --components line-chart,pie-chart` |
+| Yarn            | `yarn dlx @ergonui/cli create my-app --components line-chart,pie-chart` |
+
+Run `cd my-app`, then `npm run dev`, `bun run dev`, `deno task dev`, `pnpm run dev`, or `yarn run dev`. Set up Deno's `dx` alias once with `deno x --install-alias`. Use the same runner for `init` and `add` in an existing project; see the [installation guide](docs/INSTALLATION.md).
+
+Components are copied into your application for you to customize. Enhanced compositions use the **+** suffix, such as Table+ and Form+.
+
+- [Installation and usage](docs/INSTALLATION.md)
+- [Charts](docs/CHARTS.md)
+- [Component capabilities](docs/COVERAGE.md)
+- [CLI options](packages/cli/README.md)
+
+## Contribute
+
+Repository tooling uses Bun and Node.js 24.
 
 ```sh
 bun install --frozen-lockfile
+bun install --cwd packages/cli --frozen-lockfile
 bun run dev
 ```
 
-Open Vite's printed Local URL. Component source and API documentation are generated before startup. Run `bun run registry:build` after changing component source to refresh registry and API payloads.
+Before submitting changes, run `bun run verify`. Run `bun run registry:build` after editing component source. CLI development and deployment are covered in the [maintainer guide](docs/PUBLISHING.md); testing scope is documented in [verification](docs/VERIFICATION.md).
 
-For Netlify, use `bun run build`, publish `dist`, and set `REGISTRY_URL=https://ergonui.netlify.app` in the build environment so generated registry metadata uses the public homepage. Keep the Bun version aligned with the version used to verify the project. New source becomes publicly installable after pushing and deploying it.
+Husky runs ESLint before formatting staged files and validates Conventional Commit messages. Use `bun run commit` for the Commitizen prompt; pushes run the full `bun run verify` checks.
 
-```sh
-bun run check
-bun run charts:check
-bun run test
-bun run build
-bun run preview
-```
+## Attribution
 
-## Component collections
-
-All components belong to General, Layout, Navigation, Data entry, Data display, Chart, Feedback, or Other. The + suffix identifies enhanced compositions: Table+, Form+, Layout+, Descriptions+, List+, Editable Table+, Card+, Field+, Skeleton+, and Check Card+.
-
-The Chart collection uses Apache ECharts and includes a composable Chart foundation, Line, Area, Bar, Pie, Scatter, Radar, Heatmap and Gauge components. Each supports typed data/options, SVG or Canvas rendering, themes, events and readable data tables. Applications provide their own data; the playgrounds use local samples.
-
-Chart entries register only their own series and required components. Canvas and zoom load on demand. Use `modules` for additional native ECharts features. See the [modular chart guide](docs/CHARTS.md) for configuration and standalone bundle verification.
-
-Each component page offers an interactive playground, property controls, state examples, event inspection, configuration export, installation instructions, source, and typed API documentation.
-
-## Source installation
-
-The first-party CLI is implemented and tested locally; its first npm publication is pending. After release, create an application with:
-
-```sh
-bunx @ergonui/cli create my-app --components line-chart,pie-chart
-cd my-app
-bun run dev
-```
-
-For an existing Vite + React 19 TypeScript project, use `bunx @ergonui/cli init`, then `bunx @ergonui/cli add button table-plus`. See [CLI development](packages/cli/README.md) and [npm publishing](docs/PUBLISHING.md). The commands below describe the manual alternative available before publication.
-
-Follow the [complete Bun + Vite + React installation guide](docs/INSTALLATION.md) for Tailwind 4, both TypeScript aliases, initialization, a working example, and optional providers. In an application already configured with `components.json`, use the published shadcn CLI to copy selected component source from the public registry:
-
-```sh
-bunx --bun shadcn@latest add https://ergonui.netlify.app/r/button.json
-bunx --bun shadcn@latest add https://ergonui.netlify.app/r/table-plus.json
-```
-
-Bunx downloads the selected CLI package automatically. Each registry entry includes its local source dependencies, tested npm package versions, and retained licenses. Component-page commands use the first-party CLI and include any additional catalog entries imported by their usage example. Your application runs the installed source independently of the registry.
-
-Initialization supplies semantic Tailwind bindings and CSS dependencies. Keep the generated stylesheet imports and theme mappings. Add `https://ergonui.netlify.app/r/theme.json` to apply ErgonUI's tokens, or keep your own. Preview changes with `--dry-run --diff` before replacing customized source. See the guide for manual installation and animation setup.
-
-
-
-CLI development has its own pinned dependencies: run `bun install --cwd packages/cli --frozen-lockfile`, then `bun run cli:check`, `bun run cli:test`, and `bun run cli:build`. Build/test/pack artifacts stay in ignored `dist`/`output` directories.
-
-See [capabilities](docs/COVERAGE.md) and the [verification record](docs/VERIFICATION.md) for the supported behavior and tested scenarios.
+ErgonUI includes copied and adapted MIT-licensed shadcn/ui components alongside original work. Thank you to shadcn and the community. Retained notices: [shadcn/ui license](LICENSES/shadcn-ui.txt), [third-party notices](THIRD-PARTY-NOTICES.md), and [ErgonUI license](LICENSE).

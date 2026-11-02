@@ -1,14 +1,14 @@
-# Modular charts
+# Charts
 
 ## Install and render a chart
 
-Complete the [application setup](INSTALLATION.md) first; no ErgonUI clone is needed. Install the entry you use from the hosted registry:
+Complete the [application setup](INSTALLATION.md), then install the chart you need (npm example; the installation guide lists all five runners):
 
 ```sh
-bunx @ergonui/cli add line-chart
+npx @ergonui/cli add line-chart
 ```
 
-The CLI's first npm publication is pending; these commands become public after release. The [installation guide](INSTALLATION.md) includes a manual alternative available now. The CLI installs ECharts and the component's local helpers, including the optional renderer/zoom files. Public entries follow the deployed revision; use `--registry <local-documentation-origin>` for unreleased work. Replace `src/App.tsx` with this complete example:
+Replace `src/App.tsx` with:
 
 ```tsx
 import { LineChart } from '@/components/ui/line-chart'
@@ -29,11 +29,11 @@ export default function App() {
 }
 ```
 
-Run `bun run build`, then `bun run dev`. Pass your own data through props; no data service is included. Install each additional chart entry that your application imports.
+Pass your own data through props. Install each chart entry your application imports.
 
 ## Module boundaries
 
-Import the component entry you use, for example `@/components/ui/line-chart`. Each entry registers its own ECharts series and required components. Line and Area share the line series; the shared Cartesian composition contains layout and data mapping, without importing the other series.
+Import the component entry you use, for example `@/components/ui/line-chart`. Each entry registers its own ECharts series and required features. Line and Area share the line series.
 
 The base `Chart` includes ECharts core, accessibility support and the default SVG renderer. It does not register chart series, axes, legends, tooltips, datasets or toolboxes on your behalf. Type-only imports from `echarts` disappear from the JavaScript build.
 
@@ -70,14 +70,8 @@ Dataset/transform, title, toolbox, annotations and additional coordinates are ex
 
 SVG is ready by default. `renderer="canvas"` loads the Canvas painter on demand. `zoom` on Line, Area, Bar or Scatter loads the data-zoom module when enabled. For native options, use `features={{ dataZoom: true }}` with your `option.dataZoom` configuration.
 
-Optional imports show a loading state and are safe to cancel on unmount or renderer changes. `onReady` runs after the engine and optional modules are ready. Use it before imperative actions that must run during initialization. The engine resizes with its host and is disposed on unmount. Registry payloads include both optional helper source files.
+`onReady` runs after the engine and optional modules are ready. Use it for imperative actions during initialization. The chart resizes with its host and disposes the engine on unmount.
 
-The documentation loads each chart entry separately. It does not import every chart series into a shared preview or force optional modules into a broad vendor chunk.
+## Bundle size
 
-These bundle boundaries describe production builds. Vite may prebundle dependency entrypoints more broadly during development; inspect a production build when evaluating download sizes.
-
-## Bundle verification
-
-Run `bun run charts:check`. It builds all nine standalone entries independently from the documentation, follows their static chunk dependencies and rejects unrelated series installers, the full ECharts entry, an eager Canvas painter, or eager data zoom. Results are written to ignored `output/chart-bundles.json`, including optional emitted chunks separately from initial JavaScript.
-
-In the November 1, 2026 consumer comparison (ECharts 6.1.0, Vite 8.3.5, Bun 1.4.4), the initial SVG Line Chart JavaScript decreased from approximately 302.7 KiB to 225.0 KiB gzip, about 26%. Gauge decreased from 302.1 KiB to 181.7 KiB gzip, about 40%. These are isolated ES library builds with React external, excluding CSS and fonts; they are not total page-download sizes. ECharts core still has a substantial shared cost, and enabling optional features downloads additional chunks.
+ECharts core has a shared cost; each additional series or feature adds code. Measure production builds, since Vite's development prebundling can include more modules. From the library repository, `bun run charts:check` verifies that unrelated series, Canvas, and zoom stay outside each entry's initial module graph. See [verification](VERIFICATION.md) for the testing scope.
