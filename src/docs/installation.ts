@@ -1,8 +1,31 @@
 import { components } from '@/catalog'
 
+export const packageManagerLabels = {
+  npm: 'npm',
+  bun: 'Bun',
+  deno: 'Deno',
+  pnpm: 'pnpm',
+  yarn: 'Yarn',
+}
+export type DocsPackageManager = keyof typeof packageManagerLabels
+const runners: Record<DocsPackageManager, string> = {
+  npm: 'npx @ergonui/cli',
+  bun: 'bunx @ergonui/cli',
+  deno: 'dx @ergonui/cli',
+  pnpm: 'pnpm dlx @ergonui/cli',
+  yarn: 'yarn dlx @ergonui/cli',
+}
+export function cliCommand(manager: DocsPackageManager, action: string) {
+  return `${runners[manager]} ${action}`
+}
+export function taskCommand(manager: DocsPackageManager, task: string) {
+  return `${manager} ${manager === 'deno' ? 'task' : 'run'} ${task}`
+}
+export function quickCreateCommand(manager: DocsPackageManager) {
+  return `${cliCommand(manager, 'create my-app --components line-chart,pie-chart')}\ncd my-app\n${taskCommand(manager, 'dev')}`
+}
+
 export const installationSnippets = {
-  quickCreate:
-    'bunx @ergonui/cli create my-app --components line-chart,pie-chart\ncd my-app\nbun run dev',
   chartApp: `import { LineChart } from '@/components/ui/line-chart'
 
 export default function App() {
@@ -12,26 +35,6 @@ export default function App() {
       series={[{ key: 'revenue', label: 'Revenue' }]} />
   </main>
 }`,
-  createProject:
-    'bun create vite my-app --template react-ts\ncd my-app\nbun install\nbun add -d tailwindcss @tailwindcss/vite @types/node',
-  vite: `import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
-import { fileURLToPath, URL } from 'node:url'
-
-export default defineConfig({
-  plugins: [react(), tailwindcss()],
-  resolve: {
-    alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
-  },
-})`,
-  typescriptAlias: `{
-  "compilerOptions": {
-    "paths": { "@/*": ["./src/*"] }
-  }
-}`,
-  stylesheet: '@import "tailwindcss";',
-  initialize: 'bunx --bun shadcn@latest init --base radix --template vite --defaults --yes',
   buttonApp: `import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 
@@ -76,10 +79,10 @@ export function usageInstallIds(id: string, example = '') {
   return [...ids]
 }
 
-export function installCommand(origin: string, ids: string[], options = '') {
-  return `bunx --bun shadcn@latest add${options ? ` ${options}` : ''} ${ids.map((id) => `${origin}/r/${id}.json`).join(' ')}`
-}
-
-export function ergonInstallCommand(ids: string[], options = '') {
-  return `bunx @ergonui/cli add${options ? ` ${options}` : ''} ${ids.join(' ')}`
+export function ergonInstallCommand(
+  ids: string[],
+  options = '',
+  manager: DocsPackageManager = 'npm',
+) {
+  return cliCommand(manager, `add${options ? ` ${options}` : ''} ${ids.join(' ')}`)
 }

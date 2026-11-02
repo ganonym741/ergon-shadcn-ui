@@ -1,17 +1,7 @@
 import * as React from 'react'
-import {
-  ArrowRight,
-  Check,
-  Code2,
-  Download,
-  Layers,
-  Palette,
-  SlidersHorizontal,
-} from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { useTheme } from '@/components/ui/theme-provider'
 import { themeAccent } from '@/lib/contrast'
-import { components, categories } from '@/catalog'
-import { coverage } from '@/coverage'
 import { CodeBlock } from './ui'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'

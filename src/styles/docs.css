@@ -1207,7 +1207,7 @@
   .docs-header {
     height: 62px;
     padding-inline: 18px;
-    gap: 14px;
+    gap: 10px;
   }
   .brand {
     font-size: 21px;
@@ -1220,7 +1220,7 @@
     display: none;
   }
   .header-tools {
-    gap: 12px;
+    gap: 8px;
   }
   .global-search {
     width: auto;

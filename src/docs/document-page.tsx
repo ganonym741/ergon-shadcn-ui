@@ -5,10 +5,18 @@ import { coverage } from '@/coverage'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { CodeBlock } from './ui'
-import { installationSnippets as setup, installCommand, ergonInstallCommand } from './installation'
+import {
+  installationSnippets as setup,
+  ergonInstallCommand,
+  cliCommand,
+  quickCreateCommand,
+  taskCommand,
+  type DocsPackageManager,
+} from './installation'
+import { PackageManagerSelect } from './package-manager-select'
 export function DocumentPage({ page }: { page: string }) {
   const [query, setQuery] = React.useState('')
-  const origin = window.location.origin
+  const [manager, setManager] = React.useState<DocsPackageManager>('npm')
   const titles: Record<string, [string, string]> = {
     introduction: [
       'Designed for real work.',
@@ -44,157 +52,92 @@ export function DocumentPage({ page }: { page: string }) {
         <p>{description}</p>
       </div>
       <div className="plain-doc">
+        {(page === 'installation' || page === 'theming') && (
+          <PackageManagerSelect value={manager} onChange={setManager} />
+        )}
         {page === 'installation' ? (
           <>
-            <h2>Quick start with the ErgonUI CLI</h2>
+            <h2>Create an application</h2>
             <p>
-              Create a configured Bun + Vite + React application in one command. You do not need to
-              clone ErgonUI: bunx downloads the CLI from npm, and the CLI installs selected
-              component source and dependencies from the public registry.
+              Components use React 19 and Tailwind CSS 4. The CLI provides a Vite starter with
+              aliases, theme tokens, and selected source. Other React frameworks need manual setup
+              and client-only rendering for browser-dependent components.
             </p>
-            <p>
-              Publication status: the CLI is implemented and locally tested; the first npm
-              publication is pending. These commands become publicly available after release. Until
-              then, use the manual installation below or test the packed CLI locally.
-            </p>
-            <CodeBlock title="Terminal · after the first npm release" code={setup.quickCreate} />
-            <p>
-              The starter includes TypeScript/Vite aliases, Tailwind, theme tokens, animation
-              utilities and components.json. It installs Line Chart and Pie Chart as editable
-              source. Replace src/App.tsx to render a selected component:
-            </p>
+            <p>These package-manager commands require CLI 0.2 or later.</p>
+            <CodeBlock title="Terminal" code={quickCreateCommand(manager)} />
+            <h2>Use a component</h2>
+            <p>Import the installed source. For example, replace src/App.tsx with:</p>
             <CodeBlock title="src/App.tsx" code={setup.chartApp} />
-            <CodeBlock title="Verify" code="bun run build" />
-            <h2>Existing applications and additional components</h2>
+            <CodeBlock title="Verify" code={taskCommand(manager, 'build')} />
+            <h2>Existing applications</h2>
             <CodeBlock
               title="Terminal"
-              code={'bunx @ergonui/cli init\nbunx @ergonui/cli add button table-plus'}
+              code={[
+                cliCommand(manager, 'init'),
+                ergonInstallCommand(['button', 'table-plus'], '', manager),
+              ].join('\n')}
             />
             <p>
-              Run init once inside a Vite + React 19 TypeScript application. It merges configuration
-              and preserves existing CSS tokens. Additional installs reuse the registry saved in
-              components.json. Differing component files are preserved unless you explicitly pass
-              --overwrite; inspect the plan first with --dry-run. New applications get a clean
-              stylesheet; existing applications retain their styles, including any Vite starter
-              rules you may want to remove.
+              Run init once inside a Vite + React 19 TypeScript project. It preserves existing
+              styles and fills missing configuration. Component pages include installation commands
+              and usage examples; supply the referenced state, data, and callbacks.
             </p>
-            <h2>Local or custom registries</h2>
-            <p>
-              Normal commands use the public ErgonUI registry. To test unpublished work, supply the
-              running documentation origin explicitly:
-            </p>
+            <h2>Update and customize</h2>
             <CodeBlock
-              title="Local development only"
-              code={`bunx @ergonui/cli create my-app --components line-chart,pie-chart --registry ${origin}`}
+              title="Terminal"
+              code={[
+                ergonInstallCommand(['button'], '--dry-run', manager),
+                ergonInstallCommand(['button'], '--overwrite', manager),
+              ].join('\n')}
             />
+            <p>
+              Review the plan before replacing customized files with --overwrite. Keep the generated
+              Tailwind bindings, animation imports, and source license notices.
+            </p>
             <details>
-              <summary>Manual installation with the shadcn CLI</summary>
+              <summary>Application provider (optional)</summary>
               <p>
-                Start with Bun, Node.js supported by Vite, React 19, and Tailwind CSS 4. You do not
-                need to clone ErgonUI. Bunx downloads the published shadcn CLI from npm; the CLI
-                downloads editable component files from this documentation site into your project.
-                There is currently no published first-party ErgonUI CLI.
+                AppProvider adds shared theme, density, locale, direction, tooltips, and
+                message/confirmation services. Button works without it.
               </p>
-              <h2>1. Create a React application</h2>
-              <p>
-                For an existing Vite + React project, keep your files and add any missing setup
-                below.
-              </p>
-              <CodeBlock title="Terminal" code={setup.createProject} />
-              <h2>2. Configure Vite and TypeScript</h2>
-              <p>
-                For a fresh project, replace vite.config.ts with this configuration. In an existing
-                application, merge the plugin and alias into your current configuration.
-              </p>
-              <CodeBlock title="vite.config.ts" code={setup.vite} />
-              <p>
-                Merge this compilerOptions.paths entry into both tsconfig.json and
-                tsconfig.app.json. Preserve their other options, include entries, and project
-                references. The root alias lets the installer detect your setup; the app alias lets
-                TypeScript resolve component imports. No baseUrl is needed.
-              </p>
-              <CodeBlock
-                title="tsconfig.json and tsconfig.app.json (merge)"
-                code={setup.typescriptAlias}
-              />
-              <h2>3. Prepare the stylesheet</h2>
-              <p>
-                In a fresh project, replace src/index.css with the following. Keep its import in
-                src/main.tsx. The App example below replaces src/App.tsx and removes the starter
-                App.css import. Starter body, button, and #root rules can override component
-                styling. In an existing project, preserve your styles and merge the Tailwind import.
-              </p>
-              <CodeBlock title="src/index.css (before initialization)" code={setup.stylesheet} />
-              <h2>4. Initialize the component configuration</h2>
-              <CodeBlock title="Terminal" code={setup.initialize} />
-              <p>
-                Run this once in your application directory. It creates components.json, utilities,
-                and semantic Tailwind bindings. Choose the Radix base used by ErgonUI.
-                Initialization may install a starter Button and CSS packages, including
-                shadcn/tailwind.css and tw-animate-css. Keep the generated stylesheet imports and
-                @theme bindings; do not replace the stylesheet with the one-line example afterward.
-                If components.json already exists, skip initialization and check that its aliases
-                and CSS path match your project.
-              </p>
-              <h2>5. Install the theme and Button</h2>
               <CodeBlock
                 title="Terminal"
-                code={installCommand(origin, ['theme', 'button'], '--yes --overwrite')}
+                code={ergonInstallCommand(['app', 'button'], '', manager)}
               />
+              <CodeBlock title="src/App.tsx" code={setup.providerApp} />
               <p>
-                This fresh-project command replaces the initializer's Button with ErgonUI's version
-                and applies our light/dark tokens. For an existing application, preview changes with
-                --dry-run --diff and omit --overwrite to review file conflicts. Keep your existing
-                theme by omitting theme.json. Each registry item includes local source dependencies,
-                tested npm dependency versions, and retained license notices.
-              </p>
-              <h2>6. Use your component and verify</h2>
-              <CodeBlock title="src/App.tsx" code={setup.buttonApp} />
-              <CodeBlock title="Terminal" code={'bun run build\nbun run dev'} />
-              <p>Open Vite's printed URL and click the Button to update its counter.</p>
-              <h2>7. Add more components</h2>
-              <CodeBlock title="Terminal" code={installCommand(origin, ['table-plus'])} />
-              <p>
-                Component pages provide installation commands and usage examples. Snippets marked as
-                compositions need your own surrounding component, state, data, and callbacks. The
-                installation command includes additional catalog components imported by the example.
-                Install only the entries you use; their own source dependencies are included.
-              </p>
-              <h2>Optional: application providers</h2>
-              <p>
-                Button works without an application provider. Install AppProvider when you want
-                system-aware light/dark appearance, shared density, locale and direction, tooltip
-                defaults, and scoped message/confirmation services. It mounts the toast hosts for
-                these services. Add separate hosts only when you intentionally need another scope.
-              </p>
-              <CodeBlock title="Terminal" code={installCommand(origin, ['app'])} />
-              <CodeBlock title="src/App.tsx (optional replacement)" code={setup.providerApp} />
-              <h2>Registry URLs and manual installation</h2>
-              <p>
-                Commands use this documentation's origin ({origin}). On the public site they fetch
-                from Netlify; local documentation uses its local registry. A 404 means the requested
-                entry is unavailable at that deployment. For manual installation, copy every file in
-                the component's Source tab, preserve its license files, install its listed npm
-                dependencies, and keep the same aliases and theme setup.
-              </p>
-              <p>
-                For animations, keep one @import &quot;tw-animate-css&quot; in src/index.css and
-                ensure the package is installed. Outside this playground, motion can respect the
-                user's reduced-motion preference.
+                Use useApp() inside this provider for scoped services. It includes toast hosts; add
+                separate hosts only for separate scopes.
               </p>
             </details>
+            <h2>More guides</h2>
+            <ul>
+              <li>
+                <a href="#/docs/theming">Theme tokens and scoped appearance</a>
+              </li>
+              <li>
+                <a href="https://github.com/ganonym741/ergon-shadcn-ui/blob/HEAD/docs/MANUAL-INSTALLATION.md">
+                  Manual installation
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/ganonym741/ergon-shadcn-ui/blob/HEAD/packages/cli/README.md">
+                  CLI options and custom registries
+                </a>
+              </li>
+            </ul>
           </>
         ) : page === 'theming' ? (
           <>
             <h2>Application tokens</h2>
             <p>
               ErgonUI uses semantic CSS variables for color, surfaces, focus, spacing, and radius.
-              Complete the <a href="#/docs/installation">installation guide</a> first so Tailwind
-              has its semantic @theme bindings. Apply our theme to your configured stylesheet:
+              Complete the <a href="#/docs/installation">installation guide</a> first. To replace
+              your current tokens with ErgonUI defaults:
             </p>
             <CodeBlock
-              title="Terminal · after CLI publication"
-              code={ergonInstallCommand(['theme'])}
+              title="Terminal"
+              code={ergonInstallCommand(['theme'], '--overwrite', manager)}
             />
             <p>
               Keep the generated imports, @custom-variant dark, and @theme inline block. Customize
@@ -207,7 +150,10 @@ export function DocumentPage({ page }: { page: string }) {
               }
             />
             <h2>Scoped configuration</h2>
-            <CodeBlock title="Terminal" code={ergonInstallCommand(['config-provider', 'button'])} />
+            <CodeBlock
+              title="Terminal"
+              code={ergonInstallCommand(['config-provider', 'button'], '', manager)}
+            />
             <CodeBlock title="src/App.tsx" code={setup.configApp} />
             <p>
               ConfigProvider scopes appearance, density, direction and locale. It does not switch
@@ -215,11 +161,6 @@ export function DocumentPage({ page }: { page: string }) {
               provider, or use ThemeProvider and useTheme from the theme-provider helper installed
               with AppProvider. setTheme accepts light, dark, or system. Providers do not translate
               your application's own labels.
-            </p>
-            <p>
-              Each component playground includes its own controls, state examples, events, and
-              configuration export. Class names, native props, render callbacks, and typed schemas
-              let you go further.
             </p>
             <Button asChild variant="outline">
               <a href="#/playground">
@@ -326,7 +267,6 @@ export function DocumentPage({ page }: { page: string }) {
           <>
             <h2>0.2.0</h2>
             <ul>
-              <li>ErgonUI identity and shadcn/ui source attribution.</li>
               <li>All + components integrated into their functional collections.</li>
               <li>
                 Dedicated component playgrounds with controls, presets, events, and configuration
