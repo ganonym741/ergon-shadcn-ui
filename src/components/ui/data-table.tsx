@@ -328,7 +328,9 @@ export function DataTable<T>({
             sizing: table.getState().columnSizing,
           }),
         )
-      } catch {}
+      } catch {
+        // Keep the current table state when browser storage is unavailable.
+      }
   }, [
     storageKey,
     table.getState().columnVisibility,
