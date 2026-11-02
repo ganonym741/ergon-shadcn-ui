@@ -16,18 +16,17 @@ Use the same runner with `init` for an existing Vite project, or `add button tab
 
 ## Options
 
-| Option                     | Purpose                                                                                      |
-| -------------------------- | -------------------------------------------------------------------------------------------- |
-| `--package-manager <name>` | Override package-manager detection                                                           |
-| `--components <names>`     | Select comma-separated component names                                                       |
-| `--cwd <path>`             | Set the application or parent directory                                                      |
-| `--dry-run`                | Preview without writing or installing                                                        |
-| `--overwrite`              | Replace differing component files; explicitly select `theme` to replace tokens               |
-| `--keep-theme`             | Preserve theme values during initialization                                                  |
-| `--registry <origin>`      | Use a custom registry instead of `https://ergonui.netlify.app`                               |
-| `--no-install`             | Record dependencies without installing; run your package manager's install command afterward |
+| Option                 | Purpose                                                                                      |
+| ---------------------- | -------------------------------------------------------------------------------------------- |
+| `--components <names>` | Select comma-separated component names                                                       |
+| `--cwd <path>`         | Set the application or parent directory                                                      |
+| `--dry-run`            | Preview without writing or installing                                                        |
+| `--overwrite`          | Replace differing component files; explicitly select `theme` to replace tokens               |
+| `--keep-theme`         | Preserve theme values during initialization                                                  |
+| `--registry <origin>`  | Use a custom registry instead of `https://ergonui.netlify.app`                               |
+| `--no-install`         | Record dependencies without installing; run your package manager's install command afterward |
 
-Use `--help` for command help. Package-manager support requires CLI 0.2+. The existing project manager takes priority over the runner; ambiguous lockfiles require an explicit override. Yarn scaffolds use node-modules linking; existing PnP settings are preserved and require manual setup. Deno scaffolds configure local npm modules. `add` preserves differing files unless `--overwrite` is supplied. `create` and `init` save the registry in `components.json`; an override on `add` applies to that invocation only.
+Use `--help` for command help. Package-manager support requires CLI 0.2+. The CLI detects the package manager automatically. Yarn scaffolds use node-modules linking; existing PnP settings are preserved and require manual setup. Deno scaffolds configure local npm modules. `add` preserves differing files unless `--overwrite` is supplied. `create` and `init` save the registry in `components.json`; a registry override on `add` applies to that invocation only.
 
 Components and their helpers are copied into your application with pinned npm dependencies and retained licenses. Applications run the installed source independently of the registry.
 

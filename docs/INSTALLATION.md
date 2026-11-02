@@ -34,7 +34,7 @@ Run the command matching your manager inside a Vite + React 19 TypeScript applic
 | pnpm            | `pnpm dlx @ergonui/cli init` |
 | Yarn            | `yarn dlx @ergonui/cli init` |
 
-Use the same runner with `add button table-plus` to install more components. The CLI detects the project's package manager from its declared manager or lockfile, then from the runner. `--package-manager` is only needed to override detection or resolve ambiguous lockfiles. Existing CSS is preserved. For other framework setups, see [manual installation](MANUAL-INSTALLATION.md).
+Use the same runner with `add button table-plus` to install more components. The CLI detects the project's package manager automatically from its declared manager or lockfile, then from the runner. Existing CSS is preserved. For other framework setups, see [manual installation](MANUAL-INSTALLATION.md).
 
 ## Use a component
 
