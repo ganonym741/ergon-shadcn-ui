@@ -1,0 +1,8 @@
+[build]
+  command = "bun run build"
+  publish = "dist"
+
+[build.environment]
+  BUN_VERSION = "1.4.4"
+  NODE_VERSION = "24"
+  REGISTRY_URL = "https://ergonui.netlify.app"
