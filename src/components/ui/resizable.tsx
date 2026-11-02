@@ -27,7 +27,9 @@ function ResizablePanelGroup({
         if (storageKey)
           try {
             localStorage.setItem(storageKey, JSON.stringify(layout))
-          } catch {}
+          } catch {
+            // Resizing still works when browser storage is unavailable.
+          }
         onLayoutChanged?.(layout, meta)
       }}
       {...props}
