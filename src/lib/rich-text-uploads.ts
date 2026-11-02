@@ -69,6 +69,7 @@ export function changeImageUploadAnchors(editor: Editor, change: AnchorChange) {
 }
 export function richTextURL(value: string, kind: 'image' | 'link'): string | undefined {
   const text = value.trim()
+  // eslint-disable-next-line no-control-regex -- Reject control characters in untrusted URLs.
   if (!text || /[\u0000-\u001f\u007f]/.test(text)) return
   try {
     const url = new URL(text, 'https://ergon.invalid')
