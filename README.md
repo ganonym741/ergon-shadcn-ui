@@ -10,15 +10,37 @@ Components require React 19 and Tailwind CSS 4. The CLI provides automatic Vite 
 
 These commands require CLI **0.2 or later**.
 
-| Package manager | Command                                                                 |
-| --------------- | ----------------------------------------------------------------------- |
-| npm             | `npx @ergonui/cli create my-app --components line-chart,pie-chart`      |
-| Bun             | `bunx @ergonui/cli create my-app --components line-chart,pie-chart`     |
-| Deno            | `dx @ergonui/cli create my-app --components line-chart,pie-chart`       |
-| pnpm            | `pnpm dlx @ergonui/cli create my-app --components line-chart,pie-chart` |
-| Yarn            | `yarn dlx @ergonui/cli create my-app --components line-chart,pie-chart` |
+| Package manager | Runner                  | Development command |
+| --------------- | ----------------------- | ------------------- |
+| npm             | `npx @ergonui/cli`      | `npm run dev`       |
+| Bun             | `bunx @ergonui/cli`     | `bun run dev`       |
+| Deno            | `dx @ergonui/cli`       | `deno task dev`     |
+| pnpm            | `pnpm dlx @ergonui/cli` | `pnpm run dev`      |
+| Yarn            | `yarn dlx @ergonui/cli` | `yarn run dev`      |
 
-Run `cd my-app`, then `npm run dev`, `bun run dev`, `deno task dev`, `pnpm run dev`, or `yarn run dev`. Set up Deno's `dx` alias once with `deno x --install-alias`. Use the same runner for `init` and `add` in an existing project; see the [installation guide](docs/INSTALLATION.md).
+Examples below use npm; substitute your runner and development command from the table. For Deno 2.6+, set up `dx` once with `deno x --install-alias`. Yarn's `dlx` requires Yarn 2+.
+
+**New application:** create a project and install the selected components.
+
+```sh
+npx @ergonui/cli create my-app --components line-chart,pie-chart
+cd my-app
+npm run dev
+```
+
+**Existing application:** run inside your Vite + React 19 TypeScript project to initialize and install components in one step.
+
+```sh
+npx @ergonui/cli init --components line-chart,pie-chart
+```
+
+**Add more components:** after initialization, run only `add`.
+
+```sh
+npx @ergonui/cli add button table-plus
+```
+
+`init` configures aliases, Tailwind, and theme styles while preserving existing CSS. Import installed components from your local source, for example `import { LineChart } from '@/components/ui/line-chart'`.
 
 Components are copied into your application for you to customize. Enhanced compositions use the **+** suffix, such as Table+ and Form+.
 

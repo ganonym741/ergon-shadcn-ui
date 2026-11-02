@@ -2,19 +2,45 @@
 
 Install editable React components with npm, Bun, Deno, pnpm, or Yarn. Automatic scaffolding uses Vite; the components use React 19 and Tailwind CSS 4.
 
-| Package manager | Command                                                                 |
-| --------------- | ----------------------------------------------------------------------- |
-| npm             | `npx @ergonui/cli create my-app --components line-chart,pie-chart`      |
-| Bun             | `bunx @ergonui/cli create my-app --components line-chart,pie-chart`     |
-| Deno            | `dx @ergonui/cli create my-app --components line-chart,pie-chart`       |
-| pnpm            | `pnpm dlx @ergonui/cli create my-app --components line-chart,pie-chart` |
-| Yarn            | `yarn dlx @ergonui/cli create my-app --components line-chart,pie-chart` |
+## Installation
 
-Use the same runner with `init` for an existing Vite project, or `add button table-plus` to install components. npm/pnpm/Yarn use Node.js; Deno uses `dx` after `deno x --install-alias` (or `deno x` directly).
+These commands require CLI **0.2 or later**.
 
-`create` configures aliases, Tailwind 4, theme tokens, and selected source. `init` merges configuration and preserves existing CSS. Existing projects use a TypeScript Vite config and the standard `main.tsx` entry; `init` fills missing `@/*` aliases. See [installation](https://ergonui.netlify.app/#/docs/installation) for examples.
+| Package manager | Runner                  | Development command |
+| --------------- | ----------------------- | ------------------- |
+| npm             | `npx @ergonui/cli`      | `npm run dev`       |
+| Bun             | `bunx @ergonui/cli`     | `bun run dev`       |
+| Deno            | `dx @ergonui/cli`       | `deno task dev`     |
+| pnpm            | `pnpm dlx @ergonui/cli` | `pnpm run dev`      |
+| Yarn            | `yarn dlx @ergonui/cli` | `yarn run dev`      |
+
+Examples below use npm; substitute your runner and development command from the table. npm/pnpm/Yarn use Node.js. For Deno 2.6+, set up `dx` once with `deno x --install-alias`; Yarn's `dlx` requires Yarn 2+.
+
+**New application:** create a project and install the selected components.
+
+```sh
+npx @ergonui/cli create my-app --components line-chart,pie-chart
+cd my-app
+npm run dev
+```
+
+**Existing application:** run inside your Vite + React 19 TypeScript project to initialize and install components in one step.
+
+```sh
+npx @ergonui/cli init --components line-chart,pie-chart
+```
+
+**Add more components:** after initialization, run only `add`.
+
+```sh
+npx @ergonui/cli add button table-plus
+```
+
+`init` configures aliases, Tailwind, and theme styles while preserving existing CSS. Import installed components from your local source, for example `import { LineChart } from '@/components/ui/line-chart'`. See the [installation guide](https://ergonui.netlify.app/#/docs/installation) for complete usage examples and manual framework setup.
 
 ## Options
+
+Append options to `create`, `init`, or `add`.
 
 | Option                 | Purpose                                                                                      |
 | ---------------------- | -------------------------------------------------------------------------------------------- |
