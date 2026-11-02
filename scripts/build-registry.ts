@@ -1,4 +1,5 @@
-import { readdir, readFile, writeFile, mkdir, unlink } from 'node:fs/promises'
+import { readdir, readFile, mkdir, unlink } from 'node:fs/promises'
+import { writeGeneratedFile as writeFile } from './write-generated-file'
 import { resolve, relative, basename } from 'node:path'
 import ts from 'typescript'
 import { components } from '../src/catalog'
