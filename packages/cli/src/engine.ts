@@ -1,7 +1,6 @@
 import { readdir, realpath } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import { basename, resolve } from 'node:path'
-import { spawnSync } from 'node:child_process'
 import { apply, destination, json, read, setJSON, type Change } from './files'
 import {
   configure,
@@ -11,8 +10,15 @@ import {
   tooling,
   type Setup,
 } from './config'
+import {
+  selectPackageManager,
+  managerConfiguration,
+  installDependencies,
+  taskCommand,
+} from './package-manager'
 
 export interface Options {
+  packageManager?: string
   cwd?: string
   registry?: string
   components?: string[]
@@ -139,16 +145,6 @@ export async function planEntries(root: string, setup: Setup, names: string[], o
   return { changes: [...changes.values()], dependencies: [...dependencies] }
 }
 
-function command(root: string, args: string[]) {
-  console.log(`bun ${args.join(' ')}`)
-  const result = spawnSync(process.execPath, args, { cwd: root, stdio: 'inherit', shell: false })
-  if (result.error) throw result.error
-  if (result.status !== 0)
-    throw new Error(
-      `bun ${args[0]} failed. Files are in place; resolve the dependency error and run bun install.`,
-    )
-}
-
 function declareDependencies(content: string, runtime: string[], dev: string[] = []) {
   for (const [section, dependencies] of [
     ['dependencies', runtime],
@@ -167,6 +163,8 @@ function declareDependencies(content: string, runtime: string[], dev: string[] =
 }
 
 async function add(root: string, options: Options, initialize: boolean) {
+  const manager = await selectPackageManager(root, options.packageManager)
+  const managerChanges = await managerConfiguration(root, manager)
   const setup = await configure(root, options.registry, initialize)
   const names = componentNames(options.components ?? [])
   const includeTheme = names.includes('theme') || initialize
@@ -189,6 +187,7 @@ async function add(root: string, options: Options, initialize: boolean) {
     [
       ...setup.changes,
       ...entries.changes,
+      ...managerChanges,
       { path: 'package.json', content: manifest, replace: true },
     ],
     !!options.overwrite,
@@ -196,10 +195,10 @@ async function add(root: string, options: Options, initialize: boolean) {
   )
   if (options.dryRun)
     console.log(`Dependencies: ${[...deps, ...(initialize ? tooling : [])].join(', ') || 'none'}`)
-  else if (options.install !== false) command(root, ['install'])
+  else if (options.install !== false) installDependencies(root, manager)
   else
     console.log(
-      'Dependencies recorded in package.json. Run bun install before using the components.',
+      `Dependencies recorded in package.json. Run ${manager} install before using the components.`,
     )
   return { root, names }
 }
@@ -210,6 +209,8 @@ export async function run(commandName: string, positionals: string[], options: O
       throw new Error('Usage: ergonui create <directory> [--components line-chart,pie-chart]')
     const parent = options.cwd ?? process.cwd()
     const root = resolve(parent, positionals[0])
+    const manager = await selectPackageManager(parent, options.packageManager)
+    const managerChanges = await managerConfiguration(root, manager)
     if ((await read(resolve(root, 'package.json'))) !== undefined)
       throw new Error('Target already contains an application. Use init inside it.')
     try {
@@ -262,19 +263,20 @@ export async function run(commandName: string, positionals: string[], options: O
     changes.push({ path: 'components.json', content: JSON.stringify(configured, null, 2) + '\n' })
     const all = new Map(changes.map((change) => [change.path, change]))
     for (const change of entries.changes) all.set(change.path, change)
+    for (const change of managerChanges) all.set(change.path, change)
     all.get('package.json')!.content = declareDependencies(
       all.get('package.json')!.content,
       entries.dependencies,
     )
     await apply(root, [...all.values()], false, !!options.dryRun)
     if (!options.dryRun && options.install !== false) {
-      command(root, ['install'])
+      installDependencies(root, manager)
     } else if (!options.dryRun)
       console.log(
-        'Dependencies recorded in package.json. Run bun install before starting the application.',
+        `Dependencies recorded in package.json. Run ${manager} install before starting the application.`,
       )
     console.log(
-      `${options.dryRun ? 'Dry run: no files written.' : 'Created application.'}\n${root}\nNext: cd ${JSON.stringify(positionals[0])} and bun run dev`,
+      `${options.dryRun ? 'Dry run: no files written.' : 'Created application.'}\n${root}\nNext: cd ${JSON.stringify(positionals[0])} and ${taskCommand(manager, 'dev')}`,
     )
     return { root, names }
   }

@@ -1,7 +1,11 @@
-import ts from 'typescript'
-import postcss from 'postcss'
+import type ts from 'typescript'
+import { createRequire } from 'node:module'
 import { dirname, posix, resolve } from 'node:path'
 import { json, read, setJSON, destination, type Change } from './files'
+
+// Keep CommonJS dependencies on the package runner's require hook, including Yarn PnP.
+const compiler: typeof import('typescript') = createRequire(import.meta.url)('typescript')
+const postcss: typeof import('postcss') = createRequire(import.meta.url)('postcss')
 
 export const DEFAULT_REGISTRY = 'https://ergonui.netlify.app'
 export const tooling = ['tailwindcss@4.3.3', '@tailwindcss/vite@4.3.3', '@types/node@26.6.6']
@@ -30,8 +34,13 @@ export function registryOrigin(value: string) {
 }
 
 export function viteConfiguration(content: string, source: string) {
-  const file = ts.createSourceFile('vite.config.ts', content, ts.ScriptTarget.Latest, true)
-  const exports = file.statements.filter(ts.isExportAssignment)
+  const file = compiler.createSourceFile(
+    'vite.config.ts',
+    content,
+    compiler.ScriptTarget.Latest,
+    true,
+  )
+  const exports = file.statements.filter(compiler.isExportAssignment)
   if (exports.length !== 1 || exports[0].isExportEquals)
     throw new Error(
       'Vite configuration must have one default export. Configure Tailwind and the @ alias manually before retrying.',
@@ -42,8 +51,8 @@ export function viteConfiguration(content: string, source: string) {
   const tailwindImports = new Set<string>()
   for (const node of file.statements) {
     if (
-      ts.isImportDeclaration(node) &&
-      ts.isStringLiteral(node.moduleSpecifier) &&
+      compiler.isImportDeclaration(node) &&
+      compiler.isStringLiteral(node.moduleSpecifier) &&
       node.moduleSpecifier.text === '@tailwindcss/vite' &&
       node.importClause?.name
     )
@@ -51,18 +60,18 @@ export function viteConfiguration(content: string, source: string) {
   }
   function visit(node: ts.Node) {
     if (
-      ts.isPropertyAssignment(node) &&
-      (ts.isStringLiteral(node.name) || ts.isIdentifier(node.name)) &&
+      compiler.isPropertyAssignment(node) &&
+      (compiler.isStringLiteral(node.name) || compiler.isIdentifier(node.name)) &&
       node.name.text === '@'
     )
       hasAlias = true
     if (
-      ts.isCallExpression(node) &&
-      ts.isIdentifier(node.expression) &&
+      compiler.isCallExpression(node) &&
+      compiler.isIdentifier(node.expression) &&
       tailwindImports.has(node.expression.text)
     )
       hasTailwind = true
-    ts.forEachChild(node, visit)
+    compiler.forEachChild(node, visit)
   }
   visit(file)
   if (hasAlias && hasTailwind) return content
@@ -155,11 +164,11 @@ export async function configure(
       `Expected ${mainPath}. Version 1 supports the standard Vite React TypeScript entry; configure other entries manually.`,
     )
   if (!css && main) {
-    const file = ts.createSourceFile(mainPath, main, ts.ScriptTarget.Latest, true)
+    const file = compiler.createSourceFile(mainPath, main, compiler.ScriptTarget.Latest, true)
     const imported = file.statements.find(
       (node) =>
-        ts.isImportDeclaration(node) &&
-        ts.isStringLiteral(node.moduleSpecifier) &&
+        compiler.isImportDeclaration(node) &&
+        compiler.isStringLiteral(node.moduleSpecifier) &&
         node.moduleSpecifier.text.startsWith('.') &&
         node.moduleSpecifier.text.endsWith('.css'),
     ) as ts.ImportDeclaration | undefined

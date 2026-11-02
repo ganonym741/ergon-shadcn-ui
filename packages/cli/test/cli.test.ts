@@ -1,5 +1,5 @@
 import { afterAll, describe, expect, test } from 'bun:test'
-import { mkdir, mkdtemp, readFile, symlink, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, symlink, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { apply, json, read, setJSON } from '../src/files'
@@ -203,13 +203,21 @@ describe('CLI configuration and source installation', () => {
       expect(await read(resolve(dir, 'components.json'))).toBeUndefined()
     }
   })
+  test('the built executable reports the package version', async () => {
+    const executable = fileURLToPath(new URL('../dist/index.js', import.meta.url))
+    const child = Bun.spawn(['node', executable, '--version'], { stdout: 'pipe', stderr: 'pipe' })
+    const [status, stdout] = await Promise.all([child.exited, new Response(child.stdout).text()])
+    const manifest = await Bun.file(new URL('../package.json', import.meta.url)).json()
+    expect(status).toBe(0)
+    expect(stdout.trim()).toBe(manifest.version)
+  })
   test('the built executable creates a complete application with bundled template', async () => {
     const dir = await mkdtemp(resolve(root, 'create-'))
     const target = resolve(dir, 'fresh-app')
     const executable = fileURLToPath(new URL('../dist/index.js', import.meta.url))
     const child = Bun.spawn(
       [
-        process.execPath,
+        'node',
         executable,
         'create',
         target,

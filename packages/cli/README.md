@@ -1,53 +1,38 @@
 # @ergonui/cli
 
-Create Bun + Vite + React 19 + Tailwind 4 applications and install editable ErgonUI component source. No ErgonUI repository clone is needed by consumers.
+Install editable React components with npm, Bun, Deno, pnpm, or Yarn. Automatic scaffolding uses Vite; the components use React 19 and Tailwind CSS 4.
 
-This package is prepared for its first npm release. The `bunx @ergonui/cli` commands below become publicly available after publication. Until then, use the built executable or install its packed tarball locally.
+| Package manager | Command                                                                 |
+| --------------- | ----------------------------------------------------------------------- |
+| npm             | `npx @ergonui/cli create my-app --components line-chart,pie-chart`      |
+| Bun             | `bunx @ergonui/cli create my-app --components line-chart,pie-chart`     |
+| Deno            | `dx @ergonui/cli create my-app --components line-chart,pie-chart`       |
+| pnpm            | `pnpm dlx @ergonui/cli create my-app --components line-chart,pie-chart` |
+| Yarn            | `yarn dlx @ergonui/cli create my-app --components line-chart,pie-chart` |
 
-```sh
-bunx @ergonui/cli create my-app --components line-chart,pie-chart
-cd my-app
-bun run dev
-```
+Use the same runner with `init` for an existing Vite project, or `add button table-plus` to install components. npm/pnpm/Yarn use Node.js; Deno uses `dx` after `deno x --install-alias` (or `deno x` directly).
 
-Selected components are copied to `src/components/ui`; import them using the examples in the [handbook](https://ergonui.netlify.app/#/components). The starter configures aliases, Tailwind bindings, light/dark tokens, animation utilities, and `components.json`. Canvas and zoom helpers retain their dynamic import boundaries.
+`create` configures aliases, Tailwind 4, theme tokens, and selected source. `init` merges configuration and preserves existing CSS. Existing projects use a TypeScript Vite config and the standard `main.tsx` entry; `init` fills missing `@/*` aliases. See [installation](https://ergonui.netlify.app/#/docs/installation) for examples.
 
-For an existing Vite + React 19 TypeScript application:
+## Options
 
-```sh
-bunx @ergonui/cli init
-bunx @ergonui/cli add button table-plus
-bunx @ergonui/cli add line-chart --dry-run
-```
+| Option                     | Purpose                                                                                      |
+| -------------------------- | -------------------------------------------------------------------------------------------- |
+| `--package-manager <name>` | Override package-manager detection                                                           |
+| `--components <names>`     | Select comma-separated component names                                                       |
+| `--cwd <path>`             | Set the application or parent directory                                                      |
+| `--dry-run`                | Preview without writing or installing                                                        |
+| `--overwrite`              | Replace differing component files; explicitly select `theme` to replace tokens               |
+| `--keep-theme`             | Preserve theme values during initialization                                                  |
+| `--registry <origin>`      | Use a custom registry instead of `https://ergonui.netlify.app`                               |
+| `--no-install`             | Record dependencies without installing; run your package manager's install command afterward |
 
-Initialization merges TypeScript aliases and a Vite configuration adapter while preserving existing plugins/settings, JSONC comments, CSS rules and existing token values. Version 1 supports a `@/*` source alias, aliases rooted at `@/`, a `src/main.tsx` entry (or its configured source-directory equivalent), and a TypeScript Vite configuration with one default export. Unsupported configurations fail before writing; use the manual handbook for other stacks/configurations.
+Use `--help` for command help. Package-manager support requires CLI 0.2+. The existing project manager takes priority over the runner; ambiguous lockfiles require an explicit override. Yarn scaffolds use node-modules linking; existing PnP settings are preserved and require manual setup. Deno scaffolds configure local npm modules. `add` preserves differing files unless `--overwrite` is supplied. `create` and `init` save the registry in `components.json`; an override on `add` applies to that invocation only.
 
-`add` refuses differing existing files before writing any files. Review your changes, then explicitly use `--overwrite` to replace customized components. Select `theme` with `--overwrite` to replace theme token values. Initialization preserves existing tokens by default. `--keep-theme` also prevents explicitly selected theme values from being replaced. Licenses shipped by the registry are retained.
+Components and their helpers are copied into your application with pinned npm dependencies and retained licenses. Applications run the installed source independently of the registry.
 
-Options: `--cwd <path>`, `--components <comma-separated-names>`, `--registry <origin>`, `--overwrite`, `--keep-theme`, `--dry-run`, `--no-install`, `--help`, and `--version`. With `--no-install`, dependencies are recorded in package.json; run `bun install` before running your application.
+## Attribution
 
-The default registry is `https://ergonui.netlify.app`. For unpublished component work:
+ErgonUI builds on shadcn/ui component source and community work, including copied/adapted MIT-licensed components alongside original work. This CLI is original ErgonUI code. Retain the license notices included with installed components.
 
-```sh
-bunx @ergonui/cli create local-app --components line-chart,pie-chart --registry http://localhost:5174
-```
-
-`init` saves that registry in `components.json`. Future `add` calls reuse it; a one-off `--registry` on `add` does not change the saved configuration. A missing entry reports its URL/status and exits before writing source. The CLI supports ErgonUI's generated UI/theme registry items, bundled local source and exact npm versions; it is not a general-purpose installer for every third-party registry format.
-
-Dependency installation happens after files are written. If Bun installation fails, resolve the reported error and retry the same command to install the declared dependencies. Registry source is copied at installation time; applications run independently of the registry afterward.
-
-## Development and publication
-
-From this directory:
-
-```sh
-bun install --frozen-lockfile
-bun run check
-bun run test
-bun run build
-npm pack --dry-run
-```
-
-See [the publishing guide](../../docs/PUBLISHING.md) for npm scope ownership, first-release validation and publishing. The repository root remains private; publish from `packages/cli` only.
-
-ErgonUI is built on shadcn/ui component source and community work, including copied/adapted MIT-licensed components alongside original work. This CLI is original ErgonUI code. Registry payloads preserve the applicable source licenses; retain them in consuming applications. See the repository's `THIRD-PARTY-NOTICES.md` for provenance.
+Maintainers: see [development and publishing](https://github.com/ganonym741/ergon-shadcn-ui/blob/HEAD/docs/PUBLISHING.md).

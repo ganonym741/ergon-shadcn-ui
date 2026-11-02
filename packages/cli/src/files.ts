@@ -1,6 +1,10 @@
 import { lstat, mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, isAbsolute, relative, resolve, sep } from 'node:path'
-import { applyEdits, modify, parse, type ParseError } from 'jsonc-parser'
+import type { ParseError } from 'jsonc-parser'
+import { createRequire } from 'node:module'
+const { applyEdits, modify, parse }: typeof import('jsonc-parser') = createRequire(import.meta.url)(
+  'jsonc-parser',
+)
 
 export async function read(path: string) {
   try {
@@ -33,6 +37,7 @@ export async function destination(root: string, path: string) {
     !path ||
     path.includes('\\') ||
     path.includes(':') ||
+    // eslint-disable-next-line no-control-regex -- Reject ASCII control characters in untrusted paths.
     /[\x00-\x1f]/.test(path) ||
     isAbsolute(path) ||
     path.split('/').some((part) => !part || part === '.' || part === '..')

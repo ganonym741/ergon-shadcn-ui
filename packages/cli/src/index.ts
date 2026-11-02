@@ -1,8 +1,9 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 import { parseArgs } from 'node:util'
 import { run } from './engine'
+import packageInfo from '../package.json'
 
-const help = `ErgonUI CLI 0.1.0 — Bun + Vite + React 19 + Tailwind 4
+const help = `ErgonUI CLI ${packageInfo.version} — React 19 + Tailwind 4 · automatic Vite setup
 
 Usage:
   ergonui create my-app --components line-chart,pie-chart
@@ -11,6 +12,7 @@ Usage:
 
 Options:
   --components <names>  Comma-separated component names
+  --package-manager <name>  npm, bun, deno, pnpm or yarn (auto-detected)
   --cwd, -c <path>      Application/parent directory
   --registry <origin>  Override the hosted ErgonUI registry (e.g. local preview)
   --overwrite          Replace differing component files and explicitly selected theme values
@@ -29,6 +31,7 @@ try {
     allowPositionals: true,
     options: {
       components: { type: 'string' },
+      'package-manager': { type: 'string' },
       cwd: { type: 'string', short: 'c' },
       registry: { type: 'string' },
       overwrite: { type: 'boolean' },
@@ -39,13 +42,14 @@ try {
       version: { type: 'boolean', short: 'v' },
     },
   })
-  if (values.version) console.log('0.1.0')
+  if (values.version) console.log(packageInfo.version)
   else if (values.help || !positionals.length) console.log(help)
   else
     await run(positionals[0], positionals.slice(1), {
       cwd: values.cwd,
       registry: values.registry,
       components: values.components?.split(','),
+      packageManager: values['package-manager'],
       overwrite: values.overwrite,
       dryRun: values['dry-run'],
       install: !values['no-install'],
