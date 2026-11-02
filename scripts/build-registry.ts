@@ -14,7 +14,6 @@ for (const directory of [output, resolve(root, 'public/api')]) {
       await unlink(resolve(directory, file))
   }
 }
-const pkg = JSON.parse(await readFile(resolve(root, 'package.json'), 'utf8'))
 const cache = new Map<string, string>()
 async function read(path: string) {
   if (!cache.has(path)) cache.set(path, await readFile(path, 'utf8'))
@@ -161,7 +160,7 @@ for (const component of components) {
       },
     ],
   }
-  const sourceEntry = { ...entry, files: entry.files.map(({ content, ...f }) => f) }
+  const sourceEntry = { ...entry, files: entry.files.map(({ content: _content, ...f }) => f) }
   items.push(sourceEntry)
   await writeFile(
     resolve(output, `${component.id}.json`),

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { describe, it, expect, vi } from 'vitest'
-import { render, screen, within, waitFor, renderHook, act } from '@testing-library/react'
+import { render, screen, waitFor, renderHook, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { DataTable } from '@/components/ui/data-table'
 import { makeProjects, projectColumns } from '@/docs/demo-data'

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { describe, it, expect, vi } from 'vitest'
-import { render, screen, waitFor, within } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { addDecimal, compareDecimal } from '@/lib/decimal'
 import { toZonedInput, fromZonedInput } from '@/lib/date-adapter'

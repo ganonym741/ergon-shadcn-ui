@@ -13,7 +13,20 @@
     "cli:check": "bun run --cwd packages/cli check",
     "cli:test": "bun run --cwd packages/cli test",
     "test": "vitest run",
-    "check": "tsc -b"
+    "check": "tsc -b",
+    "prepare": "husky",
+    "lint:staged": "lint-staged",
+    "lint": "eslint . --max-warnings 0",
+    "format:check": "prettier --check . --ignore-unknown",
+    "commitlint": "commitlint",
+    "commit": "cz",
+    "hooks:check": "bun scripts/check-git-hooks.ts",
+    "verify": "bun run lint && bun run format:check && bun run check && bun run cli:check && bun run test && bun run cli:test && bun run build"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   },
   "dependencies": {
     "@fontsource-variable/geist": "5.3.0",
@@ -50,6 +63,9 @@
     "zod": "4.6.7"
   },
   "devDependencies": {
+    "@commitlint/cli": "21.2.4",
+    "@commitlint/config-conventional": "21.2.4",
+    "@eslint/js": "10.0.1",
     "@tailwindcss/vite": "4.3.3",
     "@testing-library/jest-dom": "7.0.1",
     "@testing-library/react": "16.3.3",
@@ -57,14 +73,25 @@
     "@types/node": "26.6.6",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
+    "@types/semver": "7.8.0",
     "@vitejs/plugin-react": "6.1.2",
     "axe-core": "4.14.0",
+    "commitizen": "4.3.2",
+    "cz-conventional-changelog": "3.3.0",
+    "eslint": "10.14.0",
+    "eslint-config-prettier": "10.1.8",
+    "globals": "17.14.0",
+    "husky": "9.1.7",
     "jsdom": "30.1.3",
+    "lint-staged": "17.6.0",
     "prettier": "3.9.10",
+    "semver": "7.8.5",
     "tailwindcss": "4.3.3",
     "tw-animate-css": "1.4.0",
     "typescript": "5.9.3",
+    "typescript-eslint": "8.72.1",
     "vite": "8.3.5",
-    "vitest": "5.0.5"
+    "vitest": "5.0.5",
+    "yaml": "2.9.1"
   }
 }
