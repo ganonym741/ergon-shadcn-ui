@@ -11,17 +11,15 @@ import {
   Folder,
   Plus,
   ArrowRight,
-  Check,
   Mail,
-  Trash2,
   Layers,
 } from 'lucide-react'
-import { toast } from 'sonner'
+
 import * as UI from '@/components/library'
 import { useDebouncedValue, useBreakpoints } from '@/components/ui/util'
 import { type Config, parseData } from './schema'
 import { AdvancedDataPreview } from './table-preview'
-import { treeData, frameworkOptions, makeProjects } from '@/docs/demo-data'
+import { treeData, frameworkOptions } from '@/docs/demo-data'
 const RichTextPreview = React.lazy(() => import('./rich-text-preview'))
 const ChartPreview = React.lazy(() => import('./chart-preview'))
 export interface PlaygroundEvent {
@@ -125,44 +123,11 @@ export function PlaygroundPreview({ id, config: v, onEvent }: PreviewProps) {
       {index + 1}
     </div>
   ))
-  const fields: UI.FormPlusField[] = [
-    {
-      name: 'name',
-      label: 'Project name',
-      required: v.required !== false,
-      placeholder: 'Your next idea',
-    },
-    {
-      name: 'email',
-      label: 'Contact email',
-      required: v.required !== false,
-      rules: {
-        pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Enter an email address' },
-      },
-    },
-    { name: 'framework', label: 'Framework', type: 'select', options: frameworkOptions },
-    { name: 'budget', label: 'Budget', type: 'money' },
-    { name: 'updates', label: 'Updates', type: 'switch' },
-  ]
   const save = async (values: Record<string, any>) => {
     emit('submit', values)
     await wait(350)
     if (b('failure')) throw new Error('The demonstration save was rejected.')
     emit('saved', values)
-  }
-  const formProps = {
-    fields,
-    columns: n('columns') as 1 | 2 | 3,
-    defaultValues: {
-      name: '',
-      email: '',
-      framework: 'react',
-      budget: 2500,
-      updates: true,
-      members: [],
-    },
-    onSubmit: save,
-    submitLabel: s('submitLabel') || 'Save changes',
   }
   switch (id) {
     case 'chart':

@@ -51,7 +51,6 @@ const choices = ['Alpha', 'Beta', 'Gamma', 'Delta']
 const optionData = choices.map((label, index) => ({ value: String(index), label }))
 const title = text('title', 'Title', 'A thoughtful workspace'),
   description = text('description', 'Description', 'Make room for your next idea.'),
-  content = text('content', 'Content', 'Build something useful with ErgonUI.'),
   disabled = bool('disabled', 'Disabled'),
   vertical = bool('vertical', 'Vertical'),
   loading = bool('loading', 'Loading'),

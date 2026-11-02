@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { Download, RefreshCw, ZoomIn, RotateCcw } from 'lucide-react'
 import {
-  Chart,
   ChartCanvas,
   ChartHeader,
   ChartTitle,

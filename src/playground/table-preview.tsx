@@ -132,7 +132,7 @@ export function AdvancedDataPreview({ id, config: v, onEvent }: PreviewProps) {
         size: 130,
         enableGlobalFilter: false,
       })
-    return Boolean(v.grouped)
+    return v.grouped
       ? [
           { id: 'identity', header: 'Project identity', columns: base.slice(0, 3) },
           { id: 'details', header: 'Details', columns: base.slice(3) },
