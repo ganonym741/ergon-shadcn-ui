@@ -951,7 +951,6 @@
       "dependencies": [
         "clsx@2.1.1",
         "lucide-react@1.65.0",
-        "radix-ui@1.8.1",
         "tailwind-merge@3.7.0"
       ],
       "files": [
@@ -974,10 +973,6 @@
         {
           "path": "src/lib/responsive.ts",
           "type": "registry:lib"
-        },
-        {
-          "path": "src/components/ui/label.tsx",
-          "type": "registry:ui"
         },
         {
           "path": "src/lib/color.ts",
