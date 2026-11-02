@@ -35,7 +35,7 @@ export function Segmented({
       aria-label={label}
       className={cn('inline-flex gap-1 rounded-lg bg-muted p-1', vertical && 'flex-col', className)}
     >
-      {options.map((option, i) => (
+      {options.map((option) => (
         <button
           key={option.value}
           type="button"
