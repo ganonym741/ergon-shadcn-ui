@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { calculateBoxplotStatistics } from '@/components/ui/boxplot-chart'
 
 import { calendarDateExtent } from '@/components/ui/calendar-heatmap-chart'
-
+import { validateSankeyData } from '@/components/ui/sankey-chart'
 describe('chart data processing', () => {
   it('calculates quartiles and Tukey outliers without mutating observations', () => {
     const data = [100, 4, 2, 1, 3]
@@ -20,5 +20,17 @@ describe('chart data processing', () => {
     expect(calendarDateExtent(['2026-01-01', '2026-03-31'])).toEqual(['2026-01-01', '2026-03-31'])
     expect(() => calendarDateExtent('2026-02-29')).toThrow()
     expect(() => calendarDateExtent(['2026-03-31', '2026-01-01'])).toThrow()
+  })
+  it('rejects cyclic, missing-endpoint, duplicate and negative Sankey data', () => {
+    const nodes = [{ id: 'a' }, { id: 'b' }, { id: 'isolated' }]
+    const link = { id: 'ab', source: 'a', target: 'b', value: 2 }
+    expect(validateSankeyData(nodes, [link])).toBeUndefined()
+    expect(
+      validateSankeyData(nodes, [link, { id: 'ba', source: 'b', target: 'a', value: 1 }]),
+    ).toMatch(/cycles/)
+    expect(validateSankeyData(nodes, [{ ...link, target: 'missing' }])).toMatch(/existing node/)
+    expect(validateSankeyData(nodes, [{ ...link, value: -1 }])).toMatch(/nonnegative/)
+    expect(validateSankeyData(nodes, [link, link])).toMatch(/unique/)
+    expect(validateSankeyData([{ id: 'a' }, { id: 'a' }], [])).toMatch(/unique/)
   })
 })

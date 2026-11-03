@@ -14,6 +14,7 @@ import { MapChart } from '@/components/ui/map-chart'
 import { BoxplotChart } from '@/components/ui/boxplot-chart'
 import { CalendarHeatmapChart } from '@/components/ui/calendar-heatmap-chart'
 import { ComboChart } from '@/components/ui/combo-chart'
+import { SankeyChart } from '@/components/ui/sankey-chart'
 
 import { BarChart } from '@/components/ui/bar-chart'
 import { AreaChart } from '@/components/ui/area-chart'
@@ -187,6 +188,23 @@ describe('dashboard chart compositions', () => {
       seriesIndex: 0,
       name: ['North'],
     })
+  })
+  it('keeps Sankey layout options stable on an unrelated rerender and rejects zero-flow layouts safely', () => {
+    const nodes = [
+        { id: 'a', label: 'Visitors' },
+        { id: 'b', label: 'Signed up' },
+      ],
+      links = [{ id: 'ab', source: 'a', target: 'b', value: 5 }]
+    const view = render(<SankeyChart label="Flow" nodes={nodes} links={links} />)
+    const instance = latest(),
+      calls = instance.setOption.mock.calls.length
+    view.rerender(<SankeyChart label="Flow" className="p-2" nodes={nodes} links={links} />)
+    expect(instance.setOption).toHaveBeenCalledTimes(calls)
+    expect(instance.getOption().series[0].label.formatter({ name: 'a' })).toBe('Visitors')
+    view.rerender(
+      <SankeyChart label="Zero flow" nodes={nodes} links={[{ ...links[0], value: 0 }]} />,
+    )
+    expect(screen.getByText('No data to display')).toBeInTheDocument()
   })
   it('restores map selection and viewport when the theme recreates the renderer', async () => {
     const geo = { type: 'FeatureCollection' as const, features: [] },
