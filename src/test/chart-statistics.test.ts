@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import { calculateBoxplotStatistics } from '@/components/ui/boxplot-chart'
 
+import { calendarDateExtent } from '@/components/ui/calendar-heatmap-chart'
+
 describe('chart data processing', () => {
   it('calculates quartiles and Tukey outliers without mutating observations', () => {
     const data = [100, 4, 2, 1, 3]
@@ -10,5 +12,13 @@ describe('chart data processing', () => {
     expect(() => calculateBoxplotStatistics([])).toThrow()
     expect(() => calculateBoxplotStatistics([1, NaN])).toThrow()
     expect(() => calculateBoxplotStatistics([1, 2], -1)).toThrow()
+  })
+  it('resolves calendar ranges and validates leap days without time-zone conversion', () => {
+    expect(calendarDateExtent('2024-02')).toEqual(['2024-02-01', '2024-02-29'])
+    expect(calendarDateExtent(2026)).toEqual(['2026-01-01', '2026-12-31'])
+    expect(calendarDateExtent('2026-03-04')).toEqual(['2026-03-04', '2026-03-04'])
+    expect(calendarDateExtent(['2026-01-01', '2026-03-31'])).toEqual(['2026-01-01', '2026-03-31'])
+    expect(() => calendarDateExtent('2026-02-29')).toThrow()
+    expect(() => calendarDateExtent(['2026-03-31', '2026-01-01'])).toThrow()
   })
 })

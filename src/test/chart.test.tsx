@@ -12,6 +12,7 @@ import {
 import * as echarts from 'echarts/core'
 import { MapChart } from '@/components/ui/map-chart'
 import { BoxplotChart } from '@/components/ui/boxplot-chart'
+import { CalendarHeatmapChart } from '@/components/ui/calendar-heatmap-chart'
 
 import { BarChart } from '@/components/ui/bar-chart'
 import { AreaChart } from '@/components/ui/area-chart'
@@ -112,6 +113,24 @@ describe('dashboard chart compositions', () => {
     expect(applied.series[0].data[0].value).toEqual([0, 2, 4, 6, 8])
     expect(applied.series[1].data[0].value).toEqual([20, 0])
     expect(applied.yAxis.data).toEqual(['API'])
+  })
+  it('filters calendar values to the requested month and retains zeros', () => {
+    render(
+      <CalendarHeatmapChart
+        label="Activity"
+        range="2024-02"
+        data={[
+          { id: 'leap', date: '2024-02-29', value: 0 },
+          { id: 'outside', date: '2024-03-01', value: 12 },
+        ]}
+      />,
+    )
+    const applied = latest().getOption()
+    expect(applied.calendar.range).toEqual(['2024-02-01', '2024-02-29'])
+    expect(applied.series[0].data).toEqual([
+      { id: 'leap', name: '2024-02-29', value: ['2024-02-29', 0] },
+    ])
+    expect(applied.calendar.dayLabel.firstDay).toBe(1)
   })
   it('registers injected maps before initialization and forwards named selections', async () => {
     const user = userEvent.setup()
