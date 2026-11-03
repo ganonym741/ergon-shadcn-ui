@@ -265,6 +265,21 @@ export function DocumentPage({ page }: { page: string }) {
           </>
         ) : page === 'changelog' ? (
           <>
+            <h2>0.2.1</h2>
+            <ul>
+              <li>
+                Corrected compact density in installed components and narrow table/step layouts.
+              </li>
+              <li>
+                Improved date picker opening month, mention dismissal, and tab/editing
+                accessibility.
+              </li>
+              <li>
+                Fixed nested anchor tracking, responsive sidebar previews, and restricted-storage
+                theming.
+              </li>
+              <li>Corrected Deno alias setup and dependency installation in CI.</li>
+            </ul>
             <h2>0.2.0</h2>
             <ul>
               <li>All + components integrated into their functional collections.</li>
