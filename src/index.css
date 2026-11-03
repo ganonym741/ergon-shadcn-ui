@@ -131,9 +131,6 @@
   textarea {
     font: inherit;
   }
-  [data-density='compact'] [data-slot='input'] {
-    height: 30px;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   html {
