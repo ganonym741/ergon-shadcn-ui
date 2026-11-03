@@ -9,6 +9,8 @@ import {
   mergeChartOptions,
   type ChartHandle,
 } from '@/components/ui/chart'
+import * as echarts from 'echarts/core'
+import { MapChart } from '@/components/ui/map-chart'
 
 import { BarChart } from '@/components/ui/bar-chart'
 import { AreaChart } from '@/components/ui/area-chart'
@@ -96,6 +98,64 @@ describe('dashboard chart compositions', () => {
     expect(merged.grid).toMatchObject({ right: 40 })
     expect(base.grid.right).toBe(12)
     expect(base.series[0].data).toEqual([0, 1])
+  })
+  it('registers injected maps before initialization and forwards named selections', async () => {
+    const user = userEvent.setup()
+    const selection = vi.fn(),
+      event = vi.fn()
+    render(
+      <MapChart
+        label="Regions"
+        mapName="test-map"
+        geoJSON={{ type: 'FeatureCollection', features: [] }}
+        data={[{ id: 'north', name: 'North', value: 0 }]}
+        onSelectionChange={selection}
+        events={{ selectchanged: event }}
+      />,
+    )
+    expect(echarts.registerMap).toHaveBeenCalledWith('test-map', {
+      type: 'FeatureCollection',
+      features: [],
+    })
+    expect(vi.mocked(echarts.registerMap).mock.invocationCallOrder.at(-1)).toBeLessThan(
+      vi.mocked(echarts.init).mock.invocationCallOrder.at(-1)!,
+    )
+    latest().getOption().series[0].selectedMap = { North: true, South: false }
+    act(() => latest().handlers.get('selectchanged')({ selected: [] }))
+    expect(selection).toHaveBeenCalledWith(['North'])
+    expect(event).toHaveBeenCalled()
+    expect(screen.getByLabelText('Selected region')).toHaveValue('North')
+    await user.click(screen.getByRole('button', { name: 'Clear regions' }))
+    expect(latest().dispatchAction).toHaveBeenCalledWith({
+      type: 'unselect',
+      seriesIndex: 0,
+      name: ['North'],
+    })
+  })
+  it('restores map selection and viewport when the theme recreates the renderer', async () => {
+    const geo = { type: 'FeatureCollection' as const, features: [] },
+      data = [{ id: 'north', name: 'North', value: 42 }]
+    const view = render(<MapChart label="Regions" mapName="persistent" geoJSON={geo} data={data} />)
+    const initial = latest()
+    Object.assign(initial.getOption().series[0], {
+      zoom: 2,
+      center: [3, 4],
+      selectedMap: { North: true },
+    })
+    act(() => {
+      initial.handlers.get('georoam')({ zoom: 2 })
+      initial.handlers.get('selectchanged')({ selected: [] })
+    })
+    view.rerender(
+      <MapChart label="Regions" mapName="persistent" geoJSON={geo} data={data} theme="dark" />,
+    )
+    await waitFor(() => expect(engine.instances).toHaveLength(2))
+    const options = latest().setOption.mock.calls.map((call: any[]) => call[0])
+    expect(options.some((o: any) => o.series?.[0]?.selectedMap?.North)).toBe(true)
+    expect(
+      options.some((o: any) => o.series?.[0]?.zoom === 2 && o.series?.[0]?.center?.[0] === 3),
+    ).toBe(true)
+    expect(screen.getByLabelText('Selected region')).toHaveValue('North')
   })
 })
 
