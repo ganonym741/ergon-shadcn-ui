@@ -265,7 +265,7 @@ export function DocumentPage({ page }: { page: string }) {
           </>
         ) : page === 'changelog' ? (
           <>
-            <h2>0.2.1</h2>
+            <h2>0.3.0</h2>
             <ul>
               <li>
                 Corrected compact density in installed components and narrow table/step layouts.

@@ -641,7 +641,7 @@ export default function App() {
             <span>Search anything…</span>
             <kbd>⌘ K</kbd>
           </button>
-          <span className="version-chip">v0.2.1</span>
+          <span className="version-chip">v0.3.0</span>
           <a
             className="header-icon inline-flex shrink-0 items-center justify-center rounded-md"
             href="https://github.com/ganonym741/ergon-shadcn-ui"
