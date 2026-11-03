@@ -26,6 +26,13 @@ export const components: ComponentInfo[] = [
     keywords: 'board tasks drag drop sortable columns workflow',
   },
   {
+    id: 'calendar-plus',
+    name: 'Calendar+',
+    category: 'Data display',
+    description: 'A complete schedule, with room for every event.',
+    keywords: 'scheduler calendar month week day agenda events resize',
+  },
+  {
     id: 'rich-text-editor',
     name: 'Rich Text Editor',
     category: 'Data entry',

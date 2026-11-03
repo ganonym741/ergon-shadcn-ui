@@ -11,6 +11,14 @@ function Tasks() {
   ])
   return <Kanban value={columns} onValueChange={setColumns} onCardMove={move => console.log(move)} />
 }`,
+  'calendar-plus': `import { CalendarPlus } from "@/components/ui/calendar-plus"
+
+<CalendarPlus defaultDate="2026-11-03" defaultView="week" editable
+  defaultEvents={[{ id: "review", title: "Design review", start: "2026-11-03T10:00:00", end: "2026-11-03T11:00:00" }]}
+  onEventsChange={events => console.log(events)}
+  onEventMove={(event, previous) => console.log(event, previous)} />
+// Use events + onEventsChange for application-owned state. All-day end dates are exclusive.
+// Inject persistence in your application; defaultEvents only changes local state.`,
   'map-chart': `import { MapChart, type ChartMapSource } from "@/components/ui/map-chart"
 
 // Load your own GeoJSON in application code, then pass the parsed source here.

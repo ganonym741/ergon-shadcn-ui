@@ -2,6 +2,7 @@
 React components built on shadcn/ui component source and community work, including copied/adapted MIT-licensed components alongside original ErgonUI components.
 
 - Kanban: /r/kanban.json — Give every card a clear place to move forward.
+- Calendar+: /r/calendar-plus.json — A complete schedule, with room for every event.
 - Rich Text Editor: /r/rich-text-editor.json — Give stories shape, with images right where they belong.
 - Button: /r/button.json — A small surface for your next big action.
 - Float Button: /r/float-button.json — Keep useful actions within easy reach.

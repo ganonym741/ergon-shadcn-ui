@@ -5,6 +5,19 @@ import { examples } from '@/docs/examples'
 import { coverage } from '@/coverage'
 import { usageInstallIds } from '@/docs/installation'
 describe('source distribution', () => {
+  it('documents real exports without advertising private implementation helpers', async () => {
+    const calendar = JSON.parse(await readFile('public/api/calendar-plus.json', 'utf8')),
+      button = JSON.parse(await readFile('public/api/button.json', 'utf8'))
+    const calendarApi = calendar.api.find(
+        (file: { file: string }) => file.file === 'calendar-plus.tsx',
+      ),
+      buttonApi = button.api.find((file: { file: string }) => file.file === 'button.tsx')
+    expect(calendarApi.exports).toContain('CalendarPlus')
+    expect(calendarApi.exports).not.toContain('dateKey')
+    expect(calendarApi.types.join('\n')).not.toContain('export function fromApi')
+    expect(buttonApi.exports).toContain('Button')
+    expect(buttonApi.types.join('\n')).toContain('export function Button')
+  })
   it('can install every local import used by the suggested usage composition', async () => {
     for (const { id } of components) {
       const files = new Set<string>()
@@ -37,7 +50,7 @@ describe('source distribution', () => {
     }
   })
   it('provides a real usage example for every catalog entry', () => {
-    expect(components).toHaveLength(99)
+    expect(components).toHaveLength(100)
     for (const item of components) expect(examples[item.id], item.id).toMatch(/import/)
     for (const item of components) {
       expect(coverage[item.id], item.id).toBeDefined()

@@ -2,6 +2,7 @@ import * as React from 'react'
 import type { PreviewProps } from './preview'
 const previews: Record<string, React.LazyExoticComponent<React.ComponentType<PreviewProps>>> = {
   kanban: React.lazy(() => import('./expansion/kanban')),
+  'calendar-plus': React.lazy(() => import('./expansion/calendar-plus')),
 }
 /** Loads one interactive example and its own dependency graph at a time. */
 class DataBoundary extends React.Component<{ children: React.ReactNode }, { error: string }> {

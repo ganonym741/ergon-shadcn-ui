@@ -13,6 +13,16 @@ export const coverage: Record<string, Coverage> = {
       'Application code owns persistence. Card IDs are unique across the board; column IDs are unique within it.',
     ],
   },
+  'calendar-plus': {
+    implemented: [
+      'Month/week/day/agenda views, overlapping events, navigation and date-range selection',
+      'Pointer move/resize, keyboard event editing, create/delete actions and typed callbacks',
+      'Controlled events/view/date, custom event rendering and scoped theme tokens',
+    ],
+    notes: [
+      'Uses matching FullCalendar 6.1.22 free plugins. No premium resource scheduler is bundled. All-day event end dates are exclusive in the API; the editor shows an inclusive last day. Persistence belongs to application callbacks.',
+    ],
+  },
   'map-chart': {
     implemented: [
       'Application-supplied GeoJSON and region values with stable IDs',

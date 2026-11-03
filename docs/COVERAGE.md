@@ -7,6 +7,7 @@ Each component provides editable source, typed APIs, and an interactive playgrou
 | Component | Capabilities | Verification / integration notes |
 | --- | --- | --- |
 | Kanban | Controlled column/card state, pointer/touch/keyboard sorting, card and column reorder callbacks; Work-in-progress limits, disabled/read-only items and explicit keyboard move forms; Named board/column/card/action parts and custom card rendering | Application code owns persistence. Card IDs are unique across the board; column IDs are unique within it. |
+| Calendar+ | Month/week/day/agenda views, overlapping events, navigation and date-range selection; Pointer move/resize, keyboard event editing, create/delete actions and typed callbacks; Controlled events/view/date, custom event rendering and scoped theme tokens | Uses matching FullCalendar 6.1.22 free plugins. No premium resource scheduler is bundled. All-day event end dates are exclusive in the API; the editor shows an inclusive last day. Persistence belongs to application callbacks. |
 | Avatar | Image loading and fallback; Custom sizes and group composition; Overflow-count group helper; Automatic text scaling | Playground and source available. |
 | Badge | Status/treatment variants; Count overflow and dot badges; Processing status indicator; Ribbon composition preset | Playground and source available. |
 | Calendar | Single/range/multiple selection through Day Picker; Month/year navigation and locale props; EventCalendar dots and agenda; Full-size month/year event grid | Playground and source available. |
