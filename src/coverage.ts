@@ -3,6 +3,62 @@ export interface Coverage {
   notes: string[]
 }
 export const coverage: Record<string, Coverage> = {
+  'map-chart': {
+    implemented: [
+      'Application-supplied GeoJSON and region values with stable IDs',
+      'Pan/zoom with viewport retention, pointer/keyboard region selection, callbacks and value colors',
+      'SVG/Canvas, accessible data table, loading/error states and export',
+    ],
+    notes: [
+      'GeoJSON is supplied by the application and registered with its stable mapName. Map assets are not installed with this component. Playground values are local samples; world boundaries are Natural Earth public-domain data.',
+    ],
+  },
+  'boxplot-chart': {
+    implemented: [
+      'Five-number summaries, optional outliers and raw-observation statistics helper',
+      'Horizontal/vertical layout, zoom, tooltip and readable statistics table',
+      'Configurable composition, theme, renderer, palette and native options',
+    ],
+    notes: [
+      'calculateBoxplotStatistics uses interpolated quartiles and a configurable IQR whisker multiplier; supplied observations are not mutated.',
+    ],
+  },
+  'calendar-heatmap-chart': {
+    implemented: [
+      'Daily values across a year, month, date or explicit date range',
+      'Horizontal/vertical calendar, localized day/month labels and first weekday',
+      'Color scale, readable data table and scrollable minimum cell size',
+    ],
+    notes: [
+      'Dates use YYYY-MM-DD calendar keys. Supply one aggregated value per date; ranges filter the displayed data.',
+    ],
+  },
+  'combo-chart': {
+    implemented: [
+      'Mixed bar, line and area series with stable IDs',
+      'Named multiple value axes, per-series axis mapping, units and stacking groups',
+      'Legend, data zoom, labels, data table and native option overrides',
+    ],
+    notes: [],
+  },
+  'sankey-chart': {
+    implemented: [
+      'Weighted node/link flows with stable IDs and labels',
+      'Horizontal/vertical orientation, node alignment, spacing, dragging and adjacency emphasis',
+      'Cycle and link validation, accessible edge table and native overrides',
+    ],
+    notes: ['Sankey flows must form a directed acyclic graph with finite, nonnegative weights.'],
+  },
+  'candlestick-chart': {
+    implemented: [
+      'Typed OHLC observations with linked price/volume panels',
+      'Configurable moving averages, bullish/bearish colors and linked data zoom',
+      'Pointer brush and keyboard range controls, selection callbacks and readable OHLC table',
+    ],
+    notes: [
+      'Examples use simulated market observations. Canvas, zoom and brush modules load on demand.',
+    ],
+  },
   chart: {
     implemented: [
       'Composable ECharts canvas, header, legend and data-table parts with typed options and imperative handle',

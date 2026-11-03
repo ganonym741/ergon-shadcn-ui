@@ -1,6 +1,32 @@
 import { installationSnippets } from './installation'
 
 export const examples: Record<string, string> = {
+  'map-chart': `import { MapChart, type ChartMapSource } from "@/components/ui/map-chart"
+
+// Load your own GeoJSON in application code, then pass the parsed source here.
+// mapName identifies that map in ECharts; region names match GeoJSON properties.name.
+<MapChart label="Revenue by region" mapName="my-regions" geoJSON={geoJSON as ChartMapSource} data={[{ id: "north", name: "North", value: 420 }]} roam selectedMode="multiple" onSelectionChange={setSelectedRegions} />`,
+  'boxplot-chart': `import { BoxplotChart, calculateBoxplotStatistics } from "@/components/ui/boxplot-chart"
+
+const data = [{ id: "api", label: "API", ...calculateBoxplotStatistics([12, 16, 18, 20, 24, 28, 120]) }]
+<BoxplotChart label="Response time distribution" data={data} showOutliers zoom />
+// Or supply summary: [lowerWhisker, q1, median, q3, upperWhisker] and outliers directly.`,
+  'calendar-heatmap-chart': `import { CalendarHeatmapChart } from "@/components/ui/calendar-heatmap-chart"
+
+<CalendarHeatmapChart label="Daily activity" range="2026" firstDay={1} data={[{ id: "jan-1", date: "2026-01-01", value: 24 }, { id: "jan-2", date: "2026-01-02", value: 42 }]} />
+// range also accepts "2026-01" or ["2026-01-01", "2026-03-31"].`,
+  'combo-chart': `import { ComboChart } from "@/components/ui/combo-chart"
+
+<ComboChart label="Revenue and margin" data={[{ id: "jan", label: "Jan", revenue: 420, margin: 24 }, { id: "feb", label: "Feb", revenue: 580, margin: 31 }]} axes={[{ id: "revenue", label: "Revenue", unit: "$" }, { id: "margin", label: "Margin", unit: "%", position: "right" }]} series={[{ key: "revenue", type: "bar", axisId: "revenue" }, { key: "margin", type: "line", axisId: "margin", smooth: true }]} zoom />`,
+  'sankey-chart': `import { SankeyChart } from "@/components/ui/sankey-chart"
+
+<SankeyChart label="Visitor journey" nodes={[{ id: "visits", label: "Visits" }, { id: "signup", label: "Signups" }, { id: "exit", label: "Exited" }]} links={[{ id: "converted", source: "visits", target: "signup", value: 120 }, { id: "exited", source: "visits", target: "exit", value: 80 }]} draggable />`,
+  'candlestick-chart': `import { CandlestickChart } from "@/components/ui/candlestick-chart"
+
+<CandlestickChart label="Price and volume" data={marketRows} movingAverages={[5, 10, 20]} showVolume zoom brush onSelectionChange={({ rows }) => setSelectedRows(rows)} />
+// Each row: { id, date, open, close, low, high, volume? }.
+// Brush range enables pointer selection; From/To + Apply range also work by keyboard.
+// Samples are simulated; provide your own application data source.`,
   chart: `import { Chart, ChartHeader, ChartTitle, ChartCanvas, ChartLegend, ChartDataTable, type ChartHandle } from "@/components/ui/chart"
 import { useRef } from "react"
 import { BarChart as BarSeries } from "echarts/charts"

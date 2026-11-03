@@ -20,7 +20,7 @@ describe('source distribution', () => {
   })
   it('ships installable chart source with pinned ECharts and portable API signatures', async () => {
     const charts = components.filter((component) => component.category === 'Chart')
-    expect(charts).toHaveLength(9)
+    expect(charts).toHaveLength(15)
     for (const component of charts) {
       const item = JSON.parse(await readFile(`public/r/${component.id}.json`, 'utf8'))
       const api = JSON.parse(await readFile(`public/api/${component.id}.json`, 'utf8'))
@@ -37,7 +37,7 @@ describe('source distribution', () => {
     }
   })
   it('provides a real usage example for every catalog entry', () => {
-    expect(components).toHaveLength(92)
+    expect(components).toHaveLength(98)
     for (const item of components) expect(examples[item.id], item.id).toMatch(/import/)
     for (const item of components) {
       expect(coverage[item.id], item.id).toBeDefined()

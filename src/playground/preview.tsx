@@ -140,6 +140,12 @@ export function PlaygroundPreview({ id, config: v, onEvent }: PreviewProps) {
     case 'radar-chart':
     case 'heatmap-chart':
     case 'gauge-chart':
+    case 'map-chart':
+    case 'boxplot-chart':
+    case 'calendar-heatmap-chart':
+    case 'combo-chart':
+    case 'sankey-chart':
+    case 'candlestick-chart':
       return (
         <React.Suspense fallback={<p className="text-sm text-muted-foreground">Loading charts…</p>}>
           <ChartPreview id={id} config={v} onEvent={onEvent} />

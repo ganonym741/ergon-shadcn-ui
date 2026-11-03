@@ -1,3 +1,4 @@
+import { AdvancedChartThumbnail } from './chart-thumbnails'
 import {
   ArrowUpRight,
   ArrowRight,
@@ -79,6 +80,14 @@ function FormThumb() {
 export function Thumbnail({ id }: { id: string }) {
   let content: React.ReactNode
   switch (id) {
+    case 'map-chart':
+    case 'boxplot-chart':
+    case 'calendar-heatmap-chart':
+    case 'combo-chart':
+    case 'sankey-chart':
+    case 'candlestick-chart':
+      content = <AdvancedChartThumbnail id={id} />
+      break
     case 'chart':
     case 'line-chart':
     case 'area-chart':
