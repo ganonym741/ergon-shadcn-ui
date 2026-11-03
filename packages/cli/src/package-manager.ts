@@ -50,8 +50,20 @@ export function taskCommand(manager: PackageManager, task: string) {
 }
 
 export function installDependencies(root: string, manager: PackageManager) {
-  console.log(`${manager} install`)
-  const result = spawn.sync(manager, ['install'], { cwd: root, stdio: 'inherit' })
+  // This operation intentionally changed package.json, so its lockfile must be updated too.
+  const args = manager === 'pnpm' ? ['install', '--no-frozen-lockfile'] : ['install']
+  const deno = (globalThis as { Deno?: { execPath?: () => string } }).Deno
+  // Reuse the running Deno binary; Windows command lookup can miss it under deno x.
+  const executable = manager === 'deno' && deno?.execPath ? deno.execPath() : manager
+  console.log(`${manager} ${args.join(' ')}`)
+  const result = spawn.sync(executable, args, {
+    cwd: root,
+    stdio: 'inherit',
+    env:
+      manager === 'yarn'
+        ? { ...process.env, YARN_ENABLE_IMMUTABLE_INSTALLS: 'false' }
+        : process.env,
+  })
   if ((result.error as NodeJS.ErrnoException | undefined)?.code === 'ENOENT')
     throw new Error(
       `${manager} is not installed or is not on PATH. Install it, then run ${manager} install in the application.`,
