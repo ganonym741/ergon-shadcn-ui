@@ -5,6 +5,9 @@ const ThemeContext = React.createContext<{
   resolvedTheme: 'light' | 'dark'
   setTheme: (theme: string) => void
 }>({ theme: 'light', resolvedTheme: 'light', setTheme: () => {} })
+/**
+ * Resolves the selected or system appearance and supplies theme controls. Applies the appearance in memory even when persistence is blocked.
+ */
 export function ThemeProvider({
   children,
   defaultTheme = 'system',

@@ -80,6 +80,29 @@ const option = {
 const latest = () => engine.instances.at(-1)!
 
 describe('dashboard chart compositions', () => {
+  it.each([
+    [undefined, 'R&D <Ops>'],
+    ['richText', 'R&D <Ops>'],
+    ['html', 'R&amp;D &lt;Ops&gt;'],
+    ['auto', 'R&amp;D &lt;Ops&gt;'],
+  ] as const)('formats Sankey labels for tooltip mode %s', (mode, expected) => {
+    render(
+      <SankeyChart
+        label="Escaping"
+        nodes={[
+          { id: 'a', label: 'R&D <Ops>' },
+          { id: 'b', label: 'Sales' },
+        ]}
+        links={[{ id: 'ab', source: 'a', target: 'b', value: 42 }]}
+        option={mode ? { tooltip: { renderMode: mode } } : undefined}
+      />,
+    )
+    const formatter = latest().getOption().tooltip.formatter
+    expect(formatter({ name: 'a', data: {}, value: 42 })).toBe(`${expected}: 42`)
+    expect(formatter({ name: 'a > b', data: { source: 'a', target: 'b' }, value: 42 })).toBe(
+      `${expected} → Sales: 42`,
+    )
+  })
   it('uses the resolved font family so native chart labels can be measured accurately', async () => {
     const { rerender } = render(
       <Chart label="Measured labels" option={option} dir="rtl" style={{ fontFamily: 'monospace' }}>

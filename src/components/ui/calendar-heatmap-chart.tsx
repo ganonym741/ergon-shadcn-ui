@@ -18,11 +18,17 @@ export interface CalendarHeatmapDatum {
   value: number
 }
 export type CalendarHeatmapRange = string | number | [string, string]
+/**
+ * Checks that a date key names a real YYYY-MM-DD calendar day without converting it to the application time zone.
+ */
 const isoDay = (value: string): number => {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return NaN
   const time = Date.parse(value + 'T00:00:00Z')
   return Number.isFinite(time) && new Date(time).toISOString().slice(0, 10) === value ? time : NaN
 }
+/**
+ * Expands a calendar year, month, day, or ordered ISO date pair into inclusive start and end keys. Throws for invalid dates or reversed ranges.
+ */
 export function calendarDateExtent(range: CalendarHeatmapRange): [string, string] {
   const value = String(range)
   let dates: [string, string]
@@ -60,6 +66,9 @@ export interface CalendarHeatmapChartProps extends Omit<ChartProps, 'option'> {
   option?: EChartsOption
 }
 const calendarColors = ['#f0f2ed', '#b3d4bd', '#589c76', '#216645']
+/**
+ * Displays one aggregated value per calendar day within the requested range. Validates date keys and keeps minimum-size cells scrollable on narrow screens.
+ */
 export function CalendarHeatmapChart({
   data,
   range,

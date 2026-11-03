@@ -49,6 +49,9 @@ export function taskCommand(manager: PackageManager, task: string) {
   return `${manager} ${manager === 'deno' ? 'task' : 'run'} ${task}`
 }
 
+/**
+ * Installs the planned dependency changes with the selected package manager. Allows its lockfile to update in CI and reuses the active Deno executable when necessary.
+ */
 export function installDependencies(root: string, manager: PackageManager) {
   // This operation intentionally changed package.json, so its lockfile must be updated too.
   const args = manager === 'pnpm' ? ['install', '--no-frozen-lockfile'] : ['install']

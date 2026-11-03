@@ -25,6 +25,9 @@ export interface DescriptionsPlusProps {
   request?: (signal: AbortSignal) => Promise<Record<string, unknown>>
   columns?: number
 }
+/**
+ * Displays a record with full-record or per-field editing, validation, and cancellable save callbacks. Names active editors without creating orphan read-mode labels.
+ */
 export function DescriptionsPlus({
   title = 'Record details',
   record: provided,
@@ -120,11 +123,28 @@ export function DescriptionsPlus({
         columns={columns}
         items={fields.map(({ key, label, validate: _validate, ...field }) => ({
           key,
-          label: <label htmlFor={`${id}-${key}`}>{label}</label>,
+          label:
+            editing &&
+            (!fieldKey || fieldKey === key) &&
+            ![
+              'rate',
+              'slider',
+              'radio',
+              'checkbox-group',
+              'tree-select',
+              'date-range',
+              'datetime-range',
+              'upload',
+            ].includes(field.type ?? 'text') ? (
+              <label htmlFor={`${id}-${key}`}>{label}</label>
+            ) : (
+              label
+            ),
           children: (
             <div className="space-y-2">
               <FieldPlus
                 {...field}
+                label={label}
                 id={`${id}-${key}`}
                 value={editing && (!fieldKey || fieldKey === key) ? draft[key] : record[key]}
                 mode={editing && (!fieldKey || fieldKey === key) ? 'edit' : 'read'}

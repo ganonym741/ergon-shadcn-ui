@@ -7,6 +7,9 @@ export interface StepItem {
   status?: 'wait' | 'process' | 'finish' | 'error'
   icon?: React.ReactNode
 }
+/**
+ * Displays navigable progress states and descriptions. Responsive orientation follows available container width unless disabled or explicitly vertical.
+ */
 export function Steps({
   items,
   current = 0,

@@ -8,6 +8,9 @@ export interface TimelineItem {
   status?: 'complete' | 'active' | 'pending'
   icon?: React.ReactNode
 }
+/**
+ * Displays ordered events vertically, horizontally, or around a shared alternate axis, with logical alignment for right-to-left layouts.
+ */
 export function Timeline({
   items,
   className,

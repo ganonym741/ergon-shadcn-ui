@@ -46,6 +46,9 @@ const GaugeChart = React.lazy(() =>
 )
 const MixedChart = React.lazy(() => import('./chart-mixed-preview'))
 
+/**
+ * Composes lazy chart examples with shared headers, export actions, data updates, and event reporting from editable playground configuration.
+ */
 function ChartPreview({ id, config: v, onEvent }: PreviewProps) {
   const ref = React.useRef<ChartHandle>(null)
   const [revision, setRevision] = React.useState(0)

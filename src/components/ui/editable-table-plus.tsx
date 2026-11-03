@@ -41,6 +41,9 @@ export function recordChanges<T>(
   })
   return changes
 }
+/**
+ * Edits table records with row or batch workflows, validation, and application-supplied save callbacks while containing editors on narrow screens.
+ */
 export function EditableTablePlus<T>({
   value,
   onValueChange,

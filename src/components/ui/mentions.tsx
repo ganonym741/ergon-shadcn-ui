@@ -1,6 +1,9 @@
 import * as React from 'react'
 import { Textarea } from '@/components/ui/textarea'
 import { useControllableState, useDebouncedValue } from '@/components/ui/util'
+/**
+ * Suggests local or asynchronously loaded mentions at the active caret. Cancels dismissed requests and preserves surrounding text when inserting a selection.
+ */
 export function Mentions({
   options,
   value,

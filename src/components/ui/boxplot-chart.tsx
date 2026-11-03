@@ -21,6 +21,9 @@ export interface BoxplotDatum extends Omit<BoxplotStatistics, 'outliers'> {
   label: string
   outliers?: number[]
 }
+/**
+ * Calculates interpolated quartiles, Tukey whiskers, and outliers without mutating observations. Rejects empty or nonfinite input and negative whisker multipliers.
+ */
 export function calculateBoxplotStatistics(
   values: readonly number[],
   whiskerIQR = 1.5,
@@ -64,6 +67,9 @@ export interface BoxplotChartProps extends Omit<ChartProps, 'option'> {
   showDataTable?: boolean
   option?: EChartsOption
 }
+/**
+ * Displays five-number summaries and optional outliers with configurable orientation, lazy zoom, and an accessible statistics table.
+ */
 export function BoxplotChart({
   data,
   horizontal = false,

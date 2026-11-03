@@ -41,6 +41,9 @@ const buttonVariants = cva(
   },
 )
 
+/**
+ * Composes button variants, loading state, and optional slot rendering. Compact-density styles travel with the installed source.
+ */
 function Button({
   className,
   variant = 'default',

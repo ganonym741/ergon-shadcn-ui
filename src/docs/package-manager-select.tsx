@@ -12,6 +12,9 @@ const managerColors: Record<DocsPackageManager, string> = {
   yarn: '[--manager-color:#0369a1] dark:[--manager-color:#7dd3fc]',
 }
 
+/**
+ * Selects the documentation package runner through labeled radio controls and shows any required runner setup guidance.
+ */
 export function PackageManagerSelect({
   value,
   onChange,

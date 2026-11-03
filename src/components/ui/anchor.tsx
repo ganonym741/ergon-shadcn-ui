@@ -14,6 +14,9 @@ export interface AnchorProps {
   getContainer?: () => HTMLElement | Window | null
   onActiveChange?: (href: string) => void
 }
+/**
+ * Resolves a local fragment to its section element, returning null for external links or invalid percent-encoded fragments.
+ */
 const sectionFor = (href: string) => {
   if (!href.startsWith('#')) return null
   try {
@@ -22,6 +25,9 @@ const sectionFor = (href: string) => {
     return null
   }
 }
+/**
+ * Tracks and scrolls linked sections in the window or a supplied container. Reports active-section changes using the latest committed callback.
+ */
 export function Anchor({
   items,
   className,
@@ -34,7 +40,9 @@ export function Anchor({
   const [active, setActive] = React.useState('')
   const activeRef = React.useRef('')
   const callback = React.useRef(onActiveChange)
-  callback.current = onActiveChange
+  React.useLayoutEffect(() => {
+    callback.current = onActiveChange
+  }, [onActiveChange])
   const select = React.useCallback((href: string) => {
     if (activeRef.current === href) return
     activeRef.current = href

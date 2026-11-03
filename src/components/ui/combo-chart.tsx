@@ -47,6 +47,9 @@ export interface ComboChartProps extends Omit<ChartProps, 'option'> {
   option?: EChartsOption
 }
 const defaultAxes: ComboAxis[] = [{ id: 'value' }]
+/**
+ * Combines bar, line, and area series across named value axes while preserving stable row IDs, missing observations, and optional zoom.
+ */
 export function ComboChart({
   data,
   series,

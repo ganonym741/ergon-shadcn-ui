@@ -8,6 +8,9 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Input } from '@/components/ui/input'
 import { useUIConfig } from '@/components/ui/config-provider'
 import { getDateLocale, toZonedInput, fromZonedInput } from '@/lib/date-adapter'
+/**
+ * Synchronizes the visible calendar month with the selected date and resets it whenever its picker opens.
+ */
 const usePickerMonth = (selected?: Date) => {
   const selectedTime = selected?.getTime()
   const [month, onMonthChange] = React.useState(() => new Date(selectedTime ?? Date.now()))
@@ -32,6 +35,9 @@ export interface DatePickerProps {
   locale?: string
   timeZone?: string
 }
+/**
+ * Edits one date with locale, time-zone, and boundary support. Opening the calendar returns to the currently selected month.
+ */
 export function DatePicker({
   value,
   onValueChange,
@@ -79,16 +85,21 @@ export function DatePicker({
     </Popover>
   )
 }
+/**
+ * Edits an inclusive date range using a two-month calendar. An optional label supplies a stable accessible name for its trigger.
+ */
 export function DateRangePicker({
   value,
   onValueChange,
   disabled,
   placeholder = 'Choose a date range',
+  label,
 }: {
   value?: DateRange
   onValueChange?: (range: DateRange | undefined) => void
   disabled?: boolean
   placeholder?: string
+  label?: string
 }) {
   const { onOpenChange, ...calendar } = usePickerMonth(value?.from ?? value?.to)
   return (
@@ -97,6 +108,7 @@ export function DateRangePicker({
         <Button
           variant="outline"
           disabled={disabled}
+          aria-label={label}
           className="min-w-60 justify-start font-normal"
         >
           <CalendarIcon />
@@ -118,6 +130,9 @@ export function DateRangePicker({
     </Popover>
   )
 }
+/**
+ * Edits multiple selected dates and reopens at the first selected month. Clearing the selection emits an empty array.
+ */
 export function MultiDatePicker({
   value = [],
   onValueChange,
@@ -199,20 +214,25 @@ export function DateTimePicker({
     </div>
   )
 }
+/**
+ * Edits start and end date-times through a popover, constraining each endpoint by the other and exposing an optional accessible trigger label.
+ */
 export function DateTimeRangePicker({
   value,
   onValueChange,
+  label,
   ...props
 }: {
   value?: DateRange
   onValueChange?: (value: DateRange | undefined) => void
   disabled?: boolean
   timeZone?: string
+  label?: string
 }) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" disabled={props.disabled}>
+        <Button variant="outline" disabled={props.disabled} aria-label={label}>
           Choose date-time range
         </Button>
       </PopoverTrigger>

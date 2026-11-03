@@ -10,6 +10,9 @@ export interface InputProps extends Omit<React.ComponentProps<'input'>, 'prefix'
   passwordToggle?: boolean
   onValueChange?: (value: string) => void
 }
+/**
+ * Renders an input with optional leading content, clear action, and password visibility controls, including portable compact-density styling.
+ */
 export function Input({
   className,
   type = 'text',

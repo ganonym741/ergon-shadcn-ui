@@ -23,6 +23,9 @@ interface TransferPanelProps {
   draggable?: boolean
   onDropItem?: (key: string) => void
 }
+/**
+ * Filters and selects transfer items, optionally virtualizing visible rows and exposing drag data for transfer operations.
+ */
 function TransferPanel({
   items,
   title,

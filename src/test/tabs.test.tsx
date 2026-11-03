@@ -33,6 +33,24 @@ function Harness({
 }
 
 describe('workspace tabs', () => {
+  it('exposes close actions outside the tablist for touch and screen-reader users', async () => {
+    const user = userEvent.setup()
+    render(<Harness />)
+    const actions = screen.getByRole('button', { name: 'Tab actions' })
+    expect(screen.getByRole('tablist')).not.toContainElement(actions)
+    await user.click(actions)
+    await user.click(screen.getByRole('menuitem', { name: 'Close Activity' }))
+    expect(screen.queryByRole('tab', { name: 'Activity' })).not.toBeInTheDocument()
+    expect(screen.getByRole('tab', { name: 'Overview' })).toHaveFocus()
+  })
+  it('closes the last tab from the actions menu and focuses the empty state', async () => {
+    const user = userEvent.setup()
+    render(<Harness items={initialItems.slice(0, 1)} />)
+    await user.click(screen.getByRole('button', { name: 'Tab actions' }))
+    await user.click(screen.getByRole('menuitem', { name: 'Close Overview' }))
+    expect(screen.getByRole('status')).toHaveFocus()
+    expect(screen.queryByRole('button', { name: 'Tab actions' })).not.toBeInTheDocument()
+  })
   it('keeps pointer close affordances within their tab without nested interactive controls', async () => {
     const user = userEvent.setup()
     render(<Harness />)

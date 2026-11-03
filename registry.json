@@ -388,6 +388,10 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/components/ui/dropdown-menu.tsx",
+          "type": "registry:ui"
+        },
+        {
           "path": "src/components/ui/util.ts",
           "type": "registry:ui"
         },
@@ -740,6 +744,18 @@
         },
         {
           "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/dropdown-menu.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/config-provider.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/contrast.ts",
           "type": "registry:lib"
         },
         {
@@ -2220,6 +2236,18 @@
         {
           "path": "src/components/ui/tabs.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/dropdown-menu.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/config-provider.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/contrast.ts",
+          "type": "registry:lib"
         },
         {
           "path": "src/components/ui/checkbox.tsx",

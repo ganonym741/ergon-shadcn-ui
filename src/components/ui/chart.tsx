@@ -80,10 +80,16 @@ export function useChart() {
   if (!context) throw new Error('Chart parts must be used inside Chart.')
   return context
 }
+/**
+ * Returns a deep-merged copy of the base options. Neither the base object nor its nested options are mutated.
+ */
 export function mergeChartOptions(base: EChartsOption, overrides?: EChartsOption): EChartsOption {
   return echarts.util.merge(echarts.util.clone(base), overrides ?? {}, true)
 }
 
+/**
+ * Provides shared chart options, theme and motion handling, events, and the imperative chart handle for composable visualization parts.
+ */
 export function Chart({
   option,
   modules,
@@ -235,6 +241,9 @@ export function Chart({
   )
 }
 
+/**
+ * Creates and disposes the native ECharts instance, loads optional rendering features, and renders loading, empty, and recoverable error states.
+ */
 export function ChartCanvas({ className, style, ...props }: React.ComponentProps<'div'>) {
   const context = useChart()
   const latest = React.useRef(context)

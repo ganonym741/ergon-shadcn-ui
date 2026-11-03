@@ -35,6 +35,9 @@ interface AdvancedPreviewProps extends PreviewProps {
   presentation: { showLegend: boolean; showTooltip: boolean; showDataTable: boolean }
   revision: number
 }
+/**
+ * Connects editable playground data and options to the advanced charts. Loads map geometry with cancellation and surfaces invalid sample configuration.
+ */
 export default function AdvancedChartPreview({
   id,
   config: v,

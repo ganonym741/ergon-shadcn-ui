@@ -45,6 +45,9 @@ export interface CandlestickSelection {
   indices: number[]
   rows: CandlestickDatum[]
 }
+/**
+ * Computes trailing simple averages of closing prices with null warm-up entries. Requires a positive integer period and finite closing prices.
+ */
 export function calculateMovingAverage(
   data: readonly CandlestickDatum[],
   period: number,
@@ -75,6 +78,9 @@ export interface CandlestickChartProps extends Omit<ChartProps, 'option'> {
   option?: EChartsOption
 }
 const defaultAverages = [5, 10, 20]
+/**
+ * Offers pointer-brush activation and keyboard-accessible date-range selection. Applies or clears brush actions on the current chart instance.
+ */
 export function CandlestickChartControls({
   data,
   selection,
@@ -191,6 +197,9 @@ export function CandlestickChartControls({
     </div>
   )
 }
+/**
+ * Displays validated OHLC observations with optional moving averages, linked volume and zoom, and typed brush-selection callbacks.
+ */
 export function CandlestickChart({
   data,
   movingAverages = defaultAverages,

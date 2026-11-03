@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { format as chartFormat } from 'echarts/core'
+import { env as chartEnvironment, format as chartFormat } from 'echarts/core'
 import { SankeyChart as SankeySeries } from 'echarts/charts'
 import { TooltipComponent } from 'echarts/components'
 import {
@@ -24,6 +24,9 @@ export interface SankeyLink {
   value: number
   color?: string
 }
+/**
+ * Validates unique IDs, existing endpoints, finite nonnegative weights, and acyclic flows. Returns the first validation message or undefined.
+ */
 export function validateSankeyData(
   nodes: readonly SankeyNode[],
   links: readonly SankeyLink[],
@@ -66,6 +69,9 @@ export interface SankeyChartProps extends Omit<ChartProps, 'option'> {
   showDataTable?: boolean
   option?: EChartsOption
 }
+/**
+ * Displays validated weighted flows with configurable node layout and dragging. Tooltip labels remain plain in rich-text mode and escaped in HTML mode.
+ */
 export function SankeyChart({
   nodes,
   links,
@@ -84,6 +90,10 @@ export function SankeyChart({
   const invalid = validateSankeyData(nodes, links)
   const names = React.useMemo(() => new Map(nodes.map((n) => [n.id, n.label ?? n.id])), [nodes])
   const hasFlow = links.some((link) => link.value > 0)
+  const tooltip = Array.isArray(option?.tooltip) ? option.tooltip[0] : option?.tooltip
+  const htmlTooltip =
+    tooltip?.renderMode === 'html' ||
+    (tooltip?.renderMode === 'auto' && chartEnvironment.domSupported)
   const built = React.useMemo<EChartsOption>(
     () =>
       invalid || !hasFlow
@@ -99,7 +109,7 @@ export function SankeyChart({
                   edge.source && edge.target
                     ? `${names.get(edge.source) ?? edge.source} → ${names.get(edge.target) ?? edge.target}`
                     : (names.get(p.name) ?? p.name)
-                return `${chartFormat.encodeHTML(name)}: ${Number(p.value).toLocaleString()}`
+                return `${htmlTooltip ? chartFormat.encodeHTML(name) : name}: ${Number(p.value).toLocaleString()}`
               },
             },
             series: [
@@ -150,6 +160,7 @@ export function SankeyChart({
       draggable,
       showLabels,
       showTooltip,
+      htmlTooltip,
     ],
   )
   const chartOption = React.useMemo(() => mergeChartOptions(built, option), [built, option])

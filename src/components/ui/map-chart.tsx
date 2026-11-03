@@ -46,6 +46,9 @@ export interface MapChartProps extends Omit<ChartProps, 'option'> {
   option?: EChartsOption
 }
 const mapColors = ['#dcece4', '#72b7a1', '#146c51']
+/**
+ * Dispatches map pan, zoom, and reset actions permitted by the current roam mode. Uses explicit buttons to make navigation keyboard accessible.
+ */
 export function MapChartNavigation({
   roam = true,
   initialZoom = 1,
@@ -149,6 +152,9 @@ export function MapChartNavigation({
     </div>
   )
 }
+/**
+ * Selects or clears named map regions through the current chart instance. Supports native single- and multiple-selection controls.
+ */
 export function MapChartSelectionControl({
   regions,
   selectedNames,
@@ -210,6 +216,9 @@ export function MapChartSelectionControl({
     </div>
   )
 }
+/**
+ * Registers application-supplied geometry and displays region metrics. Preserves selection and navigation across chart recreation without bundling map assets.
+ */
 export function MapChart({
   mapName,
   geoJSON,

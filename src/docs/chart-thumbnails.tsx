@@ -1,3 +1,6 @@
+/**
+ * Draws lightweight catalog artwork for the advanced charts without importing the ECharts runtime or distributed demonstration data.
+ */
 export function AdvancedChartThumbnail({ id }: { id: string }) {
   return (
     <svg viewBox="0 0 220 130" className="h-32 w-full" aria-hidden="true">
