@@ -1,4 +1,10 @@
-export const expansionIds = ['kanban', 'calendar-plus', 'gantt-chart', 'filter-builder'] as const
+export const expansionIds = [
+  'kanban',
+  'calendar-plus',
+  'gantt-chart',
+  'filter-builder',
+  'file-browser',
+] as const
 export const kanbanData = [
   {
     id: 'planned',

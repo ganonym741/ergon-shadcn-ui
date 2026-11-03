@@ -43,6 +43,16 @@ export const coverage: Record<string, Coverage> = {
       'The AST is not SQL or backend query text. Translate it in application code; the example filters local sample records.',
     ],
   },
+  'file-browser': {
+    implemented: [
+      'Folder breadcrumbs, grid/list views, search, sorting, pagination and multi/range selection',
+      'Injected create/rename/move/delete/upload/download operations with cancellation, pending and error states',
+      'Stable ID/parent validation, descendant-safe moves, details dialogs and custom previews',
+    ],
+    notes: [
+      'Entries and persistence are application-owned. The playground uses explicitly simulated in-memory operations. No production storage provider or local filesystem access is assumed.',
+    ],
+  },
   'map-chart': {
     implemented: [
       'Application-supplied GeoJSON and region values with stable IDs',

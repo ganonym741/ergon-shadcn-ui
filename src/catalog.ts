@@ -47,6 +47,13 @@ export const components: ComponentInfo[] = [
     keywords: 'query conditions rules nested and or not filters',
   },
   {
+    id: 'file-browser',
+    name: 'File Browser',
+    category: 'Data display',
+    description: 'A familiar home for files, folders, and shared work.',
+    keywords: 'files folders manager explorer grid list upload rename move',
+  },
+  {
     id: 'rich-text-editor',
     name: 'Rich Text Editor',
     category: 'Data entry',

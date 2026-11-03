@@ -39,6 +39,16 @@ function Filters() {
   const matches = [{ revenue: 1200 }, { revenue: 0 }].filter(row => matchesFilter(row, query, fields))
   return <><FilterBuilder fields={fields} value={query} onValueChange={setQuery} /><output>{matches.length} matches</output></>
 }`,
+  'file-browser': `import { FileBrowser, type FileBrowserEntry } from "@/components/ui/file-browser"
+import { useState } from "react"
+
+function Files() {
+  const [entries, setEntries] = useState<FileBrowserEntry[]>([{ id: "design", name: "Design", kind: "folder" }])
+  return <FileBrowser entries={entries}
+    onCreateFolder={(name, parentId) => setEntries(previous => [...previous, { id: crypto.randomUUID(), name, parentId, kind: "folder" }])}
+    onRename={(entry, name) => setEntries(previous => previous.map(item => item.id === entry.id ? { ...item, name } : item))} />
+}
+// This example is in-memory. Inject your storage/API operations and honor context.signal.`,
   'map-chart': `import { MapChart, type ChartMapSource } from "@/components/ui/map-chart"
 
 // Load your own GeoJSON in application code, then pass the parsed source here.
