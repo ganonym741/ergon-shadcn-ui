@@ -92,6 +92,22 @@ const program = ts.createProgram(
   parsedConfig.options,
 )
 const checker = program.getTypeChecker()
+function portableType(type: string) {
+  return type.replace(/import\("([^"]+)"\)/g, (expression, path: string) => {
+    const normalized = path.replaceAll('\\', '/')
+    const dependency = normalized.split('/node_modules/').at(-1)
+    if (dependency !== normalized && dependency) {
+      const name = dependency.startsWith('@types/')
+        ? dependency.slice('@types/'.length).replace(/\/index$/, '')
+        : dependency
+      return `import("${name}")`
+    }
+    const source = `${root.replaceAll('\\', '/')}/src/`
+    return normalized.startsWith(source)
+      ? `import("@/${normalized.slice(source.length)}")`
+      : expression
+  })
+}
 function getAPI(content: string, path: string) {
   const file =
     program.getSourceFile(path) ??
@@ -114,7 +130,7 @@ function getAPI(content: string, path: string) {
           )
         : 'unknown'
       types.push(
-        `export function ${statement.name.text}${statement.typeParameters ? `<${statement.typeParameters.map((t) => t.getText(file)).join(', ')}>` : ''}(${statement.parameters.map((p) => p.getText(file)).join(', ')}): ${returnType}`,
+        `export function ${statement.name.text}${statement.typeParameters ? `<${statement.typeParameters.map((t) => t.getText(file)).join(', ')}>` : ''}(${statement.parameters.map((p) => p.getText(file)).join(', ')}): ${portableType(returnType)}`,
       )
     }
     if (

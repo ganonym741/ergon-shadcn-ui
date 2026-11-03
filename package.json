@@ -9,6 +9,7 @@
     "preview": "vite preview --host 127.0.0.1",
     "registry:build": "bun scripts/build-registry.ts",
     "charts:check": "bun scripts/check-chart-bundles.ts",
+    "consumer:check": "bun run registry:build && bun scripts/check-consumer-source.ts",
     "cli:build": "bun run --cwd packages/cli build",
     "cli:check": "bun run --cwd packages/cli check",
     "cli:test": "bun run --cwd packages/cli test",
@@ -21,7 +22,7 @@
     "commitlint": "commitlint",
     "commit": "cz",
     "hooks:check": "bun scripts/check-git-hooks.ts",
-    "verify": "bun run lint && bun run format:check && bun run check && bun run cli:check && bun run test && bun run cli:test && bun run build"
+    "verify": "bun run lint && bun run format:check && bun run check && bun run cli:check && bun run test && bun run cli:test && bun run consumer:check && bun run build"
   },
   "config": {
     "commitizen": {

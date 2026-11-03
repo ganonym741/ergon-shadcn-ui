@@ -45,6 +45,12 @@ describe('source distribution', () => {
     }
     expect(new Set(components.map((c) => c.id)).size).toBe(components.length)
   })
+  it('keeps every generated API portable across checkout locations', async () => {
+    for (const { id } of components) {
+      const api = JSON.parse(await readFile(`public/api/${id}.json`, 'utf8'))
+      expect(JSON.stringify(api.api), id).not.toMatch(/(?:[A-Z]:[\\/]|\/node_modules\/)/)
+    }
+  })
   it('includes all transitive source imports, package dependencies, and shadcn attribution', async () => {
     for (const component of components) {
       const item = JSON.parse(await readFile(`public/r/${component.id}.json`, 'utf8'))
