@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/chart'
 import * as echarts from 'echarts/core'
 import { MapChart } from '@/components/ui/map-chart'
+import { BoxplotChart } from '@/components/ui/boxplot-chart'
 
 import { BarChart } from '@/components/ui/bar-chart'
 import { AreaChart } from '@/components/ui/area-chart'
@@ -98,6 +99,19 @@ describe('dashboard chart compositions', () => {
     expect(merged.grid).toMatchObject({ right: 40 })
     expect(base.grid.right).toBe(12)
     expect(base.series[0].data).toEqual([0, 1])
+  })
+  it('renders summary boxes and outlier coordinates in either orientation', () => {
+    render(
+      <BoxplotChart
+        label="Latency"
+        horizontal
+        data={[{ id: 'api', label: 'API', summary: [0, 2, 4, 6, 8], outliers: [20] }]}
+      />,
+    )
+    const applied = latest().getOption()
+    expect(applied.series[0].data[0].value).toEqual([0, 2, 4, 6, 8])
+    expect(applied.series[1].data[0].value).toEqual([20, 0])
+    expect(applied.yAxis.data).toEqual(['API'])
   })
   it('registers injected maps before initialization and forwards named selections', async () => {
     const user = userEvent.setup()
