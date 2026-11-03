@@ -24,6 +24,7 @@ const cases = [
   ['combo-chart', 'ComboChart', 'bar,line'],
   ['sankey-chart', 'SankeyChart', 'sankey'],
   ['candlestick-chart', 'CandlestickChart', 'bar,candlestick,line'],
+  ['gantt-chart', 'GanttChart', 'custom'],
 ] as const
 const report: Record<string, unknown> = {}
 for (const [id, component, expected] of cases) {
@@ -67,7 +68,7 @@ for (const [id, component, expected] of cases) {
       ),
     ),
   ]
-    .filter((name) => name !== 'custom')
+    .filter((name) => name !== 'custom' || id === 'gantt-chart')
     .sort()
   if (installedSeries.join(',') !== (expected ?? ''))
     throw new Error(`${id} contains unexpected series installers: ${installedSeries.join(',')}`)

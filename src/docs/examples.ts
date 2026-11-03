@@ -19,6 +19,17 @@ function Tasks() {
   onEventMove={(event, previous) => console.log(event, previous)} />
 // Use events + onEventsChange for application-owned state. All-day end dates are exclusive.
 // Inject persistence in your application; defaultEvents only changes local state.`,
+  'gantt-chart': `import { GanttChart, type GanttTask } from "@/components/ui/gantt-chart"
+import { useState } from "react"
+
+function Schedule() {
+  const [tasks, setTasks] = useState<GanttTask[]>([
+    { id: "design", title: "Design", start: "2026-11-02", end: "2026-11-06", progress: 70 },
+    { id: "ship", title: "Ship", type: "milestone", start: "2026-11-09", dependsOn: ["design"] },
+  ])
+  return <GanttChart label="Release schedule" data={tasks} editable onTasksChange={setTasks} zoom />
+}
+// End dates are inclusive. Dependencies are checked; tasks are not automatically rescheduled.`,
   'map-chart': `import { MapChart, type ChartMapSource } from "@/components/ui/map-chart"
 
 // Load your own GeoJSON in application code, then pass the parsed source here.

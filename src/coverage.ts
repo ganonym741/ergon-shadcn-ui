@@ -23,6 +23,16 @@ export const coverage: Record<string, Coverage> = {
       'Uses matching FullCalendar 6.1.22 free plugins. No premium resource scheduler is bundled. All-day event end dates are exclusive in the API; the editor shows an inclusive last day. Persistence belongs to application callbacks.',
     ],
   },
+  'gantt-chart': {
+    implemented: [
+      'Date-only tasks, groups, milestones, progress and finish-to-start dependency arrows',
+      'Dependency/parent cycle validation, conflict reporting, group collapse and controlled task editing',
+      'Modular custom ECharts series, lazy Canvas/zoom, readable task table and keyboard controls',
+    ],
+    notes: [
+      'Dates are UTC YYYY-MM-DD keys and task end dates are inclusive. Group ranges are application-supplied. Conflicts are reported without automatic rescheduling. Dependency arrows connect visible tasks. Up to 2,000 tasks and 10,000 dependency edges are accepted.',
+    ],
+  },
   'map-chart': {
     implemented: [
       'Application-supplied GeoJSON and region values with stable IDs',

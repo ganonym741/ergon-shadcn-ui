@@ -33,6 +33,13 @@ export const components: ComponentInfo[] = [
     keywords: 'scheduler calendar month week day agenda events resize',
   },
   {
+    id: 'gantt-chart',
+    name: 'Gantt Chart',
+    category: 'Chart',
+    description: 'See how tasks, milestones, and dependencies come together.',
+    keywords: 'gantt timeline project schedule dependencies milestone progress',
+  },
+  {
     id: 'rich-text-editor',
     name: 'Rich Text Editor',
     category: 'Data entry',
