@@ -120,7 +120,7 @@ export function DescriptionsPlus({
         columns={columns}
         items={fields.map(({ key, label, validate: _validate, ...field }) => ({
           key,
-          label,
+          label: <label htmlFor={`${id}-${key}`}>{label}</label>,
           children: (
             <div className="space-y-2">
               <FieldPlus

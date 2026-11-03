@@ -1,8 +1,9 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { DatePicker, DateRangePicker, MultiDatePicker } from '@/components/ui/date-picker'
+import { DescriptionsPlus } from '@/components/ui/descriptions-plus'
 
 afterEach(() => {
   vi.restoreAllMocks()
@@ -40,5 +41,33 @@ describe('release regressions', () => {
     view.rerender(<DatePicker value={new Date(2035, 0, 2, 12)} />)
     await user.click(screen.getByRole('button'))
     expect(screen.getByText('January 2035')).toBeInTheDocument()
+  })
+
+  it('names description editing controls and saves their labeled values', async () => {
+    const user = userEvent.setup(),
+      save = vi.fn()
+    render(
+      <DescriptionsPlus
+        record={{ name: 'Sarah', role: 'designer', active: true }}
+        fields={[
+          { key: 'name', label: 'Name' },
+          { key: 'role', label: 'Role' },
+          { key: 'active', label: 'Active', type: 'switch' },
+        ]}
+        onSave={save}
+      />,
+    )
+    await user.click(screen.getByRole('button', { name: 'Edit' }))
+    await user.clear(screen.getByRole('textbox', { name: 'Name' }))
+    await user.type(screen.getByRole('textbox', { name: 'Name' }), 'Nina')
+    expect(screen.getByRole('textbox', { name: 'Role' })).toHaveValue('designer')
+    await user.click(screen.getByRole('switch', { name: 'Active' }))
+    await user.click(screen.getByRole('button', { name: 'Save changes' }))
+    await waitFor(() =>
+      expect(save).toHaveBeenCalledWith(
+        { name: 'Nina', role: 'designer', active: false },
+        expect.any(AbortSignal),
+      ),
+    )
   })
 })
