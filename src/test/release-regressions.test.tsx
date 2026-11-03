@@ -1,9 +1,10 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { DatePicker, DateRangePicker, MultiDatePicker } from '@/components/ui/date-picker'
 import { DescriptionsPlus } from '@/components/ui/descriptions-plus'
+import { Mentions } from '@/components/ui/mentions'
 
 afterEach(() => {
   vi.restoreAllMocks()
@@ -69,5 +70,64 @@ describe('release regressions', () => {
         expect.any(AbortSignal),
       ),
     )
+  })
+
+  it('dismisses mentions with Escape and blur, and reopens after typing', async () => {
+    const user = userEvent.setup()
+    render(
+      <>
+        <Mentions options={[{ value: 'sarah', label: 'Sarah Kim' }]} />
+        <button>Outside</button>
+      </>,
+    )
+    const field = screen.getByRole('textbox', { name: 'Message' })
+    await user.type(field, 'Hello @sa')
+    expect(screen.getByRole('listbox')).toBeInTheDocument()
+    await user.keyboard('{Escape}')
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
+    await user.keyboard('r')
+    expect(screen.getByRole('option', { name: /^Sarah Kim/ })).toBeInTheDocument()
+    await user.tab()
+    expect(screen.getByRole('button', { name: 'Outside' })).toHaveFocus()
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
+  })
+
+  it('preserves text after an inserted mention and restores the insertion caret', async () => {
+    const user = userEvent.setup()
+    render(
+      <Mentions defaultValue="Before  after" options={[{ value: 'sarah', label: 'Sarah Kim' }]} />,
+    )
+    const field = screen.getByRole('textbox', { name: 'Message' })
+    await user.click(field)
+    await user.keyboard('{Home}{ArrowRight>7/}@sa')
+    await user.click(screen.getByRole('option', { name: /^Sarah Kim/ }))
+    expect(field).toHaveValue('Before @sarah  after')
+    await user.keyboard('now')
+    expect(field).toHaveValue('Before @sarah now after')
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
+  })
+
+  it('cancels a dismissed async mention request and ignores its late result', async () => {
+    const user = userEvent.setup()
+    const requests: {
+      query: string
+      signal: AbortSignal
+      resolve: (value: { value: string; label: string }[]) => void
+    }[] = []
+    const load = vi.fn(
+      (query: string, signal: AbortSignal) =>
+        new Promise<{ value: string; label: string }[]>((resolve) =>
+          requests.push({ query, signal, resolve }),
+        ),
+    )
+    render(<Mentions options={[]} loadOptions={load} />)
+    await user.type(screen.getByRole('textbox'), '@sa')
+    await waitFor(() => expect(requests.some((request) => request.query === 'sa')).toBe(true))
+    const request = requests.find((request) => request.query === 'sa')!
+    await user.keyboard('{Escape}')
+    expect(request.signal.aborted).toBe(true)
+    await act(async () => request.resolve([{ value: 'sarah', label: 'Sarah Kim' }]))
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
+    expect(screen.queryByRole('status')).not.toBeInTheDocument()
   })
 })
