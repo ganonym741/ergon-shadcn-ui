@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { calculateBoxplotStatistics } from '@/components/ui/boxplot-chart'
-
+import { calculateMovingAverage, type CandlestickDatum } from '@/components/ui/candlestick-chart'
 import { calendarDateExtent } from '@/components/ui/calendar-heatmap-chart'
 import { validateSankeyData } from '@/components/ui/sankey-chart'
 describe('chart data processing', () => {
@@ -12,6 +12,14 @@ describe('chart data processing', () => {
     expect(() => calculateBoxplotStatistics([])).toThrow()
     expect(() => calculateBoxplotStatistics([1, NaN])).toThrow()
     expect(() => calculateBoxplotStatistics([1, 2], -1)).toThrow()
+  })
+  it('calculates trailing moving averages with explicit warm-up gaps', () => {
+    const data = [0, 3, 6, 9].map((close) => ({ close })) as CandlestickDatum[]
+    expect(calculateMovingAverage(data, 3)).toEqual([null, null, 3, 6])
+    expect(calculateMovingAverage(data, 1)).toEqual([0, 3, 6, 9])
+    expect(calculateMovingAverage(data, 10)).toEqual([null, null, null, null])
+    expect(() => calculateMovingAverage(data, 0)).toThrow()
+    expect(() => calculateMovingAverage([{ close: NaN }] as CandlestickDatum[], 2)).toThrow()
   })
   it('resolves calendar ranges and validates leap days without time-zone conversion', () => {
     expect(calendarDateExtent('2024-02')).toEqual(['2024-02-01', '2024-02-29'])

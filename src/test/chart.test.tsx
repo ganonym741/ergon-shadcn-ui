@@ -15,7 +15,7 @@ import { BoxplotChart } from '@/components/ui/boxplot-chart'
 import { CalendarHeatmapChart } from '@/components/ui/calendar-heatmap-chart'
 import { ComboChart } from '@/components/ui/combo-chart'
 import { SankeyChart } from '@/components/ui/sankey-chart'
-
+import { CandlestickChart, type CandlestickDatum } from '@/components/ui/candlestick-chart'
 import { BarChart } from '@/components/ui/bar-chart'
 import { AreaChart } from '@/components/ui/area-chart'
 import { LineChart } from '@/components/ui/line-chart'
@@ -206,6 +206,11 @@ describe('dashboard chart compositions', () => {
     )
     expect(screen.getByText('No data to display')).toBeInTheDocument()
   })
+  const market: CandlestickDatum[] = [
+    { id: 'a', date: '2026-01-01', open: 10, close: 11, low: 9, high: 12, volume: 100 },
+    { id: 'b', date: '2026-01-02', open: 11, close: 12, low: 10, high: 13, volume: 200 },
+    { id: 'c', date: '2026-01-03', open: 12, close: 13, low: 11, high: 14, volume: 300 },
+  ]
   it('restores map selection and viewport when the theme recreates the renderer', async () => {
     const geo = { type: 'FeatureCollection' as const, features: [] },
       data = [{ id: 'north', name: 'North', value: 42 }]
@@ -230,6 +235,109 @@ describe('dashboard chart compositions', () => {
       options.some((o: any) => o.series?.[0]?.zoom === 2 && o.series?.[0]?.center?.[0] === 3),
     ).toBe(true)
     expect(screen.getByLabelText('Selected region')).toHaveValue('North')
+  })
+  it('restores brush data coordinates across theme changes without retaining old panel IDs or repeating semantic callbacks', async () => {
+    const selected = vi.fn(),
+      averages = [2]
+    const view = render(
+      <CandlestickChart
+        label="Market"
+        data={market}
+        movingAverages={averages}
+        zoom={false}
+        onSelectionChange={selected}
+      />,
+    )
+    await waitFor(() => expect(screen.getByRole('button', { name: 'Apply range' })).toBeEnabled())
+    const event = {
+      batch: [
+        {
+          areas: [
+            {
+              brushType: 'lineX',
+              xAxisIndex: 0,
+              coordRange: [1, 2],
+              range: [100, 200],
+              panelId: 'old-engine',
+            },
+          ],
+          selected: [{ seriesIndex: 0, dataIndex: [1, 2] }],
+        },
+      ],
+    }
+    act(() => latest().handlers.get('brushselected')(event))
+    view.rerender(
+      <CandlestickChart
+        label="Market"
+        data={market}
+        movingAverages={averages}
+        zoom={false}
+        theme="dark"
+        onSelectionChange={selected}
+      />,
+    )
+    await waitFor(() => expect(engine.instances).toHaveLength(2))
+    expect(latest().dispatchAction).toHaveBeenCalledWith({
+      type: 'brush',
+      areas: [{ brushType: 'lineX', xAxisIndex: 0, coordRange: [1, 2] }],
+    })
+    act(() => latest().handlers.get('brushselected')(event))
+    expect(selected).toHaveBeenCalledTimes(1)
+    expect(screen.getByText('2 selected')).toBeInTheDocument()
+  })
+  it('orders OHLC dimensions correctly and links volume and average series', () => {
+    render(
+      <CandlestickChart
+        label="Market"
+        data={market}
+        movingAverages={[2]}
+        brush={false}
+        zoom={false}
+      />,
+    )
+    const applied = latest().getOption()
+    expect(applied.series[0].data[0].value).toEqual([10, 11, 9, 12])
+    expect(applied.series[1].data).toEqual([null, 11.5, 12.5])
+    expect(applied.series[2]).toMatchObject({ type: 'bar', xAxisIndex: 1, yAxisIndex: 1 })
+    expect(applied.xAxis[0].data).toEqual(applied.xAxis[1].data)
+  })
+  it('supports keyboard range application, typed brush callbacks and clearing', async () => {
+    const user = userEvent.setup(),
+      selected = vi.fn()
+    render(
+      <CandlestickChart
+        label="Market"
+        data={market}
+        movingAverages={[]}
+        zoom={false}
+        onSelectionChange={selected}
+      />,
+    )
+    await waitFor(() => expect(screen.getByRole('button', { name: 'Apply range' })).toBeEnabled())
+    await user.selectOptions(screen.getByLabelText('Selection start'), '1')
+    await user.click(screen.getByRole('button', { name: 'Apply range' }))
+    expect(latest().dispatchAction).toHaveBeenCalledWith({
+      type: 'brush',
+      areas: [{ brushType: 'lineX', xAxisIndex: 0, coordRange: [1, 2] }],
+    })
+    act(() =>
+      latest().handlers.get('brushselected')({
+        batch: [
+          {
+            selected: [
+              { seriesIndex: 0, dataIndex: [1, 2] },
+              { seriesIndex: 1, dataIndex: [1] },
+            ],
+          },
+        ],
+      }),
+    )
+    expect(selected).toHaveBeenLastCalledWith({ indices: [1, 2], rows: [market[1], market[2]] })
+    expect(screen.getByText('2 selected')).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Clear selection' }))
+    expect(latest().dispatchAction).toHaveBeenCalledWith({ type: 'brush', areas: [] })
+    act(() => latest().handlers.get('brushselected')({ batch: [{ selected: [] }] }))
+    expect(screen.getByText('0 selected')).toBeInTheDocument()
   })
 })
 
