@@ -3360,6 +3360,10 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
           "path": "LICENSES/shadcn-ui.txt",
           "type": "registry:file",
           "target": "~/LICENSES/shadcn-ui.txt"
@@ -3400,6 +3404,10 @@
         },
         {
           "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-brush.tsx",
           "type": "registry:ui"
         },
         {
@@ -3450,6 +3458,10 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
           "path": "src/components/ui/chart-cartesian.tsx",
           "type": "registry:ui"
         },
@@ -3494,6 +3506,10 @@
         },
         {
           "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-brush.tsx",
           "type": "registry:ui"
         },
         {
@@ -3544,6 +3560,10 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
           "path": "LICENSES/shadcn-ui.txt",
           "type": "registry:file",
           "target": "~/LICENSES/shadcn-ui.txt"
@@ -3584,6 +3604,10 @@
         },
         {
           "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-brush.tsx",
           "type": "registry:ui"
         },
         {
@@ -3630,6 +3654,10 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
           "path": "LICENSES/shadcn-ui.txt",
           "type": "registry:file",
           "target": "~/LICENSES/shadcn-ui.txt"
@@ -3673,6 +3701,10 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
           "path": "LICENSES/shadcn-ui.txt",
           "type": "registry:file",
           "target": "~/LICENSES/shadcn-ui.txt"
@@ -3713,6 +3745,315 @@
         },
         {
           "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "map-chart",
+      "type": "registry:ui",
+      "title": "Geographic Map",
+      "description": "See the regional shape of your data.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "echarts@6.1.0",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/map-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/chart-canvas-renderer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "boxplot-chart",
+      "type": "registry:ui",
+      "title": "Boxplot Chart",
+      "description": "Understand the spread behind the average.",
+      "dependencies": [
+        "clsx@2.1.1",
+        "echarts@6.1.0",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/boxplot-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/chart-canvas-renderer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "calendar-heatmap-chart",
+      "type": "registry:ui",
+      "title": "Calendar Heatmap",
+      "description": "Discover the rhythm in every day.",
+      "dependencies": [
+        "clsx@2.1.1",
+        "echarts@6.1.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/calendar-heatmap-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/chart-canvas-renderer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/config-provider.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/contrast.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "combo-chart",
+      "type": "registry:ui",
+      "title": "Combo Chart",
+      "description": "Bring related metrics into one clear view.",
+      "dependencies": [
+        "clsx@2.1.1",
+        "echarts@6.1.0",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/combo-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/chart-canvas-renderer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "sankey-chart",
+      "type": "registry:ui",
+      "title": "Sankey Chart",
+      "description": "Follow the flow from source to destination.",
+      "dependencies": [
+        "clsx@2.1.1",
+        "echarts@6.1.0",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/sankey-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/chart-canvas-renderer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "candlestick-chart",
+      "type": "registry:ui",
+      "title": "Candlestick Chart",
+      "description": "Read price movements with volume and context.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "echarts@6.1.0",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/candlestick-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/chart-canvas-renderer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
           "type": "registry:ui"
         },
         {

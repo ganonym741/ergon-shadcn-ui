@@ -76,6 +76,12 @@ React components built on shadcn/ui component source and community work, includi
 - Radar Chart: /r/radar-chart.json — Compare strengths from every angle.
 - Heatmap Chart: /r/heatmap-chart.json — Let intensity reveal the pattern.
 - Gauge Chart: /r/gauge-chart.json — A clear reading of progress toward a goal.
+- Geographic Map: /r/map-chart.json — See the regional shape of your data.
+- Boxplot Chart: /r/boxplot-chart.json — Understand the spread behind the average.
+- Calendar Heatmap: /r/calendar-heatmap-chart.json — Discover the rhythm in every day.
+- Combo Chart: /r/combo-chart.json — Bring related metrics into one clear view.
+- Sankey Chart: /r/sankey-chart.json — Follow the flow from source to destination.
+- Candlestick Chart: /r/candlestick-chart.json — Read price movements with volume and context.
 - Alert: /r/alert.json — The right message in the right tone.
 - Drawer: /r/drawer.json — A little more space, without leaving the page.
 - Message: /r/message.json — Quick feedback that keeps things moving.

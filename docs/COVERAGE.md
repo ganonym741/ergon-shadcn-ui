@@ -55,12 +55,12 @@ Each component provides editable source, typed APIs, and an interactive playgrou
 
 | Component | Capabilities | Verification / integration notes |
 | --- | --- | --- |
-| Anchor | Nested anchor links; Native section scrolling; Scrollspy active tracking; Horizontal anchor preset | Playground and source available. |
+| Anchor | Nested anchor links; Offset-aware section scrolling; Window and nested scroll containers; Scrollspy active tracking; Horizontal anchor preset | Playground and source available. |
 | Breadcrumb | Composable links, separators and current page; Ellipsis and custom separators; Route-derived item helper | Playground and source available. |
 | Dropdown | Accessible menus, nested submenus, groups; Checkbox and radio items; Shortcuts, placement and keyboard navigation; Context-menu trigger recipe | Playground and source available. |
 | Menu | Nested navigation, icons and disabled items; Controlled selected destination; Horizontal and collapsed menu modes; Keyboard arrow roving | Playground and source available. |
 | Pagination | Composable page links, previous/next, ellipsis; Active state and accessible navigation; Quick-jump/page-size convenience wrapper | Playground and source available. |
-| Steps | Controlled step navigation; Horizontal/vertical; Descriptions and disabled steps; Error/wait/status variants; Custom step icons | Playground and source available. |
+| Steps | Controlled step navigation; Horizontal/vertical; Responsive layout based on available component width; Descriptions and disabled steps; Error/wait/status variants; Custom step icons | Playground and source available. |
 | Tabs | Controlled/uncontrolled tabs; Keyboard navigation; Independent parts and orientations; Overflow tab navigation; Closable/reorderable tabs | Playground and source available. |
 
 ## Data display
@@ -106,6 +106,12 @@ Each component provides editable source, typed APIs, and an interactive playgrou
 | Radar Chart | Named indicators and comparison series with custom axis limits; Polygon/circular grids and optional filled areas; Tooltips, keyboard-operable legend and readable data table | Playground and source available. |
 | Heatmap Chart | Categorical matrix with stable point IDs and configurable value range; Interactive visual-map range, cell labels and tooltips; Readable data table and native ECharts overrides | Playground and source available. |
 | Gauge Chart | Gauge value, range, unit and label with optional pointer; Animated progress arc, loading/error states and image export; Readable data table and native ECharts overrides | Playground and source available. |
+| Geographic Map | Application-supplied GeoJSON and region values with stable IDs; Pan/zoom with viewport retention, pointer/keyboard region selection, callbacks and value colors; SVG/Canvas, accessible data table, loading/error states and export | GeoJSON is supplied by the application and registered with its stable mapName. Map assets are not installed with this component. Playground values are local samples; world boundaries are Natural Earth public-domain data. |
+| Boxplot Chart | Five-number summaries, optional outliers and raw-observation statistics helper; Horizontal/vertical layout, zoom, tooltip and readable statistics table; Configurable composition, theme, renderer, palette and native options | calculateBoxplotStatistics uses interpolated quartiles and a configurable IQR whisker multiplier; supplied observations are not mutated. |
+| Calendar Heatmap | Daily values across a year, month, date or explicit date range; Horizontal/vertical calendar, localized day/month labels and first weekday; Color scale, readable data table and scrollable minimum cell size | Dates use YYYY-MM-DD calendar keys. Supply one aggregated value per date; ranges filter the displayed data. |
+| Combo Chart | Mixed bar, line and area series with stable IDs; Named multiple value axes, per-series axis mapping, units and stacking groups; Legend, data zoom, labels, data table and native option overrides | Playground and source available. |
+| Sankey Chart | Weighted node/link flows with stable IDs and labels; Horizontal/vertical orientation, node alignment, spacing, dragging and adjacency emphasis; Cycle and link validation, accessible edge table and native overrides | Sankey flows must form a directed acyclic graph with finite, nonnegative weights. |
+| Candlestick Chart | Typed OHLC observations with linked price/volume panels; Configurable moving averages, bullish/bearish colors and linked data zoom; Pointer brush and keyboard range controls, selection callbacks and readable OHLC table | Examples use simulated market observations. Canvas, zoom and brush modules load on demand. |
 
 ## Feedback
 
