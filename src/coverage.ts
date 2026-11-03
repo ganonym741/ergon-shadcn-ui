@@ -3,6 +3,16 @@ export interface Coverage {
   notes: string[]
 }
 export const coverage: Record<string, Coverage> = {
+  kanban: {
+    implemented: [
+      'Controlled column/card state, pointer/touch/keyboard sorting, card and column reorder callbacks',
+      'Work-in-progress limits, disabled/read-only items and explicit keyboard move forms',
+      'Named board/column/card/action parts and custom card rendering',
+    ],
+    notes: [
+      'Application code owns persistence. Card IDs are unique across the board; column IDs are unique within it.',
+    ],
+  },
   'map-chart': {
     implemented: [
       'Application-supplied GeoJSON and region values with stable IDs',

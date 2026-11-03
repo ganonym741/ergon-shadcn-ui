@@ -1,4 +1,4 @@
-export const expansionIds = [] as const
+export const expansionIds = ['kanban'] as const
 export const kanbanData = [
   {
     id: 'planned',

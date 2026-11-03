@@ -37,7 +37,7 @@ describe('source distribution', () => {
     }
   })
   it('provides a real usage example for every catalog entry', () => {
-    expect(components).toHaveLength(98)
+    expect(components).toHaveLength(99)
     for (const item of components) expect(examples[item.id], item.id).toMatch(/import/)
     for (const item of components) {
       expect(coverage[item.id], item.id).toBeDefined()

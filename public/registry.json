@@ -4,6 +4,65 @@
   "homepage": "http://localhost:5173",
   "items": [
     {
+      "name": "kanban",
+      "type": "registry:ui",
+      "title": "Kanban",
+      "description": "Give every card a clear place to move forward.",
+      "dependencies": [
+        "@dnd-kit/core@6.3.1",
+        "@dnd-kit/sortable@10.0.0",
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/kanban.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/dialog.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/config-provider.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/contrast.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
       "name": "rich-text-editor",
       "type": "registry:ui",
       "title": "Rich Text Editor",

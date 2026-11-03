@@ -1,6 +1,16 @@
 import { installationSnippets } from './installation'
 
 export const examples: Record<string, string> = {
+  kanban: `import { Kanban, type KanbanColumnData } from "@/components/ui/kanban"
+import { useState } from "react"
+
+function Tasks() {
+  const [columns, setColumns] = useState<KanbanColumnData[]>([
+    { id: "todo", title: "To do", cards: [{ id: "design", title: "Design review" }] },
+    { id: "done", title: "Done", limit: 5, cards: [] },
+  ])
+  return <Kanban value={columns} onValueChange={setColumns} onCardMove={move => console.log(move)} />
+}`,
   'map-chart': `import { MapChart, type ChartMapSource } from "@/components/ui/map-chart"
 
 // Load your own GeoJSON in application code, then pass the parsed source here.

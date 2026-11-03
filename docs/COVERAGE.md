@@ -2,6 +2,37 @@
 
 Each component provides editable source, typed APIs, and an interactive playground. This document is generated from src/coverage.ts.
 
+## Data display
+
+| Component | Capabilities | Verification / integration notes |
+| --- | --- | --- |
+| Kanban | Controlled column/card state, pointer/touch/keyboard sorting, card and column reorder callbacks; Work-in-progress limits, disabled/read-only items and explicit keyboard move forms; Named board/column/card/action parts and custom card rendering | Application code owns persistence. Card IDs are unique across the board; column IDs are unique within it. |
+| Avatar | Image loading and fallback; Custom sizes and group composition; Overflow-count group helper; Automatic text scaling | Playground and source available. |
+| Badge | Status/treatment variants; Count overflow and dot badges; Processing status indicator; Ribbon composition preset | Playground and source available. |
+| Calendar | Single/range/multiple selection through Day Picker; Month/year navigation and locale props; EventCalendar dots and agenda; Full-size month/year event grid | Playground and source available. |
+| Card | Header, description, content and footer; Slots and style overrides; Metadata/cover/grid convenience presets | Playground and source available. |
+| Card+ | Header, description, extra and footer; Collapsible content; Grid/split layouts by composition; Tabbed/checked card group convenience API | Playground and source available. |
+| Carousel | Swipe and keyboard navigation; Loop/axis options; Previous/next composition and API access; Autoplay and dot pagination preset | Playground and source available. |
+| Collapse | Single/multiple accordions; Controlled expansion; Keyboard navigation and independent parts; Borderless/ghost variant presets | Playground and source available. |
+| Descriptions | Responsive key/value composition; Column count and spanning items; Bordered layout; Horizontal label/content grid preset | Playground and source available. |
+| Descriptions+ | Schema-driven formatting; Record editing with async save; Failure state and cancellation; Remote request helper; Per-field save and validation | Playground and source available. |
+| Empty | Custom icon, title, description and action content; Bundled illustration variations | Playground and source available. |
+| Image | Image preview and zoom; Gallery keyboard navigation; Gallery rotation and index; Custom thumbnails; Preview error/loading and image download controls | Playground and source available. |
+| List | Typed collections with stable item keys and custom rendering; List and responsive grid layouts with empty states; Measured virtualization and incremental loading | Playground and source available. |
+| List+ | Typed searchable list/grid with selection and pagination; Cancellable remote requests, loading, errors and retry; Measured virtual rendering and incremental local/remote loading | Connect the cancellable request callback to your own service. |
+| Popover | Controlled overlays, placement and alignment; Keyboard dismissal; Accessible focus and anchor composition | Playground and source available. |
+| QR Code | SVG rendering and error-correction levels; Custom colors and size; Loading/expired/scanned status; Refresh and SVG download; PNG export; Center icon overlay preset | Playground and source available. |
+| Segmented | Controlled/uncontrolled selection; Disabled items; Roving keyboard selection and custom labels; Vertical layout preset | Playground and source available. |
+| Statistic | Locale-aware numeric formatting; Prefixes, suffixes, precision and trend; Countdown/timer and count-up animation | Playground and source available. |
+| Table | Search, per-column filters, multi-sort, pagination and stable-key selection; Grouped headers, grouping, nested records, expansion and summaries; Pinned, resizable, reorderable columns; drag and keyboard row reordering; Inline edits and validation, CSV export and persisted column views; Native merged row/column spans and two-axis virtualization; Playground presets for editable children/grandchildren, custom row details and nested child tables | Use stable row IDs for persistent selection, reorder and edits.; Cell merging uses native table layout; virtualization mounts visible rows and columns.; Add child is a custom playground action that updates consumer-owned data; use getSubRows, rowExpansion and onCellEdit in your application. |
+| Table+ | Cancellable server requests, debounced search, server pagination, sorting and filters; Schema query forms, local or server-backed named views and column preferences; Selection across server pages, cached selected records and asynchronous batch actions; Nested child rows, custom expansion content, nested child tables and child editing playground presets | Connect request, saved-view and batch callbacks to your own service. Use stable IDs across pages. |
+| Editable Table+ | Controlled record insertion, deletion and inline editing; Per-row save/cancel, batch field editing and complete transaction cancellation; Asynchronous commits, row validation and optimistic rollback on failure | Use stable IDs for transactions. onCommit receives the next record set, mutations and an AbortSignal. |
+| Tag | Color treatments; Close action; Controlled selectable tags; Icon-only convenience preset | Playground and source available. |
+| Timeline | Statuses, custom icons, timestamps and reverse order; Alternating/horizontal layout presets | Playground and source available. |
+| Tooltip | Accessible hover/focus content; Delayed triggers and placement; Controlled/uncontrolled state | Playground and source available. |
+| Tour | Step navigation and skip/finish; Target-anchored popovers; Target spotlight with scroll/resize updates; Centered fallback and keyboard dismissal; Animated target transitions; Cross-route walkthroughs | beforeEnter can await navigation or target preparation before each step. |
+| Tree | Controlled checking and expansion; Descendant propagation and mixed parents; Keyboard traversal; Virtual rows and async children; Cycle/disabled drop guards with external mutation callback; Drag placement/reordering UI | Playground and source available. |
+
 ## Data entry
 
 | Component | Capabilities | Verification / integration notes |
@@ -62,36 +93,6 @@ Each component provides editable source, typed APIs, and an interactive playgrou
 | Pagination | Composable page links, previous/next, ellipsis; Active state and accessible navigation; Quick-jump/page-size convenience wrapper | Playground and source available. |
 | Steps | Controlled step navigation; Horizontal/vertical; Responsive layout based on available component width; Descriptions and disabled steps; Error/wait/status variants; Custom step icons | Playground and source available. |
 | Tabs | Controlled/uncontrolled tabs; Keyboard navigation; Independent parts and orientations; Overflow tab navigation; Closable/reorderable tabs | Playground and source available. |
-
-## Data display
-
-| Component | Capabilities | Verification / integration notes |
-| --- | --- | --- |
-| Avatar | Image loading and fallback; Custom sizes and group composition; Overflow-count group helper; Automatic text scaling | Playground and source available. |
-| Badge | Status/treatment variants; Count overflow and dot badges; Processing status indicator; Ribbon composition preset | Playground and source available. |
-| Calendar | Single/range/multiple selection through Day Picker; Month/year navigation and locale props; EventCalendar dots and agenda; Full-size month/year event grid | Playground and source available. |
-| Card | Header, description, content and footer; Slots and style overrides; Metadata/cover/grid convenience presets | Playground and source available. |
-| Card+ | Header, description, extra and footer; Collapsible content; Grid/split layouts by composition; Tabbed/checked card group convenience API | Playground and source available. |
-| Carousel | Swipe and keyboard navigation; Loop/axis options; Previous/next composition and API access; Autoplay and dot pagination preset | Playground and source available. |
-| Collapse | Single/multiple accordions; Controlled expansion; Keyboard navigation and independent parts; Borderless/ghost variant presets | Playground and source available. |
-| Descriptions | Responsive key/value composition; Column count and spanning items; Bordered layout; Horizontal label/content grid preset | Playground and source available. |
-| Descriptions+ | Schema-driven formatting; Record editing with async save; Failure state and cancellation; Remote request helper; Per-field save and validation | Playground and source available. |
-| Empty | Custom icon, title, description and action content; Bundled illustration variations | Playground and source available. |
-| Image | Image preview and zoom; Gallery keyboard navigation; Gallery rotation and index; Custom thumbnails; Preview error/loading and image download controls | Playground and source available. |
-| List | Typed collections with stable item keys and custom rendering; List and responsive grid layouts with empty states; Measured virtualization and incremental loading | Playground and source available. |
-| List+ | Typed searchable list/grid with selection and pagination; Cancellable remote requests, loading, errors and retry; Measured virtual rendering and incremental local/remote loading | Connect the cancellable request callback to your own service. |
-| Popover | Controlled overlays, placement and alignment; Keyboard dismissal; Accessible focus and anchor composition | Playground and source available. |
-| QR Code | SVG rendering and error-correction levels; Custom colors and size; Loading/expired/scanned status; Refresh and SVG download; PNG export; Center icon overlay preset | Playground and source available. |
-| Segmented | Controlled/uncontrolled selection; Disabled items; Roving keyboard selection and custom labels; Vertical layout preset | Playground and source available. |
-| Statistic | Locale-aware numeric formatting; Prefixes, suffixes, precision and trend; Countdown/timer and count-up animation | Playground and source available. |
-| Table | Search, per-column filters, multi-sort, pagination and stable-key selection; Grouped headers, grouping, nested records, expansion and summaries; Pinned, resizable, reorderable columns; drag and keyboard row reordering; Inline edits and validation, CSV export and persisted column views; Native merged row/column spans and two-axis virtualization; Playground presets for editable children/grandchildren, custom row details and nested child tables | Use stable row IDs for persistent selection, reorder and edits.; Cell merging uses native table layout; virtualization mounts visible rows and columns.; Add child is a custom playground action that updates consumer-owned data; use getSubRows, rowExpansion and onCellEdit in your application. |
-| Table+ | Cancellable server requests, debounced search, server pagination, sorting and filters; Schema query forms, local or server-backed named views and column preferences; Selection across server pages, cached selected records and asynchronous batch actions; Nested child rows, custom expansion content, nested child tables and child editing playground presets | Connect request, saved-view and batch callbacks to your own service. Use stable IDs across pages. |
-| Editable Table+ | Controlled record insertion, deletion and inline editing; Per-row save/cancel, batch field editing and complete transaction cancellation; Asynchronous commits, row validation and optimistic rollback on failure | Use stable IDs for transactions. onCommit receives the next record set, mutations and an AbortSignal. |
-| Tag | Color treatments; Close action; Controlled selectable tags; Icon-only convenience preset | Playground and source available. |
-| Timeline | Statuses, custom icons, timestamps and reverse order; Alternating/horizontal layout presets | Playground and source available. |
-| Tooltip | Accessible hover/focus content; Delayed triggers and placement; Controlled/uncontrolled state | Playground and source available. |
-| Tour | Step navigation and skip/finish; Target-anchored popovers; Target spotlight with scroll/resize updates; Centered fallback and keyboard dismissal; Animated target transitions; Cross-route walkthroughs | beforeEnter can await navigation or target preparation before each step. |
-| Tree | Controlled checking and expansion; Descendant propagation and mixed parents; Keyboard traversal; Virtual rows and async children; Cycle/disabled drop guards with external mutation callback; Drag placement/reordering UI | Playground and source available. |
 
 ## Chart
 

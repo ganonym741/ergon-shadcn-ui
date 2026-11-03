@@ -19,6 +19,13 @@ export interface ComponentInfo {
 }
 export const components: ComponentInfo[] = [
   {
+    id: 'kanban',
+    name: 'Kanban',
+    category: 'Data display',
+    description: 'Give every card a clear place to move forward.',
+    keywords: 'board tasks drag drop sortable columns workflow',
+  },
+  {
     id: 'rich-text-editor',
     name: 'Rich Text Editor',
     category: 'Data entry',
