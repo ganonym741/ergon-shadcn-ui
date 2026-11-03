@@ -76,6 +76,7 @@ export function PlaygroundPreview({ id, config: v, onEvent }: PreviewProps) {
     page: n('page') || 1,
     pageSize: n('pageSize') || 10,
     open: false,
+    collapsed: b('collapsed'),
     progress: n('value') || 64,
     tags: ['Design', 'Engineering', 'Product'],
     tabs: Array.from({ length: n('count') || 4 }, (_, index) => ({
@@ -294,10 +295,12 @@ export function PlaygroundPreview({ id, config: v, onEvent }: PreviewProps) {
             <UI.LayoutSider
               width={n('width')}
               collapsible={b('collapsible')}
-              defaultCollapsed={b('collapsed')}
+              collapsed={state.collapsed}
+              onCollapsedChange={(collapsed) => set('collapsed', collapsed)}
             >
               <UI.Menu
                 items={sampleItems.slice(0, 3)}
+                collapsed={state.collapsed}
                 value={state.value}
                 onValueChange={(value) => set('value', value)}
               />

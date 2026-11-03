@@ -36,8 +36,10 @@ export function LayoutSider({
     onChange: onCollapsedChange,
   })
   const mobile = useMediaQuery(`(max-width:${breakpoint}px)`)
+  const previousMobile = React.useRef(mobile)
   React.useEffect(() => {
-    if (collapsible) setSmall(mobile)
+    if (collapsible && (mobile || previousMobile.current !== mobile)) setSmall(mobile)
+    previousMobile.current = mobile
   }, [mobile, collapsible])
   return (
     <aside
