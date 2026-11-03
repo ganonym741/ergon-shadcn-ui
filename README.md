@@ -51,17 +51,7 @@ Components are copied into your application for you to customize. Enhanced compo
 
 ## Contribute
 
-Repository tooling uses Bun and Node.js 24.
-
-```sh
-bun install --frozen-lockfile
-bun install --cwd packages/cli --frozen-lockfile
-bun run dev
-```
-
-Before submitting changes, run `bun run verify`. Run `bun run registry:build` after editing component source. CLI development and deployment are covered in the [maintainer guide](docs/PUBLISHING.md); testing scope is documented in [verification](docs/VERIFICATION.md).
-
-Husky runs ESLint before formatting staged files and validates Conventional Commit messages. Use `bun run commit` for the Commitizen prompt; pushes run the full `bun run verify` checks.
+Read the [contributor guide](CONTRIBUTING.md) for local setup, development guidelines, checks, and the review workflow. All changes to `main` require a pull request with at least **one approving review**.
 
 ## Attribution
 
