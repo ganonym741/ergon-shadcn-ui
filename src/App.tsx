@@ -544,7 +544,11 @@ export default function App() {
     }
   })
   React.useEffect(() => {
-    localStorage.setItem('ergonui-theme', JSON.stringify(settings))
+    try {
+      localStorage.setItem('ergonui-theme', JSON.stringify(settings))
+    } catch {
+      // Keep the website's appearance controls usable when persistence is unavailable.
+    }
     const el = document.documentElement
     const accent = themeAccent(settings.accent, resolvedTheme)
     el.style.setProperty('--primary', accent)

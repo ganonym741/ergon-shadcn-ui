@@ -62,7 +62,8 @@ export default function ComponentPlayground({
         return []
       }
     }),
-    [presetName, setPresetName] = React.useState('')
+    [presetName, setPresetName] = React.useState(''),
+    [storageNotice, setStorageNotice] = React.useState('')
   const onEvent = React.useCallback(
     (event: PlaygroundEvent) => setEvents((previous) => [event, ...previous].slice(0, 50)),
     [],
@@ -401,7 +402,14 @@ export default function ComponentPlayground({
                         { name: presetName.trim(), values: { ...config } },
                       ]
                       setSaved(next)
-                      localStorage.setItem(`ergonui:presets:${id}`, JSON.stringify(next))
+                      try {
+                        localStorage.setItem(`ergonui:presets:${id}`, JSON.stringify(next))
+                        setStorageNotice('')
+                      } catch {
+                        setStorageNotice(
+                          'Browser storage is unavailable. This preset is available for this session.',
+                        )
+                      }
                       setPresetName('')
                     }}
                   >
@@ -415,11 +423,23 @@ export default function ComponentPlayground({
                       variant="ghost"
                       onClick={() => {
                         setSaved([])
-                        localStorage.removeItem(`ergonui:presets:${id}`)
+                        try {
+                          localStorage.removeItem(`ergonui:presets:${id}`)
+                          setStorageNotice('')
+                        } catch {
+                          setStorageNotice(
+                            'Presets cleared for this session. Browser storage is unavailable.',
+                          )
+                        }
                       }}
                     >
                       Clear saved presets
                     </Button>
+                  )}
+                  {storageNotice && (
+                    <p role="status" className="mt-2 text-xs text-muted-foreground">
+                      {storageNotice}
+                    </p>
                   )}
                 </div>
               </div>

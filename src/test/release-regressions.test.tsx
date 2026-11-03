@@ -1,3 +1,4 @@
+import * as React from 'react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -5,6 +6,8 @@ import { Anchor } from '@/components/ui/anchor'
 import { DatePicker, DateRangePicker, MultiDatePicker } from '@/components/ui/date-picker'
 import { DescriptionsPlus } from '@/components/ui/descriptions-plus'
 import { Mentions } from '@/components/ui/mentions'
+import { ThemeProvider, useTheme } from '@/components/ui/theme-provider'
+import App from '@/App'
 
 afterEach(() => {
   vi.restoreAllMocks()
@@ -14,6 +17,46 @@ afterEach(() => {
 })
 
 describe('release regressions', () => {
+  it('keeps the documentation application visible when theme settings cannot persist', async () => {
+    vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new DOMException('Storage blocked', 'SecurityError')
+    })
+    render(
+      <ThemeProvider defaultTheme="light">
+        <App />
+      </ThemeProvider>,
+    )
+    const main = await screen.findByRole('main')
+    expect(main).toBeVisible()
+    expect(main).not.toBeEmptyDOMElement()
+  })
+  it('keeps rendering and changing theme when storage reads and writes are blocked', async () => {
+    vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+      throw new DOMException('Storage blocked', 'SecurityError')
+    })
+    vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new DOMException('Storage blocked', 'SecurityError')
+    })
+    function Toggle() {
+      const { resolvedTheme, setTheme } = useTheme()
+      return (
+        <button onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}>
+          {resolvedTheme}
+        </button>
+      )
+    }
+    render(
+      <ThemeProvider defaultTheme="dark">
+        <Toggle />
+      </ThemeProvider>,
+    )
+    expect(document.documentElement).toHaveClass('dark')
+    await userEvent.click(screen.getByRole('button', { name: 'dark' }))
+    expect(screen.getByRole('button', { name: 'light' })).toBeInTheDocument()
+    expect(document.documentElement).not.toHaveClass('dark')
+    expect(document.documentElement.style.colorScheme).toBe('light')
+  })
+
   it.each(['single', 'range', 'multiple'] as const)(
     'opens the %s date picker in the selected month',
     async (mode) => {

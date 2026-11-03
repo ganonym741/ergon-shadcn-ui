@@ -35,7 +35,11 @@ export function ThemeProvider({
   React.useLayoutEffect(() => {
     document.documentElement.classList.toggle('dark', resolvedTheme === 'dark')
     document.documentElement.style.colorScheme = resolvedTheme
-    localStorage.setItem('ergon-appearance', theme)
+    try {
+      localStorage.setItem('ergon-appearance', theme)
+    } catch {
+      // Restricted storage must not prevent in-memory theme changes or rendering.
+    }
   }, [theme, resolvedTheme])
   return (
     <ThemeContext.Provider
