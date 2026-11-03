@@ -40,6 +40,13 @@ export const components: ComponentInfo[] = [
     keywords: 'gantt timeline project schedule dependencies milestone progress',
   },
   {
+    id: 'filter-builder',
+    name: 'Filter Builder',
+    category: 'Data entry',
+    description: 'Turn complex questions into clear, reusable conditions.',
+    keywords: 'query conditions rules nested and or not filters',
+  },
+  {
     id: 'rich-text-editor',
     name: 'Rich Text Editor',
     category: 'Data entry',

@@ -33,6 +33,16 @@ export const coverage: Record<string, Coverage> = {
       'Dates are UTC YYYY-MM-DD keys and task end dates are inclusive. Group ranges are application-supplied. Conflicts are reported without automatic rescheduling. Dependency arrows connect visible tasks. Up to 2,000 tasks and 10,000 dependency edges are accepted.',
     ],
   },
+  'filter-builder': {
+    implemented: [
+      'Serializable typed AND/OR/NOT trees, nested groups and rule reorder/remove/reset controls',
+      'Text, number, date, boolean and select editors with supported operator validation',
+      'Pure bounded query validator/evaluator and application-defined value editors',
+    ],
+    notes: [
+      'The AST is not SQL or backend query text. Translate it in application code; the example filters local sample records.',
+    ],
+  },
   'map-chart': {
     implemented: [
       'Application-supplied GeoJSON and region values with stable IDs',

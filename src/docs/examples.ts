@@ -30,6 +30,15 @@ function Schedule() {
   return <GanttChart label="Release schedule" data={tasks} editable onTasksChange={setTasks} zoom />
 }
 // End dates are inclusive. Dependencies are checked; tasks are not automatically rescheduled.`,
+  'filter-builder': `import { FilterBuilder, matchesFilter, type FilterField, type FilterGroup } from "@/components/ui/filter-builder"
+import { useState } from "react"
+
+const fields: FilterField[] = [{ id: "revenue", label: "Revenue", type: "number" }]
+function Filters() {
+  const [query, setQuery] = useState<FilterGroup>({ id: "root", kind: "group", combinator: "and", children: [] })
+  const matches = [{ revenue: 1200 }, { revenue: 0 }].filter(row => matchesFilter(row, query, fields))
+  return <><FilterBuilder fields={fields} value={query} onValueChange={setQuery} /><output>{matches.length} matches</output></>
+}`,
   'map-chart': `import { MapChart, type ChartMapSource } from "@/components/ui/map-chart"
 
 // Load your own GeoJSON in application code, then pass the parsed source here.

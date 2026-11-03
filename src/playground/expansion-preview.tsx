@@ -4,6 +4,7 @@ const previews: Record<string, React.LazyExoticComponent<React.ComponentType<Pre
   kanban: React.lazy(() => import('./expansion/kanban')),
   'calendar-plus': React.lazy(() => import('./expansion/calendar-plus')),
   'gantt-chart': React.lazy(() => import('./expansion/gantt-chart')),
+  'filter-builder': React.lazy(() => import('./expansion/filter-builder')),
 }
 /** Loads one interactive example and its own dependency graph at a time. */
 class DataBoundary extends React.Component<{ children: React.ReactNode }, { error: string }> {

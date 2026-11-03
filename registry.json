@@ -208,6 +208,55 @@
       ]
     },
     {
+      "name": "filter-builder",
+      "type": "registry:ui",
+      "title": "Filter Builder",
+      "description": "Turn complex questions into clear, reusable conditions.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/filter-builder.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/input.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
       "name": "rich-text-editor",
       "type": "registry:ui",
       "title": "Rich Text Editor",
