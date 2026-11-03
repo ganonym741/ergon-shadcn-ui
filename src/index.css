@@ -131,10 +131,6 @@
   textarea {
     font: inherit;
   }
-  [data-density='compact'] [data-slot='button'][data-size='default'] {
-    height: 30px;
-    padding-block: 4px;
-  }
   [data-density='compact'] [data-slot='input'] {
     height: 30px;
   }
