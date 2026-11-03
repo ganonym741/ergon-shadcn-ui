@@ -13,6 +13,7 @@ import * as echarts from 'echarts/core'
 import { MapChart } from '@/components/ui/map-chart'
 import { BoxplotChart } from '@/components/ui/boxplot-chart'
 import { CalendarHeatmapChart } from '@/components/ui/calendar-heatmap-chart'
+import { ComboChart } from '@/components/ui/combo-chart'
 
 import { BarChart } from '@/components/ui/bar-chart'
 import { AreaChart } from '@/components/ui/area-chart'
@@ -100,6 +101,28 @@ describe('dashboard chart compositions', () => {
     expect(merged.grid).toMatchObject({ right: 40 })
     expect(base.grid.right).toBe(12)
     expect(base.series[0].data).toEqual([0, 1])
+  })
+  it('maps mixed series to named axes, preserves gaps, and offsets axes sharing a side', () => {
+    render(
+      <ComboChart
+        label="Revenue and rate"
+        data={[{ id: 'jan', label: 'Jan', revenue: 0, rate: null }]}
+        axes={[
+          { id: 'money', position: 'left' },
+          { id: 'rate', position: 'left', unit: '%' },
+        ]}
+        series={[
+          { key: 'revenue', type: 'bar', axisId: 'money' },
+          { key: 'rate', type: 'line', axisId: 'rate' },
+        ]}
+      />,
+    )
+    const applied = latest().getOption()
+    expect(applied.series.map((s: any) => [s.type, s.yAxisIndex, s.data])).toEqual([
+      ['bar', 0, [{ id: 'jan', name: 'Jan', value: 0 }]],
+      ['line', 1, [{ id: 'jan', name: 'Jan', value: null }]],
+    ])
+    expect(applied.yAxis[1].offset).toBe(58)
   })
   it('renders summary boxes and outlier coordinates in either orientation', () => {
     render(
