@@ -214,7 +214,8 @@ describe('composable workflows', () => {
       )
     }
     render(<Harness />)
-    await user.click(screen.getByLabelText('Close A'))
+    await user.click(screen.getByRole('tab', { name: 'A' }))
+    await user.keyboard('{Delete}')
     expect(screen.getByRole('tab', { name: 'B' })).toHaveAttribute('aria-selected', 'true')
     expect(screen.getByRole('tabpanel')).toHaveTextContent('Second')
   })

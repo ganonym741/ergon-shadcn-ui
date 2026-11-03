@@ -103,6 +103,20 @@ export function WorkspaceTabs({
   const pendingFocus = React.useRef<string | null>(null)
   const emptyState = React.useRef<HTMLParagraphElement>(null)
   const navigation = React.useRef<HTMLDivElement>(null)
+  const closeHelp = React.useId()
+  const close = (item: TabItem, index: number) => {
+    if (!item.closable || item.disabled || !onItemsChange) return
+    const next = items.filter((tab) => tab.value !== item.value)
+    const nextValue =
+      value === item.value
+        ? (items.slice(index + 1).find((tab) => !tab.disabled)?.value ??
+          [...items.slice(0, index)].reverse().find((tab) => !tab.disabled)?.value ??
+          '')
+        : value
+    pendingFocus.current = nextValue
+    onItemsChange(next)
+    if (value === item.value) onValueChange(nextValue)
+  }
 
   React.useEffect(() => {
     if (pendingFocus.current === null) return
@@ -119,6 +133,9 @@ export function WorkspaceTabs({
       value={value}
       onValueChange={onValueChange}
     >
+      <p id={closeHelp} className="sr-only">
+        Press Delete to close a closable tab.
+      </p>
       {items.length > 0 ? (
         <div
           data-slot="tabs-viewport"
@@ -130,6 +147,7 @@ export function WorkspaceTabs({
           )}
         >
           <TabsList
+            aria-label="Workspace tabs"
             ref={navigation}
             className={cn('h-auto', orientation === 'vertical' ? 'w-full' : 'min-w-max')}
           >
@@ -164,32 +182,34 @@ export function WorkspaceTabs({
                   className={cn('min-w-0', item.closable && onItemsChange && 'pe-8')}
                   value={item.value}
                   disabled={item.disabled}
+                  aria-describedby={item.closable && onItemsChange ? closeHelp : undefined}
+                  aria-keyshortcuts={item.closable && onItemsChange ? 'Delete' : undefined}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Delete' && item.closable && onItemsChange) {
+                      event.preventDefault()
+                      close(item, index)
+                    }
+                  }}
                 >
                   <span className="truncate">{item.label}</span>
+                  {item.closable && onItemsChange && (
+                    <span
+                      aria-hidden="true"
+                      title={`Close ${typeof item.label === 'string' ? item.label : 'tab'}`}
+                      className="absolute end-1 top-1/2 inline-flex size-6 -translate-y-1/2 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:bg-foreground/10 hover:text-foreground"
+                      onPointerDown={(event) => {
+                        event.preventDefault()
+                        event.stopPropagation()
+                      }}
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        close(item, index)
+                      }}
+                    >
+                      <X className="size-3" aria-hidden="true" />
+                    </span>
+                  )}
                 </TabsTrigger>
-                {item.closable && onItemsChange && (
-                  <button
-                    type="button"
-                    className="absolute end-1 top-1/2 inline-flex size-6 -translate-y-1/2 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:bg-foreground/10 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50"
-                    aria-label={`Close ${typeof item.label === 'string' ? item.label : 'tab'}`}
-                    disabled={item.disabled}
-                    onClick={() => {
-                      const next = items.filter((tab) => tab.value !== item.value)
-                      const nextValue =
-                        value === item.value
-                          ? ([...items.slice(0, index)].reverse().find((tab) => !tab.disabled)
-                              ?.value ??
-                            items.slice(index + 1).find((tab) => !tab.disabled)?.value ??
-                            '')
-                          : value
-                      pendingFocus.current = nextValue
-                      onItemsChange(next)
-                      if (value === item.value) onValueChange(nextValue)
-                    }}
-                  >
-                    <X className="size-3" aria-hidden="true" />
-                  </button>
-                )}
               </div>
             ))}
           </TabsList>
