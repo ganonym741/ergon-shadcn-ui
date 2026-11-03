@@ -238,6 +238,7 @@ const controls: Record<string, Control[]> = {
     num('current', 'Current step', 1, 0, 3),
     select('status', 'Current status', 'process', ['wait', 'process', 'finish', 'error']),
     vertical,
+    bool('responsive', 'Adapt to available width', true),
     bool('description', 'Descriptions', true),
     bool('icons', 'Custom icons'),
   ],

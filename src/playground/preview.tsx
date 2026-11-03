@@ -548,6 +548,7 @@ export function PlaygroundPreview({ id, config: v, onEvent }: PreviewProps) {
     case 'steps':
       return (
         <UI.Steps
+          responsive={b('responsive')}
           className="w-full"
           current={state.step}
           onChange={(value) => set('step', value)}

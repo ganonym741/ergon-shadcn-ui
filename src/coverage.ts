@@ -239,6 +239,7 @@ export const coverage: Record<string, Coverage> = {
     implemented: [
       'Controlled step navigation',
       'Horizontal/vertical',
+      'Responsive layout based on available component width',
       'Descriptions and disabled steps',
       'Error/wait/status variants',
       'Custom step icons',
