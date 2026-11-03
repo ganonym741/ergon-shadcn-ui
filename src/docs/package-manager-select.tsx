@@ -55,7 +55,7 @@ export function PackageManagerSelect({
       </RadioGroup.Root>
       {value === 'deno' && (
         <span className="text-muted-foreground">
-          Set up dx once with <code>deno x --install-alias</code>, or use <code>deno x</code>.
+          Set up dx once with <code>deno x --install-alias=dx</code>, or use <code>deno x</code>.
         </span>
       )}
     </div>

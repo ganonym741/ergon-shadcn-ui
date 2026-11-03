@@ -18,7 +18,7 @@ These commands require CLI **0.2 or later**.
 | pnpm            | `pnpm dlx @ergonui/cli` | `pnpm run dev`      |
 | Yarn            | `yarn dlx @ergonui/cli` | `yarn run dev`      |
 
-Examples below use npm; substitute your runner and development command from the table. For Deno 2.6+, set up `dx` once with `deno x --install-alias`. Yarn's `dlx` requires Yarn 2+.
+Examples below use npm; substitute your runner and development command from the table. For Deno 2.6+, set up `dx` once with `deno x --install-alias=dx`. Yarn's `dlx` requires Yarn 2+.
 
 **New application:** create a project and install the selected components.
 
