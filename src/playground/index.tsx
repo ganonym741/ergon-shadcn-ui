@@ -36,6 +36,9 @@ class PreviewBoundary extends React.Component<{ children: React.ReactNode }, { e
     )
   }
 }
+/**
+ * Hosts component controls, presets, events, and preview sizing. Restarts examples after configuration changes and handles unavailable preset storage.
+ */
 export default function ComponentPlayground({
   id,
   direction = 'ltr',
@@ -134,6 +137,15 @@ export default function ComponentPlayground({
               <option key={option}>{option}</option>
             ))}
           </select>
+        ) : control.type === 'textarea' ? (
+          <textarea
+            id={key}
+            value={String(value)}
+            rows={8}
+            spellCheck={false}
+            onChange={(event) => update(control.key, event.target.value)}
+            className="w-full resize-y rounded-md border bg-background p-2 font-mono text-[10px]"
+          />
         ) : control.type === 'json' ? (
           <>
             <textarea

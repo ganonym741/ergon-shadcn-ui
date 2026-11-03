@@ -1,4 +1,5 @@
 import { components } from '@/catalog'
+import { expansionControls } from './expansion-schema'
 import { chartIds, chartData, chartSeries, customChartOption, radarIndicators } from './chart-data'
 import {
   advancedChartIds,
@@ -12,7 +13,7 @@ export type Config = Record<string, string | number | boolean>
 export interface Control {
   key: string
   label: string
-  type: 'text' | 'number' | 'boolean' | 'select' | 'color' | 'json'
+  type: 'text' | 'textarea' | 'number' | 'boolean' | 'select' | 'color' | 'json'
   initial: string | number | boolean
   options?: string[]
   min?: number
@@ -1008,6 +1009,7 @@ export interface PlaygroundSpec {
   controls: Control[]
   presets: { name: string; values: Config }[]
 }
+Object.assign(controls, expansionControls)
 export const playgrounds: Record<string, PlaygroundSpec> = Object.fromEntries(
   components.map((component) => {
     const fields = controls[component.id]

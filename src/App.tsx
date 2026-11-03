@@ -528,6 +528,9 @@ function Detail({ id, settings }: { id: string; settings: ThemeSettings }) {
     </>
   )
 }
+/**
+ * Renders the documentation shell, component navigation, and shared appearance controls. Keeps appearance changes usable when browser storage is unavailable.
+ */
 export default function App() {
   const { path, params } = useRoute()
   const { resolvedTheme, setTheme } = useTheme()
@@ -562,7 +565,7 @@ export default function App() {
   }, [path, params.get('category')])
   React.useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      if (!e.defaultPrevented && (e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault()
         setSearchOpen((o) => !o)
       }

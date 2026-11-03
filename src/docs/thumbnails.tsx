@@ -1,4 +1,5 @@
 import { AdvancedChartThumbnail } from './chart-thumbnails'
+import { ExpansionThumbnail } from './expansion-thumbnails'
 import {
   ArrowUpRight,
   ArrowRight,
@@ -77,9 +78,29 @@ function FormThumb() {
     </div>
   )
 }
+/**
+ * Selects a lightweight illustrative component preview for the catalog grid without requiring an interactive playground.
+ */
 export function Thumbnail({ id }: { id: string }) {
   let content: React.ReactNode
   switch (id) {
+    case 'kanban':
+    case 'calendar-plus':
+    case 'gantt-chart':
+    case 'filter-builder':
+    case 'file-browser':
+    case 'image-cropper':
+    case 'command-palette':
+    case 'tags-input':
+    case 'phone-input':
+    case 'json-viewer':
+    case 'code-block':
+    case 'diff-viewer':
+    case 'organization-chart':
+    case 'media-player':
+    case 'image-comparison':
+      content = <ExpansionThumbnail id={id} />
+      break
     case 'map-chart':
     case 'boxplot-chart':
     case 'calendar-heatmap-chart':

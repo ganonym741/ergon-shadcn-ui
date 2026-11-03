@@ -20,6 +20,8 @@ import { useDebouncedValue, useBreakpoints } from '@/components/ui/util'
 import { type Config, parseData } from './schema'
 import { AdvancedDataPreview } from './table-preview'
 import { treeData, frameworkOptions } from '@/docs/demo-data'
+import { expansionIds } from './expansion-data'
+const ExpansionPreview = React.lazy(() => import('./expansion-preview'))
 const RichTextPreview = React.lazy(() => import('./rich-text-preview'))
 const ChartPreview = React.lazy(() => import('./chart-preview'))
 export interface PlaygroundEvent {
@@ -58,6 +60,9 @@ const wait = (milliseconds: number, signal?: AbortSignal) =>
       { once: true },
     )
   })
+/**
+ * Maps catalog component IDs and playground configuration to real interactive examples and reports their user-visible events.
+ */
 export function PlaygroundPreview({ id, config: v, onEvent }: PreviewProps) {
   const s = (key: string) => String(v[key] ?? ''),
     n = (key: string) => Number(v[key] ?? 0),
@@ -130,6 +135,14 @@ export function PlaygroundPreview({ id, config: v, onEvent }: PreviewProps) {
     if (b('failure')) throw new Error('The demonstration save was rejected.')
     emit('saved', values)
   }
+  if ((expansionIds as readonly string[]).includes(id))
+    return (
+      <React.Suspense
+        fallback={<p className="text-sm text-muted-foreground">Loading component…</p>}
+      >
+        <ExpansionPreview id={id} config={v} onEvent={onEvent} />
+      </React.Suspense>
+    )
   switch (id) {
     case 'chart':
     case 'line-chart':
