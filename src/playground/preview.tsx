@@ -412,6 +412,7 @@ export function PlaygroundPreview({ id, config: v, onEvent }: PreviewProps) {
       return (
         <div className={b('horizontal') ? 'w-full space-y-4' : 'flex w-full gap-5'}>
           <UI.Anchor
+            getContainer={scrollTarget}
             horizontal={b('horizontal')}
             offset={n('offset')}
             onActiveChange={(href) => emit('active', href)}
@@ -420,6 +421,7 @@ export function PlaygroundPreview({ id, config: v, onEvent }: PreviewProps) {
           <div
             tabIndex={0}
             aria-label="Anchor sections"
+            ref={scroll}
             className="h-64 flex-1 overflow-auto rounded-lg border p-5"
           >
             {sections.map((title, index) => (

@@ -194,7 +194,8 @@ export const coverage: Record<string, Coverage> = {
   anchor: {
     implemented: [
       'Nested anchor links',
-      'Native section scrolling',
+      'Offset-aware section scrolling',
+      'Window and nested scroll containers',
       'Scrollspy active tracking',
       'Horizontal anchor preset',
     ],

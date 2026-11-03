@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { act, render, screen, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-
+import { Anchor } from '@/components/ui/anchor'
 import { DatePicker, DateRangePicker, MultiDatePicker } from '@/components/ui/date-picker'
 import { DescriptionsPlus } from '@/components/ui/descriptions-plus'
 import { Mentions } from '@/components/ui/mentions'
@@ -129,5 +129,65 @@ describe('release regressions', () => {
     await act(async () => request.resolve([{ value: 'sarah', label: 'Sarah Kim' }]))
     expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
     expect(screen.queryByRole('status')).not.toBeInTheDocument()
+  })
+
+  it('tracks a nested scroller relative to its own top and selects the final section at the bottom', async () => {
+    const user = userEvent.setup(),
+      changed = vi.fn()
+    let container: HTMLDivElement
+    const items = [
+      {
+        href: '#audit-first',
+        title: 'First',
+        children: [{ href: '#audit-second', title: 'Second' }],
+      },
+      { href: '#audit-last', title: 'Last' },
+    ]
+    render(
+      <>
+        <Anchor items={items} getContainer={() => container} offset={0} onActiveChange={changed} />
+        <div
+          ref={(node) => {
+            if (!node) return
+            container = node
+            Object.defineProperties(node, {
+              clientHeight: { value: 256 },
+              scrollHeight: { value: 660 },
+            })
+            node.getBoundingClientRect = () => new DOMRect(0, 1000, 300, 256)
+            node.scrollTo = vi.fn((options: ScrollToOptions | number = {}) => {
+              node.scrollTop = Math.min(
+                404,
+                typeof options === 'number' ? options : (options.top ?? 0),
+              )
+              fireEvent.scroll(node)
+            })
+          }}
+        >
+          {['first', 'second', 'last'].map((key, index) => (
+            <section
+              key={key}
+              id={`audit-${key}`}
+              ref={(node) => {
+                if (node)
+                  node.getBoundingClientRect = () =>
+                    new DOMRect(0, 1000 + index * 220 - (container?.scrollTop ?? 0), 300, 220)
+              }}
+            />
+          ))}
+        </div>
+      </>,
+    )
+    expect(screen.getByRole('link', { name: 'First' })).toHaveAttribute('aria-current', 'location')
+    await user.click(screen.getByRole('link', { name: 'Last' }))
+    expect(container!.scrollTop).toBe(404)
+    expect(screen.getByRole('link', { name: 'Last' })).toHaveAttribute('aria-current', 'location')
+    act(() => {
+      container.scrollTop = 220
+      fireEvent.scroll(container)
+    })
+    expect(screen.getByRole('link', { name: 'Second' })).toHaveAttribute('aria-current', 'location')
+    expect(document.querySelectorAll('[aria-current="location"]')).toHaveLength(1)
+    expect(changed).toHaveBeenLastCalledWith('#audit-second')
   })
 })
