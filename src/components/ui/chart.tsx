@@ -12,6 +12,10 @@ export type { EChartsOption, ECElementEvent } from 'echarts'
 export type ChartModule = Extract<Parameters<typeof echarts.use>[0], unknown[]>[number]
 export interface ChartFeatures {
   dataZoom?: boolean
+  brush?: boolean
+}
+export interface ChartBrushEvent {
+  batch: { areas?: unknown[]; selected: { seriesIndex: number; dataIndex: number[] }[] }[]
 }
 export const chartPalette = ['#b93e28', '#5579bd', '#36836a', '#c38a28', '#9864af', '#2992a6']
 export interface ChartLegendEvent {
@@ -25,6 +29,12 @@ export interface ChartZoomEvent {
   batch?: { start: number; end: number }[]
 }
 export interface ChartEvents {
+  brushselected?: (event: ChartBrushEvent, instance: echarts.EChartsType) => void
+  selectchanged?: (event: echarts.SelectChangedEvent, instance: echarts.EChartsType) => void
+  georoam?: (
+    event: { zoom?: number; dx?: number; dy?: number },
+    instance: echarts.EChartsType,
+  ) => void
   click?: (event: ECElementEvent, instance: echarts.EChartsType) => void
   dblclick?: (event: ECElementEvent, instance: echarts.EChartsType) => void
   legendselectchanged?: (event: ChartLegendEvent, instance: echarts.EChartsType) => void
@@ -71,7 +81,7 @@ export function useChart() {
   return context
 }
 export function mergeChartOptions(base: EChartsOption, overrides?: EChartsOption): EChartsOption {
-  return echarts.util.merge(base, overrides ?? {}, true)
+  return echarts.util.merge(echarts.util.clone(base), overrides ?? {}, true)
 }
 
 export function Chart({
@@ -103,6 +113,7 @@ export function Chart({
   const [mode, setMode] = React.useState<'light' | 'dark'>('light')
   const [reduced, setReduced] = React.useState(false)
   const [accent, setAccent] = React.useState(chartPalette[0])
+  const [fontFamily, setFontFamily] = React.useState('sans-serif')
   const [selected, setSelected] = React.useState<Record<string, boolean>>({})
   React.useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -113,7 +124,9 @@ export function Chart({
         theme === 'auto' ? (node.closest('.dark, [data-theme="dark"]') ? 'dark' : 'light') : theme,
       )
       setReduced(media.matches && !node.closest('[data-preview-motion="full"]'))
-      const color = getComputedStyle(node).getPropertyValue('--primary').trim()
+      const computed = getComputedStyle(node)
+      setFontFamily(computed.fontFamily || 'sans-serif')
+      const color = computed.getPropertyValue('--primary').trim()
       setAccent(/^#|^rgb|^hsl/.test(color) ? color : chartPalette[0])
     }
     read()
@@ -153,7 +166,7 @@ export function Chart({
       {
         backgroundColor: 'transparent',
         color: colors,
-        textStyle: { fontFamily: 'inherit', fontSize: 12 },
+        textStyle: { fontFamily, fontSize: 12 },
         ...(option.tooltip ? { tooltip: { confine: true, renderMode: 'richText' as const } } : {}),
         aria: { enabled: true, label: { description: label } },
       },
@@ -168,7 +181,7 @@ export function Chart({
       }))
     }
     return result
-  }, [option, colors, label, animated, reduced, selected])
+  }, [option, colors, label, animated, reduced, selected, fontFamily])
   return (
     <ChartContext.Provider
       value={{
@@ -255,6 +268,9 @@ export function ChartCanvas({ className, style, ...props }: React.ComponentProps
           'legendselectchanged',
           'datazoom',
           'finished',
+          'brushselected',
+          'selectchanged',
+          'georoam',
         ] as const) {
           chart.on(event, (...args: unknown[]) => {
             const payload = args[0]
@@ -294,6 +310,12 @@ export function ChartCanvas({ className, style, ...props }: React.ComponentProps
           echarts.use(DataZoomComponent)
         }),
       )
+    if (context.features?.brush)
+      pending.push(
+        import('@/components/ui/chart-brush').then(({ BrushComponent }) => {
+          echarts.use(BrushComponent)
+        }),
+      )
     if (pending.length) {
       setPreparing(true)
       Promise.all(pending).then(initialize, fail)
@@ -305,7 +327,13 @@ export function ChartCanvas({ className, style, ...props }: React.ComponentProps
       if (context.instance.current === chart) context.instance.current = null
       applied.current = null
     }
-  }, [context.renderer, context.mode, context.instance, context.features?.dataZoom])
+  }, [
+    context.renderer,
+    context.mode,
+    context.instance,
+    context.features?.dataZoom,
+    context.features?.brush,
+  ])
   React.useEffect(() => {
     const chart = context.instance.current
     if (!chart || chart.isDisposed()) return
@@ -332,6 +360,8 @@ export function ChartCanvas({ className, style, ...props }: React.ComponentProps
     >
       <div
         ref={host}
+        // ECharts positions text in physical coordinates, including on RTL pages.
+        dir="ltr"
         role="img"
         aria-label={context.label}
         className="h-full w-full"

@@ -2,7 +2,14 @@ import * as React from 'react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, act, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Chart, ChartCanvas, ChartLegend, type ChartHandle } from '@/components/ui/chart'
+import {
+  Chart,
+  ChartCanvas,
+  ChartLegend,
+  mergeChartOptions,
+  type ChartHandle,
+} from '@/components/ui/chart'
+
 import { BarChart } from '@/components/ui/bar-chart'
 import { AreaChart } from '@/components/ui/area-chart'
 import { LineChart } from '@/components/ui/line-chart'
@@ -23,12 +30,19 @@ vi.mock('echarts/core', async (importOriginal) => {
   return {
     ...actual,
     use: vi.fn(),
+    registerMap: vi.fn(),
     init: vi.fn(() => {
       const handlers = new Map<string, (event: unknown) => void>()
       const selected: Record<string, boolean> = {}
       let disposed = false
+      let currentOption: any = {}
       const instance = {
-        setOption: vi.fn(),
+        setOption: vi.fn((option) => {
+          currentOption = option
+        }),
+        getOption: () => currentOption,
+        getWidth: () => 600,
+        getHeight: () => 320,
         on: vi.fn((event, handler) => handlers.set(event, handler)),
         resize: vi.fn(),
         dispose: vi.fn(() => {
@@ -58,6 +72,32 @@ const option = {
   series: [{ type: 'bar' as const, name: 'Revenue', data: [42] }],
 }
 const latest = () => engine.instances.at(-1)!
+
+describe('dashboard chart compositions', () => {
+  it('uses the resolved font family so native chart labels can be measured accurately', async () => {
+    const { rerender } = render(
+      <Chart label="Measured labels" option={option} dir="rtl" style={{ fontFamily: 'monospace' }}>
+        <ChartCanvas />
+      </Chart>,
+    )
+    await waitFor(() => expect(latest().getOption().textStyle.fontFamily).toBe('monospace'))
+    expect(screen.getByRole('figure', { name: 'Measured labels' })).toHaveAttribute('dir', 'rtl')
+    expect(screen.getByRole('img', { name: 'Measured labels' })).toHaveAttribute('dir', 'ltr')
+    rerender(
+      <Chart label="Measured labels" option={option} dir="rtl" style={{ fontFamily: 'serif' }}>
+        <ChartCanvas />
+      </Chart>,
+    )
+    await waitFor(() => expect(latest().getOption().textStyle.fontFamily).toBe('serif'))
+  })
+  it('merges native options without mutating a reusable base', () => {
+    const base = { grid: { right: 12 }, series: [{ type: 'bar' as const, data: [0, 1] }] }
+    const merged = mergeChartOptions(base, { grid: { right: 40 } })
+    expect(merged.grid).toMatchObject({ right: 40 })
+    expect(base.grid.right).toBe(12)
+    expect(base.series[0].data).toEqual([0, 1])
+  })
+})
 
 describe('Chart lifecycle and interactions', () => {
   it('updates the existing instance, resizes and disposes on unmount', () => {
