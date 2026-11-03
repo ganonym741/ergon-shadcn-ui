@@ -58,7 +58,7 @@ function TransferPanel({
       overscan: 5,
       enabled: isVirtual,
     })
-  const render = (item: TransferItem, index: number, start?: number) => (
+  const render = (item: TransferItem, start?: number) => (
     <label
       draggable={draggable && !disabled && !item.disabled}
       onDragStart={(event) => event.dataTransfer.setData('application/ergonui-transfer', item.key)}
@@ -122,10 +122,8 @@ function TransferPanel({
       <div ref={ref} className="h-48 overflow-auto px-2">
         <div className="relative" style={{ height: isVirtual ? list.getTotalSize() : undefined }}>
           {isVirtual
-            ? list
-                .getVirtualItems()
-                .map((item) => render(visible[item.index], item.index, item.start))
-            : visible.map((item, index) => render(item, index))}
+            ? list.getVirtualItems().map((item) => render(visible[item.index], item.start))
+            : visible.map((item) => render(item))}
           {!visible.length && (
             <p className="py-10 text-center text-xs text-muted-foreground">No items found.</p>
           )}
