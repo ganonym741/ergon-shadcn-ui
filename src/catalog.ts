@@ -54,6 +54,13 @@ export const components: ComponentInfo[] = [
     keywords: 'files folders manager explorer grid list upload rename move',
   },
   {
+    id: 'image-cropper',
+    name: 'Image Cropper',
+    category: 'Data entry',
+    description: 'Frame the right detail before sharing an image.',
+    keywords: 'crop image zoom rotate aspect circle upload blob',
+  },
+  {
     id: 'rich-text-editor',
     name: 'Rich Text Editor',
     category: 'Data entry',

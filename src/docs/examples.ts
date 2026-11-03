@@ -49,6 +49,20 @@ function Files() {
     onRename={(entry, name) => setEntries(previous => previous.map(item => item.id === entry.id ? { ...item, name } : item))} />
 }
 // This example is in-memory. Inject your storage/API operations and honor context.signal.`,
+  'image-cropper': `import { ImageCropper } from "@/components/ui/image-cropper"
+
+<ImageCropper defaultImage="/photo.jpg"
+  onExport={(blob, details) => console.log(blob, details.area)}
+  onImageUpload={async (image, { signal }) => {
+    const body = new FormData()
+    body.append("image", image, "cropped.png")
+    const response = await fetch("/api/images", { method: "POST", body, signal })
+    if (!response.ok) throw new Error("Upload failed")
+    const result = await response.json() as { url: string }
+    return result.url
+  }} />
+// Implement /api/images in your application, or replace onImageUpload with your own uploader.
+// A simple (image: Blob) => string | Promise<string> callback also works.`,
   'map-chart': `import { MapChart, type ChartMapSource } from "@/components/ui/map-chart"
 
 // Load your own GeoJSON in application code, then pass the parsed source here.

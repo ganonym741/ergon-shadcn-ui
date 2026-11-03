@@ -4,6 +4,7 @@ export const expansionIds = [
   'gantt-chart',
   'filter-builder',
   'file-browser',
+  'image-cropper',
 ] as const
 export const kanbanData = [
   {

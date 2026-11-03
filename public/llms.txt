@@ -6,6 +6,7 @@ React components built on shadcn/ui component source and community work, includi
 - Gantt Chart: /r/gantt-chart.json — See how tasks, milestones, and dependencies come together.
 - Filter Builder: /r/filter-builder.json — Turn complex questions into clear, reusable conditions.
 - File Browser: /r/file-browser.json — A familiar home for files, folders, and shared work.
+- Image Cropper: /r/image-cropper.json — Frame the right detail before sharing an image.
 - Rich Text Editor: /r/rich-text-editor.json — Give stories shape, with images right where they belong.
 - Button: /r/button.json — A small surface for your next big action.
 - Float Button: /r/float-button.json — Keep useful actions within easy reach.

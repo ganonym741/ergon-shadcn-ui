@@ -53,6 +53,16 @@ export const coverage: Record<string, Coverage> = {
       'Entries and persistence are application-owned. The playground uses explicitly simulated in-memory operations. No production storage provider or local filesystem access is assumed.',
     ],
   },
+  'image-cropper': {
+    implemented: [
+      'Pointer/touch/keyboard crop, zoom/rotation, aspect presets and circular crops',
+      'Bounded canvas Blob export as PNG/JPEG/WebP, local preview/download and imperative export handle',
+      'Custom async onImageUpload callback with AbortSignal, loading/error states and object URL cleanup',
+    ],
+    notes: [
+      'Remote images must permit cross-origin canvas access. Upload callbacks return a browser-displayable URL. The playground upload callback is simulated; output is limited to 16 million pixels.',
+    ],
+  },
   'map-chart': {
     implemented: [
       'Application-supplied GeoJSON and region values with stable IDs',
