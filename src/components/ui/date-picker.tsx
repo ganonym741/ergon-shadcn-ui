@@ -8,6 +8,20 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Input } from '@/components/ui/input'
 import { useUIConfig } from '@/components/ui/config-provider'
 import { getDateLocale, toZonedInput, fromZonedInput } from '@/lib/date-adapter'
+const usePickerMonth = (selected?: Date) => {
+  const selectedTime = selected?.getTime()
+  const [month, onMonthChange] = React.useState(() => new Date(selectedTime ?? Date.now()))
+  React.useEffect(() => {
+    onMonthChange(new Date(selectedTime ?? Date.now()))
+  }, [selectedTime])
+  return {
+    month,
+    onMonthChange,
+    onOpenChange: (open: boolean) => {
+      if (open) onMonthChange(new Date(selectedTime ?? Date.now()))
+    },
+  }
+}
 export interface DatePickerProps {
   value?: Date
   onValueChange?: (date: Date | undefined) => void
@@ -28,10 +42,11 @@ export function DatePicker({
   locale,
   timeZone,
 }: DatePickerProps) {
+  const { onOpenChange, ...calendar } = usePickerMonth(value)
   const config = useUIConfig(),
     resolvedLocale = locale ?? config.locale
   return (
-    <Popover>
+    <Popover onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
@@ -52,6 +67,7 @@ export function DatePicker({
           locale={getDateLocale(resolvedLocale)}
           timeZone={timeZone}
           selected={value}
+          {...calendar}
           onSelect={onValueChange}
           disabled={[
             ...(minDate ? [{ before: minDate }] : []),
@@ -74,8 +90,9 @@ export function DateRangePicker({
   disabled?: boolean
   placeholder?: string
 }) {
+  const { onOpenChange, ...calendar } = usePickerMonth(value?.from ?? value?.to)
   return (
-    <Popover>
+    <Popover onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
@@ -93,6 +110,7 @@ export function DateRangePicker({
           mode="range"
           numberOfMonths={2}
           selected={value}
+          {...calendar}
           onSelect={onValueChange}
           autoFocus
         />
@@ -109,8 +127,9 @@ export function MultiDatePicker({
   onValueChange?: (dates: Date[]) => void
   disabled?: boolean
 }) {
+  const { onOpenChange, ...calendar } = usePickerMonth(value[0])
   return (
-    <Popover>
+    <Popover onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
@@ -125,6 +144,7 @@ export function MultiDatePicker({
         <Calendar
           mode="multiple"
           selected={value}
+          {...calendar}
           onSelect={(dates) => onValueChange?.(dates ?? [])}
           autoFocus
         />
