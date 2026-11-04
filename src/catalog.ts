@@ -68,6 +68,13 @@ export const components: ComponentInfo[] = [
     keywords: 'command search keyboard shortcuts actions nested async',
   },
   {
+    id: 'tags-input',
+    name: 'Tags Input',
+    category: 'Data entry',
+    description: 'Collect ideas, labels, and keywords in one flexible field.',
+    keywords: 'tags chips tokens input suggestions paste reorder',
+  },
+  {
     id: 'rich-text-editor',
     name: 'Rich Text Editor',
     category: 'Data entry',

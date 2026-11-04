@@ -73,6 +73,16 @@ export const coverage: Record<string, Coverage> = {
       'Default Ctrl/Command+K shortcut ignores editable fields unless enableInInputs is set. Navigation and persistence are supplied through action callbacks.',
     ],
   },
+  'tags-input': {
+    implemented: [
+      'Controlled tags, bulk paste/separators, suggestions, duplicate/maximum rules and custom validation',
+      'Abortable async suggestions, IME-safe creation and form values',
+      'Keyboard chip navigation/removal/reordering and named tag parts',
+    ],
+    notes: [
+      'Suggestions are local or injected callbacks. Search and validation failures are announced.',
+    ],
+  },
   'map-chart': {
     implemented: [
       'Application-supplied GeoJSON and region values with stable IDs',

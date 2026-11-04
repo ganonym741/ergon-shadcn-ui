@@ -72,6 +72,12 @@ function Files() {
   ] },
 ]} />
 // Ctrl/Command+K opens the default dialog. Async callbacks receive an AbortSignal.`,
+  'tags-input': `import { TagsInput } from "@/components/ui/tags-input"
+
+<TagsInput label="Skills" name="skills" defaultValue={["React"]}
+  suggestions={["React", "TypeScript", "Design"]} maxTags={8}
+  validateTag={tag => tag.length < 2 ? "Use at least two characters." : undefined}
+  onValueChange={tags => console.log(tags)} />`,
   'map-chart': `import { MapChart, type ChartMapSource } from "@/components/ui/map-chart"
 
 // Load your own GeoJSON in application code, then pass the parsed source here.
