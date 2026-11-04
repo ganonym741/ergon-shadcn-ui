@@ -110,6 +110,13 @@ export const components: ComponentInfo[] = [
     keywords: 'organization hierarchy people tree pan zoom reporting',
   },
   {
+    id: 'media-player',
+    name: 'Media Player',
+    category: 'Data display',
+    description: 'Thoughtful controls for audio and video.',
+    keywords: 'media video audio player captions volume playback pip fullscreen',
+  },
+  {
     id: 'rich-text-editor',
     name: 'Rich Text Editor',
     category: 'Data entry',

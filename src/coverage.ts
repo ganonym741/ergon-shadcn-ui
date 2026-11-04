@@ -133,6 +133,16 @@ export const coverage: Record<string, Coverage> = {
       'Hierarchy size and depth are bounded; this component does not virtualize nodes or edit reporting relationships.',
     ],
   },
+  'media-player': {
+    implemented: [
+      'Native audio/video with custom composable controls and optional native-control fallback',
+      'Playback, bounded seeking, buffering, volume/mute/rate, captions and error handling',
+      'Controlled audio settings, imperative media handle and supported fullscreen/picture-in-picture actions',
+    ],
+    notes: [
+      'Formats/codecs, autoplay, fullscreen, PiP and remote track support depend on the browser. No adaptive-streaming engine or media hosting service is included.',
+    ],
+  },
   'map-chart': {
     implemented: [
       'Application-supplied GeoJSON and region values with stable IDs',

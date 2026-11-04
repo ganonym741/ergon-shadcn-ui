@@ -104,6 +104,12 @@ function Files() {
   { id: "rio", parentId: "maya", name: "Rio Santoso", role: "Engineering lead" },
   { id: "ava", parentId: "maya", name: "Ava Morgan", role: "Design lead" },
 ]} onNodeSelect={person => console.log(person)} />`,
+  'media-player': `import { MediaPlayer } from "@/components/ui/media-player"
+
+<MediaPlayer src="/video.mp4" title="Product introduction"
+  tracks={[{ src: "/captions.vtt", language: "en", label: "English" }]}
+  onStateChange={state => console.log(state)} />
+// Use kind="audio" with your audio source. Fullscreen and PiP are feature-detected.`,
   'map-chart': `import { MapChart, type ChartMapSource } from "@/components/ui/map-chart"
 
 // Load your own GeoJSON in application code, then pass the parsed source here.
