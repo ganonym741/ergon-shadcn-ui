@@ -9,6 +9,7 @@ export const expansionIds = [
   'tags-input',
   'phone-input',
   'json-viewer',
+  'code-block',
 ] as const
 export const kanbanData = [
   {

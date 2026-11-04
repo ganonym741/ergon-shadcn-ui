@@ -11,6 +11,7 @@ React components built on shadcn/ui component source and community work, includi
 - Tags Input: /r/tags-input.json — Collect ideas, labels, and keywords in one flexible field.
 - Phone Input: /r/phone-input.json — Make international phone numbers feel local.
 - JSON Viewer: /r/json-viewer.json — Explore structured data without losing the details.
+- Code Block: /r/code-block.json — Present source with clarity, color, and useful controls.
 - Rich Text Editor: /r/rich-text-editor.json — Give stories shape, with images right where they belong.
 - Button: /r/button.json — A small surface for your next big action.
 - Float Button: /r/float-button.json — Keep useful actions within easy reach.

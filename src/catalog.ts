@@ -89,6 +89,13 @@ export const components: ComponentInfo[] = [
     keywords: 'json object tree inspect search copy bigint cycles',
   },
   {
+    id: 'code-block',
+    name: 'Code Block',
+    category: 'Data display',
+    description: 'Present source with clarity, color, and useful controls.',
+    keywords: 'code syntax highlight shiki copy download line numbers',
+  },
+  {
     id: 'rich-text-editor',
     name: 'Rich Text Editor',
     category: 'Data entry',

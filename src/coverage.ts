@@ -103,6 +103,16 @@ export const coverage: Record<string, Coverage> = {
       'Copy uses an extended, bounded JSON representation: cycles/getters and unsupported values receive explicit placeholders. This is an inspector, not a lossless arbitrary JavaScript serializer.',
     ],
   },
+  'code-block': {
+    implemented: [
+      'Grammar-specific lazy Shiki highlighting with dual themes and plain-text fallback',
+      'Line numbering, emphasized lines, wrapping, copy and local download',
+      'Composable header/content and bounded highlighting work',
+    ],
+    notes: [
+      'Includes text, JavaScript/JSX, TypeScript/TSX, JSON, CSS, HTML, Markdown, Bash, YAML, SQL and Python. Source is rendered as escaped React text. Large content skips highlighting.',
+    ],
+  },
   'map-chart': {
     implemented: [
       'Application-supplied GeoJSON and region values with stable IDs',

@@ -88,6 +88,11 @@ function Files() {
 
 <JsonViewer value={{ project: "ErgonUI", active: true, members: [{ id: "maya", role: "Designer" }] }}
   defaultExpandDepth={2} pageSize={20} maxNodes={2000} searchable copyable />`,
+  'code-block': `import { CodeBlock } from "@/components/ui/code-block"
+
+<CodeBlock code={'export const greeting = "Hello"'} language="typescript"
+  filename="greeting.ts" highlightedLines={[1]} lineNumbers downloadable />
+// The engine, two themes, and the requested grammar load lazily. Text never uses raw HTML.`,
   'map-chart': `import { MapChart, type ChartMapSource } from "@/components/ui/map-chart"
 
 // Load your own GeoJSON in application code, then pass the parsed source here.
