@@ -63,6 +63,15 @@ function Files() {
   }} />
 // Implement /api/images in your application, or replace onImageUpload with your own uploader.
 // A simple (image: Blob) => string | Promise<string> callback also works.`,
+  'command-palette': `import { CommandPalette } from "@/components/ui/command-palette"
+
+<CommandPalette actions={[
+  { id: "overview", label: "Overview", group: "Navigation", onSelect: () => console.log("Navigate in your router") },
+  { id: "settings", label: "Settings", children: [
+    { id: "appearance", label: "Appearance", onSelect: () => console.log("Open appearance settings") },
+  ] },
+]} />
+// Ctrl/Command+K opens the default dialog. Async callbacks receive an AbortSignal.`,
   'map-chart': `import { MapChart, type ChartMapSource } from "@/components/ui/map-chart"
 
 // Load your own GeoJSON in application code, then pass the parsed source here.

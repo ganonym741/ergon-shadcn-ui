@@ -5,6 +5,7 @@ export const expansionIds = [
   'filter-builder',
   'file-browser',
   'image-cropper',
+  'command-palette',
 ] as const
 export const kanbanData = [
   {

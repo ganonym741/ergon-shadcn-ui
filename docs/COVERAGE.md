@@ -85,6 +85,19 @@ Each component provides editable source, typed APIs, and an interactive playgrou
 | Tree Select | Single/multiple tree selection; Search with ancestor preservation; Clear action and controlled keys; Async/virtual tree-select plumbing; Tag overflow summary | Playground and source available. |
 | Upload | Dropzone and native file chooser; Type, size and count validation; Cancellable custom requests; Progress, retry and image thumbnails; Directory input; Image crop integration; Controlled upload-file list; Paste upload | ImageCropUpload composes crop-before-upload. File requests and persistence are supplied by your application. |
 
+## Navigation
+
+| Component | Capabilities | Verification / integration notes |
+| --- | --- | --- |
+| Command Palette | Grouped searchable commands, nested navigation, shortcuts and disabled actions; Abortable async search/actions, retry and pending/error feedback; Composable trigger/content/item parts, keyboard navigation and focus restoration | Default Ctrl/Command+K shortcut ignores editable fields unless enableInInputs is set. Navigation and persistence are supplied through action callbacks. |
+| Anchor | Nested anchor links; Offset-aware section scrolling; Window and nested scroll containers; Scrollspy active tracking; Horizontal anchor preset | Playground and source available. |
+| Breadcrumb | Composable links, separators and current page; Ellipsis and custom separators; Route-derived item helper | Playground and source available. |
+| Dropdown | Accessible menus, nested submenus, groups; Checkbox and radio items; Shortcuts, placement and keyboard navigation; Context-menu trigger recipe | Playground and source available. |
+| Menu | Nested navigation, icons and disabled items; Controlled selected destination; Horizontal and collapsed menu modes; Keyboard arrow roving | Playground and source available. |
+| Pagination | Composable page links, previous/next, ellipsis; Active state and accessible navigation; Quick-jump/page-size convenience wrapper | Playground and source available. |
+| Steps | Controlled step navigation; Horizontal/vertical; Responsive layout based on available component width; Descriptions and disabled steps; Error/wait/status variants; Custom step icons | Playground and source available. |
+| Tabs | Controlled/uncontrolled tabs; Keyboard navigation; Independent parts and orientations; Overflow tab navigation; Closable/reorderable tabs | Playground and source available. |
+
 ## General
 
 | Component | Capabilities | Verification / integration notes |
@@ -106,18 +119,6 @@ Each component provides editable source, typed APIs, and an interactive playgrou
 | Masonry | CSS masonry columns; Configurable column width and spacing; Measured row-order masonry; Virtual masonry | Playground and source available. |
 | Space | Wrapping and directional spacing; Alignment and gap controls; Compact joined-control spacing preset | Playground and source available. |
 | Splitter | Resizable horizontal/vertical panels; Minimum/maximum constraints; Keyboard separators and handles; Persisted panel layout recipe | Playground and source available. |
-
-## Navigation
-
-| Component | Capabilities | Verification / integration notes |
-| --- | --- | --- |
-| Anchor | Nested anchor links; Offset-aware section scrolling; Window and nested scroll containers; Scrollspy active tracking; Horizontal anchor preset | Playground and source available. |
-| Breadcrumb | Composable links, separators and current page; Ellipsis and custom separators; Route-derived item helper | Playground and source available. |
-| Dropdown | Accessible menus, nested submenus, groups; Checkbox and radio items; Shortcuts, placement and keyboard navigation; Context-menu trigger recipe | Playground and source available. |
-| Menu | Nested navigation, icons and disabled items; Controlled selected destination; Horizontal and collapsed menu modes; Keyboard arrow roving | Playground and source available. |
-| Pagination | Composable page links, previous/next, ellipsis; Active state and accessible navigation; Quick-jump/page-size convenience wrapper | Playground and source available. |
-| Steps | Controlled step navigation; Horizontal/vertical; Responsive layout based on available component width; Descriptions and disabled steps; Error/wait/status variants; Custom step icons | Playground and source available. |
-| Tabs | Controlled/uncontrolled tabs; Keyboard navigation; Independent parts and orientations; Overflow tab navigation; Closable/reorderable tabs | Playground and source available. |
 
 ## Feedback
 

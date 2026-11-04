@@ -61,6 +61,13 @@ export const components: ComponentInfo[] = [
     keywords: 'crop image zoom rotate aspect circle upload blob',
   },
   {
+    id: 'command-palette',
+    name: 'Command Palette',
+    category: 'Navigation',
+    description: 'Bring useful actions closer with a few keystrokes.',
+    keywords: 'command search keyboard shortcuts actions nested async',
+  },
+  {
     id: 'rich-text-editor',
     name: 'Rich Text Editor',
     category: 'Data entry',

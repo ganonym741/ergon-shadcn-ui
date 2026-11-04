@@ -63,6 +63,16 @@ export const coverage: Record<string, Coverage> = {
       'Remote images must permit cross-origin canvas access. Upload callbacks return a browser-displayable URL. The playground upload callback is simulated; output is limited to 16 million pixels.',
     ],
   },
+  'command-palette': {
+    implemented: [
+      'Grouped searchable commands, nested navigation, shortcuts and disabled actions',
+      'Abortable async search/actions, retry and pending/error feedback',
+      'Composable trigger/content/item parts, keyboard navigation and focus restoration',
+    ],
+    notes: [
+      'Default Ctrl/Command+K shortcut ignores editable fields unless enableInInputs is set. Navigation and persistence are supplied through action callbacks.',
+    ],
+  },
   'map-chart': {
     implemented: [
       'Application-supplied GeoJSON and region values with stable IDs',
