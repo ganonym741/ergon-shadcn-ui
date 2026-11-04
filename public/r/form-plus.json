@@ -89,7 +89,7 @@
     {
       "path": "src/lib/contrast.ts",
       "type": "registry:lib",
-      "content": "export function contrastForeground(color: string) {\n  const hex = color.match(/^#([\\da-f]{6})$/i)?.[1]\n  if (!hex) return '#ffffff'\n  const channels = [0, 2, 4]\n      .map((index) => parseInt(hex.slice(index, index + 2), 16) / 255)\n      .map((value) => (value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4)),\n    luminance = channels.reduce(\n      (sum, value, index) => sum + value * [0.2126, 0.7152, 0.0722][index],\n      0,\n    )\n  return luminance > 0.179 ? '#111111' : '#ffffff'\n}\nexport const themeAccent = (accent: string, theme: 'light' | 'dark') =>\n  accent === '#b93e28' && theme === 'dark' ? '#f17c5e' : accent\n"
+      "content": "export function contrastForeground(color: string) {\n  const hex = color.match(/^#([\\da-f]{6})$/i)?.[1]\n  if (!hex) return '#ffffff'\n  const channels = [0, 2, 4]\n      .map((index) => parseInt(hex.slice(index, index + 2), 16) / 255)\n      .map((value) => (value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4)),\n    luminance = channels.reduce(\n      (sum, value, index) => sum + value * [0.2126, 0.7152, 0.0722][index],\n      0,\n    )\n  return luminance > 0.179 ? '#000000' : '#ffffff'\n}\nexport const themeAccent = (accent: string, theme: 'light' | 'dark') =>\n  accent === '#b93e28' && theme === 'dark' ? '#f17c5e' : accent\n"
     },
     {
       "path": "src/components/ui/rate.tsx",
