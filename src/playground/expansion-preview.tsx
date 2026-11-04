@@ -12,6 +12,7 @@ const previews: Record<string, React.LazyExoticComponent<React.ComponentType<Pre
   'phone-input': React.lazy(() => import('./expansion/phone-input')),
   'json-viewer': React.lazy(() => import('./expansion/json-viewer')),
   'code-block': React.lazy(() => import('./expansion/code-block')),
+  'diff-viewer': React.lazy(() => import('./expansion/diff-viewer')),
 }
 /** Loads one interactive example and its own dependency graph at a time. */
 class DataBoundary extends React.Component<{ children: React.ReactNode }, { error: string }> {

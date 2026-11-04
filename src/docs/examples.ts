@@ -93,6 +93,10 @@ function Files() {
 <CodeBlock code={'export const greeting = "Hello"'} language="typescript"
   filename="greeting.ts" highlightedLines={[1]} lineNumbers downloadable />
 // The engine, two themes, and the requested grammar load lazily. Text never uses raw HTML.`,
+  'diff-viewer': `import { DiffViewer } from "@/components/ui/diff-viewer"
+
+<DiffViewer before={'const radius = 8\n'} after={'const radius = 12\n'}
+  beforeLabel="Before" afterLabel="After" defaultMode="split" contextLines={3} wordHighlight />`,
   'map-chart': `import { MapChart, type ChartMapSource } from "@/components/ui/map-chart"
 
 // Load your own GeoJSON in application code, then pass the parsed source here.

@@ -96,6 +96,13 @@ export const components: ComponentInfo[] = [
     keywords: 'code syntax highlight shiki copy download line numbers',
   },
   {
+    id: 'diff-viewer',
+    name: 'Diff Viewer',
+    category: 'Data display',
+    description: 'Make changes easy to spot and review.',
+    keywords: 'diff compare text split inline changes code',
+  },
+  {
     id: 'rich-text-editor',
     name: 'Rich Text Editor',
     category: 'Data entry',

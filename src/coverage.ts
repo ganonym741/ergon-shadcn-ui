@@ -113,6 +113,16 @@ export const coverage: Record<string, Coverage> = {
       'Includes text, JavaScript/JSX, TypeScript/TSX, JSON, CSS, HTML, Markdown, Bash, YAML, SQL and Python. Source is rendered as escaped React text. Large content skips highlighting.',
     ],
   },
+  'diff-viewer': {
+    implemented: [
+      'Bounded asynchronous line diff with stale-result suppression and configurable whitespace handling',
+      'Split/inline layouts, aligned line numbers, word emphasis and expandable unchanged context',
+      'Change counts, copy actions and composable toolbar/content',
+    ],
+    notes: [
+      'Input/line/edit/time limits are explicit. Work-limit failures show a message rather than an inaccurate diff. A running jsdiff calculation is time-bounded; obsolete results are discarded.',
+    ],
+  },
   'map-chart': {
     implemented: [
       'Application-supplied GeoJSON and region values with stable IDs',

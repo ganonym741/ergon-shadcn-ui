@@ -10,6 +10,7 @@ export const expansionIds = [
   'phone-input',
   'json-viewer',
   'code-block',
+  'diff-viewer',
 ] as const
 export const kanbanData = [
   {
