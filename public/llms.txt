@@ -9,6 +9,7 @@ React components built on shadcn/ui component source and community work, includi
 - Image Cropper: /r/image-cropper.json — Frame the right detail before sharing an image.
 - Command Palette: /r/command-palette.json — Bring useful actions closer with a few keystrokes.
 - Tags Input: /r/tags-input.json — Collect ideas, labels, and keywords in one flexible field.
+- Phone Input: /r/phone-input.json — Make international phone numbers feel local.
 - Rich Text Editor: /r/rich-text-editor.json — Give stories shape, with images right where they belong.
 - Button: /r/button.json — A small surface for your next big action.
 - Float Button: /r/float-button.json — Keep useful actions within easy reach.

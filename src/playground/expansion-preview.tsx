@@ -9,6 +9,7 @@ const previews: Record<string, React.LazyExoticComponent<React.ComponentType<Pre
   'image-cropper': React.lazy(() => import('./expansion/image-cropper')),
   'command-palette': React.lazy(() => import('./expansion/command-palette')),
   'tags-input': React.lazy(() => import('./expansion/tags-input')),
+  'phone-input': React.lazy(() => import('./expansion/phone-input')),
 }
 /** Loads one interactive example and its own dependency graph at a time. */
 class DataBoundary extends React.Component<{ children: React.ReactNode }, { error: string }> {

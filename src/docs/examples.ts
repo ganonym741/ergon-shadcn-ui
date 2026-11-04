@@ -78,6 +78,12 @@ function Files() {
   suggestions={["React", "TypeScript", "Design"]} maxTags={8}
   validateTag={tag => tag.length < 2 ? "Use at least two characters." : undefined}
   onValueChange={tags => console.log(tags)} />`,
+  'phone-input': `import { PhoneInput } from "@/components/ui/phone-input"
+
+<PhoneInput name="phone" defaultCountry="ID" defaultValue="+6281234567890"
+  validation="strict" onValueChange={value => console.log(value)}
+  onPhoneChange={({ e164, valid, extension }) => console.log({ e164, valid, extension })} />
+// Validate before submitting. Formatting/numbering-plan validity does not verify ownership.`,
   'map-chart': `import { MapChart, type ChartMapSource } from "@/components/ui/map-chart"
 
 // Load your own GeoJSON in application code, then pass the parsed source here.

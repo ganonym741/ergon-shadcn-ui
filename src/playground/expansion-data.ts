@@ -7,6 +7,7 @@ export const expansionIds = [
   'image-cropper',
   'command-palette',
   'tags-input',
+  'phone-input',
 ] as const
 export const kanbanData = [
   {

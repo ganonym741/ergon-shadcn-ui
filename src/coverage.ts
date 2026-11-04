@@ -83,6 +83,16 @@ export const coverage: Record<string, Coverage> = {
       'Suggestions are local or injected callbacks. Search and validation failures are announced.',
     ],
   },
+  'phone-input': {
+    implemented: [
+      'Searchable localized countries and calling codes, country restrictions and national/international display',
+      'Maintained international parsing, E.164 output, extension metadata and possible/strict validation',
+      'Controlled values/countries, caret-preserving editing, blur formatting and hidden form value',
+    ],
+    notes: [
+      'Uses libphonenumber-js/max metadata. Number validation does not verify ownership or whether a number is reachable. Form values are parsed numbers when available; inspect validity before submission.',
+    ],
+  },
   'map-chart': {
     implemented: [
       'Application-supplied GeoJSON and region values with stable IDs',

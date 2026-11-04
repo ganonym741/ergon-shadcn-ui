@@ -75,6 +75,13 @@ export const components: ComponentInfo[] = [
     keywords: 'tags chips tokens input suggestions paste reorder',
   },
   {
+    id: 'phone-input',
+    name: 'Phone Input',
+    category: 'Data entry',
+    description: 'Make international phone numbers feel local.',
+    keywords: 'phone telephone country dial e164 validation formatting',
+  },
+  {
     id: 'rich-text-editor',
     name: 'Rich Text Editor',
     category: 'Data entry',
