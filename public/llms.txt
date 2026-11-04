@@ -15,6 +15,7 @@ React components built on shadcn/ui component source and community work, includi
 - Diff Viewer: /r/diff-viewer.json — Make changes easy to spot and review.
 - Organization Chart: /r/organization-chart.json — See the people and relationships behind a team.
 - Media Player: /r/media-player.json — Thoughtful controls for audio and video.
+- Image Comparison: /r/image-comparison.json — Let a simple gesture reveal what changed.
 - Rich Text Editor: /r/rich-text-editor.json — Give stories shape, with images right where they belong.
 - Button: /r/button.json — A small surface for your next big action.
 - Float Button: /r/float-button.json — Keep useful actions within easy reach.

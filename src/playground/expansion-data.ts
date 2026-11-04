@@ -13,6 +13,7 @@ export const expansionIds = [
   'diff-viewer',
   'organization-chart',
   'media-player',
+  'image-comparison',
 ] as const
 export const kanbanData = [
   {

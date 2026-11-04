@@ -117,6 +117,13 @@ export const components: ComponentInfo[] = [
     keywords: 'media video audio player captions volume playback pip fullscreen',
   },
   {
+    id: 'image-comparison',
+    name: 'Image Comparison',
+    category: 'Data display',
+    description: 'Let a simple gesture reveal what changed.',
+    keywords: 'image comparison before after slider reveal',
+  },
+  {
     id: 'rich-text-editor',
     name: 'Rich Text Editor',
     category: 'Data entry',

@@ -143,6 +143,16 @@ export const coverage: Record<string, Coverage> = {
       'Formats/codecs, autoplay, fullscreen, PiP and remote track support depend on the browser. No adaptive-streaming engine or media hosting service is included.',
     ],
   },
+  'image-comparison': {
+    implemented: [
+      'Horizontal/vertical image reveal with controlled percentage and native range keyboard/touch support',
+      'Named image/handle parts, labels, alternate text and aspect/object-fit controls',
+      'Disabled state and finite/clamped divider values',
+    ],
+    notes: [
+      'Provide matching image dimensions/composition for a directly aligned visual comparison.',
+    ],
+  },
   'map-chart': {
     implemented: [
       'Application-supplied GeoJSON and region values with stable IDs',

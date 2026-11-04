@@ -15,6 +15,7 @@ const previews: Record<string, React.LazyExoticComponent<React.ComponentType<Pre
   'diff-viewer': React.lazy(() => import('./expansion/diff-viewer')),
   'organization-chart': React.lazy(() => import('./expansion/organization-chart')),
   'media-player': React.lazy(() => import('./expansion/media-player')),
+  'image-comparison': React.lazy(() => import('./expansion/image-comparison')),
 }
 /** Loads one interactive example and its own dependency graph at a time. */
 class DataBoundary extends React.Component<{ children: React.ReactNode }, { error: string }> {

@@ -110,6 +110,11 @@ function Files() {
   tracks={[{ src: "/captions.vtt", language: "en", label: "English" }]}
   onStateChange={state => console.log(state)} />
 // Use kind="audio" with your audio source. Fullscreen and PiP are feature-detected.`,
+  'image-comparison': `import { ImageComparison } from "@/components/ui/image-comparison"
+
+<ImageComparison before={{ src: "/before.jpg", alt: "Original image", label: "Before" }}
+  after={{ src: "/after.jpg", alt: "Edited image", label: "After" }}
+  defaultValue={50} orientation="horizontal" onValueChange={value => console.log(value)} />`,
   'map-chart': `import { MapChart, type ChartMapSource } from "@/components/ui/map-chart"
 
 // Load your own GeoJSON in application code, then pass the parsed source here.
