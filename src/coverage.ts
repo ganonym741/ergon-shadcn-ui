@@ -93,6 +93,16 @@ export const coverage: Record<string, Coverage> = {
       'Uses libphonenumber-js/max metadata. Number validation does not verify ownership or whether a number is reachable. Form values are parsed numbers when available; inspect validity before submission.',
     ],
   },
+  'json-viewer': {
+    implemented: [
+      'Expandable keyboard tree, search, copy path/value, pagination and controlled expansion',
+      'Cycles, BigInt, Map/Set, Date and getter-safe inspection',
+      'Bounded nodes/depth/string display and custom value rendering',
+    ],
+    notes: [
+      'Copy uses an extended, bounded JSON representation: cycles/getters and unsupported values receive explicit placeholders. This is an inspector, not a lossless arbitrary JavaScript serializer.',
+    ],
+  },
   'map-chart': {
     implemented: [
       'Application-supplied GeoJSON and region values with stable IDs',

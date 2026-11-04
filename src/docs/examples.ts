@@ -84,6 +84,10 @@ function Files() {
   validation="strict" onValueChange={value => console.log(value)}
   onPhoneChange={({ e164, valid, extension }) => console.log({ e164, valid, extension })} />
 // Validate before submitting. Formatting/numbering-plan validity does not verify ownership.`,
+  'json-viewer': `import { JsonViewer } from "@/components/ui/json-viewer"
+
+<JsonViewer value={{ project: "ErgonUI", active: true, members: [{ id: "maya", role: "Designer" }] }}
+  defaultExpandDepth={2} pageSize={20} maxNodes={2000} searchable copyable />`,
   'map-chart': `import { MapChart, type ChartMapSource } from "@/components/ui/map-chart"
 
 // Load your own GeoJSON in application code, then pass the parsed source here.

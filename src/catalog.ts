@@ -82,6 +82,13 @@ export const components: ComponentInfo[] = [
     keywords: 'phone telephone country dial e164 validation formatting',
   },
   {
+    id: 'json-viewer',
+    name: 'JSON Viewer',
+    category: 'Data display',
+    description: 'Explore structured data without losing the details.',
+    keywords: 'json object tree inspect search copy bigint cycles',
+  },
+  {
     id: 'rich-text-editor',
     name: 'Rich Text Editor',
     category: 'Data entry',

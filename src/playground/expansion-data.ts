@@ -8,6 +8,7 @@ export const expansionIds = [
   'command-palette',
   'tags-input',
   'phone-input',
+  'json-viewer',
 ] as const
 export const kanbanData = [
   {
