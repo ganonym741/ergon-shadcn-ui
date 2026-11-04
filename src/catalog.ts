@@ -103,6 +103,13 @@ export const components: ComponentInfo[] = [
     keywords: 'diff compare text split inline changes code',
   },
   {
+    id: 'organization-chart',
+    name: 'Organization Chart',
+    category: 'Data display',
+    description: 'See the people and relationships behind a team.',
+    keywords: 'organization hierarchy people tree pan zoom reporting',
+  },
+  {
     id: 'rich-text-editor',
     name: 'Rich Text Editor',
     category: 'Data entry',

@@ -123,6 +123,16 @@ export const coverage: Record<string, Coverage> = {
       'Input/line/edit/time limits are explicit. Work-limit failures show a message rather than an inaccurate diff. A running jsdiff calculation is time-bounded; obsolete results are discarded.',
     ],
   },
+  'organization-chart': {
+    implemented: [
+      'Validated flat hierarchies, vertical/horizontal connectors and custom person cards',
+      'Controlled collapse/selection, keyboard tree navigation and disabled nodes',
+      'Background pointer/touch pan plus keyboard/button zoom, fit and expand/collapse controls',
+    ],
+    notes: [
+      'Hierarchy size and depth are bounded; this component does not virtualize nodes or edit reporting relationships.',
+    ],
+  },
   'map-chart': {
     implemented: [
       'Application-supplied GeoJSON and region values with stable IDs',

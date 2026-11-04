@@ -97,6 +97,13 @@ function Files() {
 
 <DiffViewer before={'const radius = 8\n'} after={'const radius = 12\n'}
   beforeLabel="Before" afterLabel="After" defaultMode="split" contextLines={3} wordHighlight />`,
+  'organization-chart': `import { OrganizationChart } from "@/components/ui/organization-chart"
+
+<OrganizationChart nodes={[
+  { id: "maya", name: "Maya Chen", role: "CEO" },
+  { id: "rio", parentId: "maya", name: "Rio Santoso", role: "Engineering lead" },
+  { id: "ava", parentId: "maya", name: "Ava Morgan", role: "Design lead" },
+]} onNodeSelect={person => console.log(person)} />`,
   'map-chart': `import { MapChart, type ChartMapSource } from "@/components/ui/map-chart"
 
 // Load your own GeoJSON in application code, then pass the parsed source here.
