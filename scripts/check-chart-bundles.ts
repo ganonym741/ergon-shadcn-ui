@@ -18,6 +18,13 @@ const cases = [
   ['radar-chart', 'RadarChart', 'radar'],
   ['heatmap-chart', 'HeatmapChart', 'heatmap'],
   ['gauge-chart', 'GaugeChart', 'gauge'],
+  ['map-chart', 'MapChart', 'map'],
+  ['boxplot-chart', 'BoxplotChart', 'boxplot,scatter'],
+  ['calendar-heatmap-chart', 'CalendarHeatmapChart', 'heatmap'],
+  ['combo-chart', 'ComboChart', 'bar,line'],
+  ['sankey-chart', 'SankeyChart', 'sankey'],
+  ['candlestick-chart', 'CandlestickChart', 'bar,candlestick,line'],
+  ['gantt-chart', 'GanttChart', 'custom'],
 ] as const
 const report: Record<string, unknown> = {}
 for (const [id, component, expected] of cases) {
@@ -61,7 +68,7 @@ for (const [id, component, expected] of cases) {
       ),
     ),
   ]
-    .filter((name) => name !== 'custom')
+    .filter((name) => name !== 'custom' || id === 'gantt-chart')
     .sort()
   if (installedSeries.join(',') !== (expected ?? ''))
     throw new Error(`${id} contains unexpected series installers: ${installedSeries.join(',')}`)
@@ -75,6 +82,10 @@ for (const [id, component, expected] of cases) {
     throw new Error(`${id} eagerly includes the Canvas renderer`)
   if (modules.some((name) => name.includes('/echarts/lib/component/dataZoom/')))
     throw new Error(`${id} eagerly includes data zoom`)
+  if (modules.some((name) => name.includes('/echarts/lib/component/brush/')))
+    throw new Error(`${id} eagerly includes brush selection`)
+  if (modules.some((name) => name.includes('/playground/') || name.includes('/maps/')))
+    throw new Error(`${id} includes documentation data`)
   if (modules.some((name) => /\/echarts\/index\.js$/.test(name)))
     throw new Error(`${id} imports the full ECharts entry`)
   const data = {
@@ -98,4 +109,6 @@ for (const [id, component, expected] of cases) {
   )
 }
 await writeFile(resolve(root, 'output/chart-bundles.json'), JSON.stringify(report, null, 2))
-console.log('All nine standalone chart module checks passed. Report: output/chart-bundles.json')
+console.log(
+  `All ${cases.length} standalone chart module checks passed. Report: output/chart-bundles.json`,
+)

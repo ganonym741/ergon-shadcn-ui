@@ -10,6 +10,9 @@ export interface InputProps extends Omit<React.ComponentProps<'input'>, 'prefix'
   passwordToggle?: boolean
   onValueChange?: (value: string) => void
 }
+/**
+ * Renders an input with optional leading content, clear action, and password visibility controls, including portable compact-density styling.
+ */
 export function Input({
   className,
   type = 'text',
@@ -46,6 +49,7 @@ export function Input({
       }}
       className={cn(
         'h-9 w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30 aria-invalid:border-destructive',
+        '[[data-density=compact]_&]:h-[30px]',
         leading && 'pl-9',
         (trailing || allowClear || passwordToggle) && 'pr-10',
         className,

@@ -18,6 +18,8 @@ import type { RadarSeries, RadarIndicator } from '@/components/ui/radar-chart'
 import type { HeatmapPoint } from '@/components/ui/heatmap-chart'
 import { Button } from '@/components/ui/button'
 import type { PreviewProps } from './preview'
+import { advancedChartIds } from './advanced-chart-data'
+const AdvancedChartPreview = React.lazy(() => import('./advanced-chart-preview'))
 const LineChart = React.lazy(() =>
   import('@/components/ui/line-chart').then((module) => ({ default: module.LineChart })),
 )
@@ -44,7 +46,10 @@ const GaugeChart = React.lazy(() =>
 )
 const MixedChart = React.lazy(() => import('./chart-mixed-preview'))
 
-export default function ChartPreview({ id, config: v, onEvent }: PreviewProps) {
+/**
+ * Composes lazy chart examples with shared headers, export actions, data updates, and event reporting from editable playground configuration.
+ */
+function ChartPreview({ id, config: v, onEvent }: PreviewProps) {
   const ref = React.useRef<ChartHandle>(null)
   const [revision, setRevision] = React.useState(0)
   const [actionError, setActionError] = React.useState<string>()
@@ -57,13 +62,14 @@ export default function ChartPreview({ id, config: v, onEvent }: PreviewProps) {
     theme: v.theme as 'auto' | 'light' | 'dark',
     animated: Boolean(v.animated),
     loading: Boolean(v.loading),
-    empty: Boolean(v.empty),
+    empty: v.empty ? true : undefined,
     error: v.error ? 'Unable to load this sample. Try the Default preset.' : undefined,
     events: {
       click: (event) =>
         emit('chart-click', { name: event.name, series: event.seriesName, value: event.value }),
       legendselectchanged: (event) => emit('legend-change', event),
       datazoom: (event) => emit('zoom-change', event),
+      georoam: (event) => emit('map-navigation', event),
     },
     onError: (error) => emit('chart-error', error.message),
   }
@@ -79,11 +85,22 @@ export default function ChartPreview({ id, config: v, onEvent }: PreviewProps) {
       if (!Array.isArray(parsed)) throw new Error(`${key} must be a JSON array.`)
       return parsed as T[]
     }
-    const palette = list<string>('palette')
+    const palette = v.palette === undefined ? [] : list<string>('palette')
     if (palette.some((color) => typeof color !== 'string'))
       throw new Error('Palette must contain color strings.')
     common.palette = palette.length ? palette : undefined
-    if (['line-chart', 'area-chart', 'bar-chart'].includes(id)) {
+    if (advancedChartIds.some((name) => name === id)) {
+      content = (
+        <AdvancedChartPreview
+          id={id}
+          config={v}
+          common={common}
+          presentation={presentation}
+          revision={revision}
+          onEvent={onEvent}
+        />
+      )
+    } else if (['line-chart', 'area-chart', 'bar-chart'].includes(id)) {
       const data = list<ChartDatum>('data').map((row, index) => {
         if (!row || typeof row.id !== 'string' || typeof row.label !== 'string')
           throw new Error('Each row needs a string id and label.')
@@ -397,3 +414,4 @@ export default function ChartPreview({ id, config: v, onEvent }: PreviewProps) {
     </div>
   )
 }
+export default React.memo(ChartPreview)

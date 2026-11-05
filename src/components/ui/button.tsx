@@ -41,6 +41,9 @@ const buttonVariants = cva(
   },
 )
 
+/**
+ * Composes button variants, loading state, and optional slot rendering. Compact-density styles travel with the installed source.
+ */
 function Button({
   className,
   variant = 'default',
@@ -61,7 +64,11 @@ function Button({
       data-slot="button"
       data-variant={variant}
       data-size={size}
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={cn(
+        buttonVariants({ variant, size }),
+        size === 'default' && '[[data-density=compact]_&]:h-[30px] [[data-density=compact]_&]:py-1',
+        className,
+      )}
       aria-busy={loading || undefined}
       {...props}
       disabled={props.disabled || loading}

@@ -12,6 +12,9 @@ export function filterTree(nodes: TreeNode[], query: string): TreeNode[] {
     return children.length ? [{ ...node, children }] : []
   })
 }
+/**
+ * Selects keys from a searchable hierarchical popover with optional lazy children and virtualization. A supplied label names the trigger independently of its placeholder.
+ */
 export function TreeSelect({
   nodes,
   value,
@@ -24,6 +27,7 @@ export function TreeSelect({
   virtual,
   loadChildren,
   maxTags = 3,
+  label,
 }: {
   nodes: TreeNode[]
   value?: string[]
@@ -36,6 +40,7 @@ export function TreeSelect({
   virtual?: boolean
   loadChildren?: (key: string) => Promise<void>
   maxTags?: number
+  label?: string
 }) {
   const [selected, setSelected] = useControllableState({
     value,
@@ -52,7 +57,7 @@ export function TreeSelect({
         <Button
           variant="outline"
           role="combobox"
-          aria-label={placeholder}
+          aria-label={label ?? placeholder}
           aria-expanded={open}
           className="min-w-56 max-w-full justify-between font-normal"
           disabled={disabled}

@@ -1,6 +1,6 @@
 {
   "name": "ergonui",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,6 +9,7 @@
     "preview": "vite preview --host 127.0.0.1",
     "registry:build": "bun scripts/build-registry.ts",
     "charts:check": "bun scripts/check-chart-bundles.ts",
+    "consumer:check": "bun run registry:build && bun scripts/check-consumer-source.ts",
     "cli:build": "bun run --cwd packages/cli build",
     "cli:check": "bun run --cwd packages/cli check",
     "cli:test": "bun run --cwd packages/cli test",
@@ -21,7 +22,7 @@
     "commitlint": "commitlint",
     "commit": "cz",
     "hooks:check": "bun scripts/check-git-hooks.ts",
-    "verify": "bun run lint && bun run format:check && bun run check && bun run cli:check && bun run test && bun run cli:test && bun run build"
+    "verify": "bun run lint && bun run format:check && bun run check && bun run cli:check && bun run test && bun run cli:test && bun run consumer:check && bun run build"
   },
   "config": {
     "commitizen": {
@@ -29,8 +30,16 @@
     }
   },
   "dependencies": {
+    "@dnd-kit/core": "6.3.1",
+    "@dnd-kit/sortable": "10.0.0",
     "@fontsource-variable/geist": "5.3.0",
     "@fontsource-variable/geist-mono": "5.3.0",
+    "@fullcalendar/core": "6.1.22",
+    "@fullcalendar/daygrid": "6.1.22",
+    "@fullcalendar/interaction": "6.1.22",
+    "@fullcalendar/list": "6.1.22",
+    "@fullcalendar/react": "6.1.22",
+    "@fullcalendar/timegrid": "6.1.22",
     "@hookform/resolvers": "6.0.2",
     "@tanstack/react-table": "8.21.3",
     "@tanstack/react-virtual": "3.14.24",
@@ -47,16 +56,20 @@
     "clsx": "2.1.1",
     "cmdk": "1.1.1",
     "date-fns": "4.4.0",
+    "diff": "9.0.0",
     "echarts": "6.1.0",
     "embla-carousel-react": "8.6.0",
+    "libphonenumber-js": "1.13.15",
     "lucide-react": "1.65.0",
     "qrcode.react": "4.2.0",
     "radix-ui": "1.8.1",
     "react": "19.3.1",
     "react-day-picker": "10.0.2",
     "react-dom": "19.3.1",
+    "react-easy-crop": "6.2.4",
     "react-hook-form": "7.91.0",
     "react-resizable-panels": "4.15.3",
+    "shiki": "4.6.0",
     "sonner": "2.0.8",
     "tailwind-merge": "3.7.0",
     "vaul": "1.1.2",

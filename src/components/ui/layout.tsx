@@ -9,6 +9,9 @@ export function Layout({ className, ...props }: HTMLAttributes<HTMLDivElement>) 
 export function LayoutHeader({ className, ...props }: HTMLAttributes<HTMLElement>) {
   return <header className={cn('flex min-h-14 items-center border-b px-5', className)} {...props} />
 }
+/**
+ * Manages controlled or default sidebar collapse state and synchronizes responsive breakpoint transitions without discarding the desktop initial state.
+ */
 export function LayoutSider({
   className,
   children,
@@ -36,8 +39,10 @@ export function LayoutSider({
     onChange: onCollapsedChange,
   })
   const mobile = useMediaQuery(`(max-width:${breakpoint}px)`)
+  const previousMobile = React.useRef(mobile)
   React.useEffect(() => {
-    if (collapsible) setSmall(mobile)
+    if (collapsible && (mobile || previousMobile.current !== mobile)) setSmall(mobile)
+    previousMobile.current = mobile
   }, [mobile, collapsible])
   return (
     <aside

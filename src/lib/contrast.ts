@@ -8,7 +8,7 @@ export function contrastForeground(color: string) {
       (sum, value, index) => sum + value * [0.2126, 0.7152, 0.0722][index],
       0,
     )
-  return luminance > 0.179 ? '#111111' : '#ffffff'
+  return luminance > 0.179 ? '#000000' : '#ffffff'
 }
 export const themeAccent = (accent: string, theme: 'light' | 'dark') =>
   accent === '#b93e28' && theme === 'dark' ? '#f17c5e' : accent

@@ -1,16 +1,87 @@
-import { expect, test } from 'bun:test'
+import { expect, spyOn, test } from 'bun:test'
+import { createRequire } from 'node:module'
 import { mkdir, mkdtemp, readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { managerConfiguration, selectPackageManager, taskCommand } from '../src/package-manager'
+import {
+  installDependencies,
+  managerConfiguration,
+  selectPackageManager,
+  taskCommand,
+} from '../src/package-manager'
 
 const base = fileURLToPath(new URL('../../../output/manager-tests/', import.meta.url))
 await mkdir(base, { recursive: true })
+
+test('dependency installation can update pnpm and Yarn lockfiles in CI without changing the parent environment', () => {
+  const spawn: typeof import('cross-spawn') = createRequire(import.meta.url)('cross-spawn')
+  const execute = spyOn(spawn, 'sync').mockReturnValue({
+    pid: 1,
+    output: [null, null, null],
+    stdout: Buffer.alloc(0),
+    stderr: Buffer.alloc(0),
+    status: 0,
+    signal: null,
+  })
+  const immutable = process.env.YARN_ENABLE_IMMUTABLE_INSTALLS
+  try {
+    installDependencies(base, 'pnpm')
+    expect(execute).toHaveBeenLastCalledWith(
+      'pnpm',
+      ['install', '--no-frozen-lockfile'],
+      expect.objectContaining({ cwd: base }),
+    )
+    installDependencies(base, 'yarn')
+    expect(execute).toHaveBeenLastCalledWith(
+      'yarn',
+      ['install'],
+      expect.objectContaining({
+        env: expect.objectContaining({ YARN_ENABLE_IMMUTABLE_INSTALLS: 'false' }),
+      }),
+    )
+    expect(process.env.YARN_ENABLE_IMMUTABLE_INSTALLS).toBe(immutable)
+    installDependencies(base, 'npm')
+    expect(execute).toHaveBeenLastCalledWith(
+      'npm',
+      ['install'],
+      expect.objectContaining({ cwd: base }),
+    )
+  } finally {
+    execute.mockRestore()
+  }
+})
 test('explicit selection overrides existing lockfiles', async () => {
   const root = await mkdtemp(resolve(base, 'override-'))
   await writeFile(resolve(root, 'bun.lock'), '{}')
   expect(await selectPackageManager(root, 'npm')).toBe('npm')
   await expect(selectPackageManager(root, 'unknown')).rejects.toThrow('Unknown package manager')
+})
+
+test('Deno installs use the running executable instead of relying on Windows PATH lookup', () => {
+  const runtime = globalThis as typeof globalThis & { Deno?: { execPath: () => string } }
+  const previous = runtime.Deno
+  const spawn: typeof import('cross-spawn') = createRequire(import.meta.url)('cross-spawn')
+  const execute = spyOn(spawn, 'sync').mockReturnValue({
+    pid: 1,
+    output: [null, null, null],
+    stdout: Buffer.alloc(0),
+    stderr: Buffer.alloc(0),
+    status: 0,
+    signal: null,
+  })
+  try {
+    runtime.Deno = { execPath: () => 'C:\\tools\\deno.exe' }
+    installDependencies(base, 'deno')
+    expect(execute).toHaveBeenCalledWith(
+      'C:\\tools\\deno.exe',
+      ['install'],
+      expect.objectContaining({ cwd: base }),
+    )
+  } finally {
+    if (previous === undefined) delete runtime.Deno
+    else runtime.Deno = previous
+    execute.mockRestore()
+  }
 })
 test('detects each package manager from its lockfile', async () => {
   for (const [name, lock] of [

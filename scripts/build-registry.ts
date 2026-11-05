@@ -92,19 +92,59 @@ const program = ts.createProgram(
   parsedConfig.options,
 )
 const checker = program.getTypeChecker()
+/**
+ * Converts inferred TypeScript import paths into portable package or source-alias references for generated API documentation.
+ */
+function portableType(type: string) {
+  return type.replace(/import\("([^"]+)"\)/g, (expression, path: string) => {
+    const normalized = path.replaceAll('\\', '/')
+    const dependency = normalized.split('/node_modules/').at(-1)
+    if (dependency !== normalized && dependency) {
+      const name = dependency.startsWith('@types/')
+        ? dependency.slice('@types/'.length).replace(/\/index$/, '')
+        : dependency
+      return `import("${name}")`
+    }
+    const source = `${root.replaceAll('\\', '/')}/src/`
+    return normalized.startsWith(source)
+      ? `import("@/${normalized.slice(source.length)}")`
+      : expression
+  })
+}
+/**
+ * Extracts exported declarations and inferred function signatures from component source for the generated API pages.
+ */
 function getAPI(content: string, path: string) {
   const file =
     program.getSourceFile(path) ??
     ts.createSourceFile(path, content, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX)
   const types: string[] = []
   const exports: string[] = []
+  const localExports = new Map<string, string>()
+  for (const statement of file.statements)
+    if (
+      ts.isExportDeclaration(statement) &&
+      !statement.moduleSpecifier &&
+      statement.exportClause &&
+      ts.isNamedExports(statement.exportClause)
+    )
+      for (const item of statement.exportClause.elements)
+        localExports.set(item.propertyName?.text ?? item.name.text, item.name.text)
   for (const statement of file.statements) {
     if (ts.isInterfaceDeclaration(statement) || ts.isTypeAliasDeclaration(statement)) {
       types.push(printer.printNode(ts.EmitHint.Unspecified, statement, file))
     }
-    if (ts.isFunctionDeclaration(statement) && statement.name) {
-      exports.push(statement.name.text)
-      if (!statement.parameters[0]?.type) continue
+    if (
+      ts.isFunctionDeclaration(statement) &&
+      statement.name &&
+      (ts
+        .getModifiers(statement)
+        ?.some((modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword) ||
+        localExports.has(statement.name.text))
+    ) {
+      const exportName = localExports.get(statement.name.text) ?? statement.name.text
+      exports.push(exportName)
+      if (statement.parameters.length && !statement.parameters[0]?.type) continue
       const signature = checker.getSignatureFromDeclaration(statement)
       const returnType = signature
         ? checker.typeToString(
@@ -114,7 +154,7 @@ function getAPI(content: string, path: string) {
           )
         : 'unknown'
       types.push(
-        `export function ${statement.name.text}${statement.typeParameters ? `<${statement.typeParameters.map((t) => t.getText(file)).join(', ')}>` : ''}(${statement.parameters.map((p) => p.getText(file)).join(', ')}): ${returnType}`,
+        `export function ${exportName}${statement.typeParameters ? `<${statement.typeParameters.map((t) => t.getText(file)).join(', ')}>` : ''}(${statement.parameters.map((p) => p.getText(file)).join(', ')}): ${portableType(returnType)}`,
       )
     }
     if (

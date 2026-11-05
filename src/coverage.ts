@@ -3,6 +3,212 @@ export interface Coverage {
   notes: string[]
 }
 export const coverage: Record<string, Coverage> = {
+  kanban: {
+    implemented: [
+      'Controlled column/card state, pointer/touch/keyboard sorting, card and column reorder callbacks',
+      'Work-in-progress limits, disabled/read-only items and explicit keyboard move forms',
+      'Named board/column/card/action parts and custom card rendering',
+    ],
+    notes: [
+      'Application code owns persistence. Card IDs are unique across the board; column IDs are unique within it.',
+    ],
+  },
+  'calendar-plus': {
+    implemented: [
+      'Month/week/day/agenda views, overlapping events, navigation and date-range selection',
+      'Pointer move/resize, keyboard event editing, create/delete actions and typed callbacks',
+      'Controlled events/view/date, custom event rendering and scoped theme tokens',
+    ],
+    notes: [
+      'Uses matching FullCalendar 6.1.22 free plugins. No premium resource scheduler is bundled. All-day event end dates are exclusive in the API; the editor shows an inclusive last day. Persistence belongs to application callbacks.',
+    ],
+  },
+  'gantt-chart': {
+    implemented: [
+      'Date-only tasks, groups, milestones, progress and finish-to-start dependency arrows',
+      'Dependency/parent cycle validation, conflict reporting, group collapse and controlled task editing',
+      'Modular custom ECharts series, lazy Canvas/zoom, readable task table and keyboard controls',
+    ],
+    notes: [
+      'Dates are UTC YYYY-MM-DD keys and task end dates are inclusive. Group ranges are application-supplied. Conflicts are reported without automatic rescheduling. Dependency arrows connect visible tasks. Up to 2,000 tasks and 10,000 dependency edges are accepted.',
+    ],
+  },
+  'filter-builder': {
+    implemented: [
+      'Serializable typed AND/OR/NOT trees, nested groups and rule reorder/remove/reset controls',
+      'Text, number, date, boolean and select editors with supported operator validation',
+      'Pure bounded query validator/evaluator and application-defined value editors',
+    ],
+    notes: [
+      'The AST is not SQL or backend query text. Translate it in application code; the example filters local sample records.',
+    ],
+  },
+  'file-browser': {
+    implemented: [
+      'Folder breadcrumbs, grid/list views, search, sorting, pagination and multi/range selection',
+      'Injected create/rename/move/delete/upload/download operations with cancellation, pending and error states',
+      'Stable ID/parent validation, descendant-safe moves, details dialogs and custom previews',
+    ],
+    notes: [
+      'Entries and persistence are application-owned. The playground uses explicitly simulated in-memory operations. No production storage provider or local filesystem access is assumed.',
+    ],
+  },
+  'image-cropper': {
+    implemented: [
+      'Pointer/touch/keyboard crop, zoom/rotation, aspect presets and circular crops',
+      'Bounded canvas Blob export as PNG/JPEG/WebP, local preview/download and imperative export handle',
+      'Custom async onImageUpload callback with AbortSignal, loading/error states and object URL cleanup',
+    ],
+    notes: [
+      'Remote images must permit cross-origin canvas access. Upload callbacks return a browser-displayable URL. The playground upload callback is simulated; output is limited to 16 million pixels.',
+    ],
+  },
+  'command-palette': {
+    implemented: [
+      'Grouped searchable commands, nested navigation, shortcuts and disabled actions',
+      'Abortable async search/actions, retry and pending/error feedback',
+      'Composable trigger/content/item parts, keyboard navigation and focus restoration',
+    ],
+    notes: [
+      'Default Ctrl/Command+K shortcut ignores editable fields unless enableInInputs is set. Navigation and persistence are supplied through action callbacks.',
+    ],
+  },
+  'tags-input': {
+    implemented: [
+      'Controlled tags, bulk paste/separators, suggestions, duplicate/maximum rules and custom validation',
+      'Abortable async suggestions, IME-safe creation and form values',
+      'Keyboard chip navigation/removal/reordering and named tag parts',
+    ],
+    notes: [
+      'Suggestions are local or injected callbacks. Search and validation failures are announced.',
+    ],
+  },
+  'phone-input': {
+    implemented: [
+      'Searchable localized countries and calling codes, country restrictions and national/international display',
+      'Maintained international parsing, E.164 output, extension metadata and possible/strict validation',
+      'Controlled values/countries, caret-preserving editing, blur formatting and hidden form value',
+    ],
+    notes: [
+      'Uses libphonenumber-js/max metadata. Number validation does not verify ownership or whether a number is reachable. Form values are parsed numbers when available; inspect validity before submission.',
+    ],
+  },
+  'json-viewer': {
+    implemented: [
+      'Expandable keyboard tree, search, copy path/value, pagination and controlled expansion',
+      'Cycles, BigInt, Map/Set, Date and getter-safe inspection',
+      'Bounded nodes/depth/string display and custom value rendering',
+    ],
+    notes: [
+      'Copy uses an extended, bounded JSON representation: cycles/getters and unsupported values receive explicit placeholders. This is an inspector, not a lossless arbitrary JavaScript serializer.',
+    ],
+  },
+  'code-block': {
+    implemented: [
+      'Grammar-specific lazy Shiki highlighting with dual themes and plain-text fallback',
+      'Line numbering, emphasized lines, wrapping, copy and local download',
+      'Composable header/content and bounded highlighting work',
+    ],
+    notes: [
+      'Includes text, JavaScript/JSX, TypeScript/TSX, JSON, CSS, HTML, Markdown, Bash, YAML, SQL and Python. Source is rendered as escaped React text. Large content skips highlighting.',
+    ],
+  },
+  'diff-viewer': {
+    implemented: [
+      'Bounded asynchronous line diff with stale-result suppression and configurable whitespace handling',
+      'Split/inline layouts, aligned line numbers, word emphasis and expandable unchanged context',
+      'Change counts, copy actions and composable toolbar/content',
+    ],
+    notes: [
+      'Input/line/edit/time limits are explicit. Work-limit failures show a message rather than an inaccurate diff. A running jsdiff calculation is time-bounded; obsolete results are discarded.',
+    ],
+  },
+  'organization-chart': {
+    implemented: [
+      'Validated flat hierarchies, vertical/horizontal connectors and custom person cards',
+      'Controlled collapse/selection, keyboard tree navigation and disabled nodes',
+      'Background pointer/touch pan plus keyboard/button zoom, fit and expand/collapse controls',
+    ],
+    notes: [
+      'Hierarchy size and depth are bounded; this component does not virtualize nodes or edit reporting relationships.',
+    ],
+  },
+  'media-player': {
+    implemented: [
+      'Native audio/video with custom composable controls and optional native-control fallback',
+      'Playback, bounded seeking, buffering, volume/mute/rate, captions and error handling',
+      'Controlled audio settings, imperative media handle and supported fullscreen/picture-in-picture actions',
+    ],
+    notes: [
+      'Formats/codecs, autoplay, fullscreen, PiP and remote track support depend on the browser. No adaptive-streaming engine or media hosting service is included.',
+    ],
+  },
+  'image-comparison': {
+    implemented: [
+      'Horizontal/vertical image reveal with controlled percentage and native range keyboard/touch support',
+      'Named image/handle parts, labels, alternate text and aspect/object-fit controls',
+      'Disabled state and finite/clamped divider values',
+    ],
+    notes: [
+      'Provide matching image dimensions/composition for a directly aligned visual comparison.',
+    ],
+  },
+  'map-chart': {
+    implemented: [
+      'Application-supplied GeoJSON and region values with stable IDs',
+      'Pan/zoom with viewport retention, pointer/keyboard region selection, callbacks and value colors',
+      'SVG/Canvas, accessible data table, loading/error states and export',
+    ],
+    notes: [
+      'GeoJSON is supplied by the application and registered with its stable mapName. Map assets are not installed with this component. Playground values are local samples; world boundaries are Natural Earth public-domain data.',
+    ],
+  },
+  'boxplot-chart': {
+    implemented: [
+      'Five-number summaries, optional outliers and raw-observation statistics helper',
+      'Horizontal/vertical layout, zoom, tooltip and readable statistics table',
+      'Configurable composition, theme, renderer, palette and native options',
+    ],
+    notes: [
+      'calculateBoxplotStatistics uses interpolated quartiles and a configurable IQR whisker multiplier; supplied observations are not mutated.',
+    ],
+  },
+  'calendar-heatmap-chart': {
+    implemented: [
+      'Daily values across a year, month, date or explicit date range',
+      'Horizontal/vertical calendar, localized day/month labels and first weekday',
+      'Color scale, readable data table and scrollable minimum cell size',
+    ],
+    notes: [
+      'Dates use YYYY-MM-DD calendar keys. Supply one aggregated value per date; ranges filter the displayed data.',
+    ],
+  },
+  'combo-chart': {
+    implemented: [
+      'Mixed bar, line and area series with stable IDs',
+      'Named multiple value axes, per-series axis mapping, units and stacking groups',
+      'Legend, data zoom, labels, data table and native option overrides',
+    ],
+    notes: [],
+  },
+  'sankey-chart': {
+    implemented: [
+      'Weighted node/link flows with stable IDs and labels',
+      'Horizontal/vertical orientation, node alignment, spacing, dragging and adjacency emphasis',
+      'Cycle and link validation, accessible edge table and native overrides',
+    ],
+    notes: ['Sankey flows must form a directed acyclic graph with finite, nonnegative weights.'],
+  },
+  'candlestick-chart': {
+    implemented: [
+      'Typed OHLC observations with linked price/volume panels',
+      'Configurable moving averages, bullish/bearish colors and linked data zoom',
+      'Pointer brush and keyboard range controls, selection callbacks and readable OHLC table',
+    ],
+    notes: [
+      'Examples use simulated market observations. Canvas, zoom and brush modules load on demand.',
+    ],
+  },
   chart: {
     implemented: [
       'Composable ECharts canvas, header, legend and data-table parts with typed options and imperative handle',
@@ -194,7 +400,8 @@ export const coverage: Record<string, Coverage> = {
   anchor: {
     implemented: [
       'Nested anchor links',
-      'Native section scrolling',
+      'Offset-aware section scrolling',
+      'Window and nested scroll containers',
       'Scrollspy active tracking',
       'Horizontal anchor preset',
     ],
@@ -238,6 +445,7 @@ export const coverage: Record<string, Coverage> = {
     implemented: [
       'Controlled step navigation',
       'Horizontal/vertical',
+      'Responsive layout based on available component width',
       'Descriptions and disabled steps',
       'Error/wait/status variants',
       'Custom step icons',

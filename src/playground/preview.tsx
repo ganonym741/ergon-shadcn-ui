@@ -20,6 +20,8 @@ import { useDebouncedValue, useBreakpoints } from '@/components/ui/util'
 import { type Config, parseData } from './schema'
 import { AdvancedDataPreview } from './table-preview'
 import { treeData, frameworkOptions } from '@/docs/demo-data'
+import { expansionIds } from './expansion-data'
+const ExpansionPreview = React.lazy(() => import('./expansion-preview'))
 const RichTextPreview = React.lazy(() => import('./rich-text-preview'))
 const ChartPreview = React.lazy(() => import('./chart-preview'))
 export interface PlaygroundEvent {
@@ -58,6 +60,9 @@ const wait = (milliseconds: number, signal?: AbortSignal) =>
       { once: true },
     )
   })
+/**
+ * Maps catalog component IDs and playground configuration to real interactive examples and reports their user-visible events.
+ */
 export function PlaygroundPreview({ id, config: v, onEvent }: PreviewProps) {
   const s = (key: string) => String(v[key] ?? ''),
     n = (key: string) => Number(v[key] ?? 0),
@@ -76,6 +81,7 @@ export function PlaygroundPreview({ id, config: v, onEvent }: PreviewProps) {
     page: n('page') || 1,
     pageSize: n('pageSize') || 10,
     open: false,
+    collapsed: b('collapsed'),
     progress: n('value') || 64,
     tags: ['Design', 'Engineering', 'Product'],
     tabs: Array.from({ length: n('count') || 4 }, (_, index) => ({
@@ -129,6 +135,14 @@ export function PlaygroundPreview({ id, config: v, onEvent }: PreviewProps) {
     if (b('failure')) throw new Error('The demonstration save was rejected.')
     emit('saved', values)
   }
+  if ((expansionIds as readonly string[]).includes(id))
+    return (
+      <React.Suspense
+        fallback={<p className="text-sm text-muted-foreground">Loading component…</p>}
+      >
+        <ExpansionPreview id={id} config={v} onEvent={onEvent} />
+      </React.Suspense>
+    )
   switch (id) {
     case 'chart':
     case 'line-chart':
@@ -139,6 +153,12 @@ export function PlaygroundPreview({ id, config: v, onEvent }: PreviewProps) {
     case 'radar-chart':
     case 'heatmap-chart':
     case 'gauge-chart':
+    case 'map-chart':
+    case 'boxplot-chart':
+    case 'calendar-heatmap-chart':
+    case 'combo-chart':
+    case 'sankey-chart':
+    case 'candlestick-chart':
       return (
         <React.Suspense fallback={<p className="text-sm text-muted-foreground">Loading charts…</p>}>
           <ChartPreview id={id} config={v} onEvent={onEvent} />
@@ -294,10 +314,12 @@ export function PlaygroundPreview({ id, config: v, onEvent }: PreviewProps) {
             <UI.LayoutSider
               width={n('width')}
               collapsible={b('collapsible')}
-              defaultCollapsed={b('collapsed')}
+              collapsed={state.collapsed}
+              onCollapsedChange={(collapsed) => set('collapsed', collapsed)}
             >
               <UI.Menu
                 items={sampleItems.slice(0, 3)}
+                collapsed={state.collapsed}
                 value={state.value}
                 onValueChange={(value) => set('value', value)}
               />
@@ -412,6 +434,7 @@ export function PlaygroundPreview({ id, config: v, onEvent }: PreviewProps) {
       return (
         <div className={b('horizontal') ? 'w-full space-y-4' : 'flex w-full gap-5'}>
           <UI.Anchor
+            getContainer={scrollTarget}
             horizontal={b('horizontal')}
             offset={n('offset')}
             onActiveChange={(href) => emit('active', href)}
@@ -420,6 +443,7 @@ export function PlaygroundPreview({ id, config: v, onEvent }: PreviewProps) {
           <div
             tabIndex={0}
             aria-label="Anchor sections"
+            ref={scroll}
             className="h-64 flex-1 overflow-auto rounded-lg border p-5"
           >
             {sections.map((title, index) => (
@@ -546,6 +570,7 @@ export function PlaygroundPreview({ id, config: v, onEvent }: PreviewProps) {
     case 'steps':
       return (
         <UI.Steps
+          responsive={b('responsive')}
           className="w-full"
           current={state.step}
           onChange={(value) => set('step', value)}

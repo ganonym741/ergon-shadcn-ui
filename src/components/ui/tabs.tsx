@@ -2,7 +2,13 @@ import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 import { Tabs as TabsPrimitive } from 'radix-ui'
-import { X } from 'lucide-react'
+import { MoreHorizontal, X } from 'lucide-react'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
 function Tabs({
   className,
@@ -84,6 +90,9 @@ export interface TabItem {
   disabled?: boolean
   closable?: boolean
 }
+/**
+ * Manages controlled workspace tabs with reordering, pointer and keyboard closing, accessible action-menu alternatives, and focus restoration.
+ */
 export function WorkspaceTabs({
   items,
   value,
@@ -103,6 +112,21 @@ export function WorkspaceTabs({
   const pendingFocus = React.useRef<string | null>(null)
   const emptyState = React.useRef<HTMLParagraphElement>(null)
   const navigation = React.useRef<HTMLDivElement>(null)
+  const closeHelp = React.useId()
+  const closedFromMenu = React.useRef(false)
+  const close = (item: TabItem, index: number) => {
+    if (!item.closable || item.disabled || !onItemsChange) return
+    const next = items.filter((tab) => tab.value !== item.value)
+    const nextValue =
+      value === item.value
+        ? (items.slice(index + 1).find((tab) => !tab.disabled)?.value ??
+          [...items.slice(0, index)].reverse().find((tab) => !tab.disabled)?.value ??
+          '')
+        : value
+    pendingFocus.current = nextValue
+    onItemsChange(next)
+    if (value === item.value) onValueChange(nextValue)
+  }
 
   React.useEffect(() => {
     if (pendingFocus.current === null) return
@@ -119,80 +143,131 @@ export function WorkspaceTabs({
       value={value}
       onValueChange={onValueChange}
     >
+      <p id={closeHelp} className="sr-only">
+        Press Delete to close a closable tab.
+      </p>
       {items.length > 0 ? (
         <div
-          data-slot="tabs-viewport"
           className={cn(
-            'min-w-0 p-1',
-            orientation === 'vertical'
-              ? 'max-h-80 w-48 max-w-1/2 shrink-0 overflow-y-auto'
-              : 'max-w-full overflow-x-auto',
+            'flex min-w-0 gap-1',
+            orientation === 'vertical' ? 'w-48 max-w-1/2 shrink-0 flex-col' : 'items-start',
           )}
         >
-          <TabsList
-            ref={navigation}
-            className={cn('h-auto', orientation === 'vertical' ? 'w-full' : 'min-w-max')}
+          <div
+            data-slot="tabs-viewport"
+            className={cn(
+              'min-w-0 p-1',
+              orientation === 'vertical'
+                ? 'max-h-80 w-full overflow-y-auto'
+                : 'max-w-full flex-1 overflow-x-auto',
+            )}
           >
-            {items.map((item, index) => (
-              <div
-                key={item.value}
-                data-slot="workspace-tab"
-                className={cn(
-                  'relative flex h-8 shrink-0 items-center',
-                  orientation === 'vertical' && 'w-full',
-                )}
-                draggable={!!onItemsChange && reorderable}
-                onDragStart={(event) => event.dataTransfer.setData('text/plain', item.value)}
-                onDragOver={(event) => event.preventDefault()}
-                onDrop={(event) => {
-                  event.preventDefault()
-                  const from = items.findIndex(
-                    (i) => i.value === event.dataTransfer.getData('text/plain'),
-                  )
-                  if (from < 0 || from === index) return
-                  const next = [...items],
-                    moved = next.splice(from, 1)[0]
-                  next.splice(index, 0, moved)
-                  onItemsChange?.(next)
-                }}
-              >
-                <TabsTrigger
-                  ref={(node) => {
-                    if (node) triggers.current.set(item.value, node)
-                    else triggers.current.delete(item.value)
+            <TabsList
+              aria-label="Workspace tabs"
+              ref={navigation}
+              className={cn('h-auto', orientation === 'vertical' ? 'w-full' : 'min-w-max')}
+            >
+              {items.map((item, index) => (
+                <div
+                  key={item.value}
+                  data-slot="workspace-tab"
+                  className={cn(
+                    'relative flex h-8 shrink-0 items-center',
+                    orientation === 'vertical' && 'w-full',
+                  )}
+                  draggable={!!onItemsChange && reorderable}
+                  onDragStart={(event) => event.dataTransfer.setData('text/plain', item.value)}
+                  onDragOver={(event) => event.preventDefault()}
+                  onDrop={(event) => {
+                    event.preventDefault()
+                    const from = items.findIndex(
+                      (i) => i.value === event.dataTransfer.getData('text/plain'),
+                    )
+                    if (from < 0 || from === index) return
+                    const next = [...items],
+                      moved = next.splice(from, 1)[0]
+                    next.splice(index, 0, moved)
+                    onItemsChange?.(next)
                   }}
-                  className={cn('min-w-0', item.closable && onItemsChange && 'pe-8')}
-                  value={item.value}
-                  disabled={item.disabled}
                 >
-                  <span className="truncate">{item.label}</span>
-                </TabsTrigger>
-                {item.closable && onItemsChange && (
-                  <button
-                    type="button"
-                    className="absolute end-1 top-1/2 inline-flex size-6 -translate-y-1/2 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:bg-foreground/10 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50"
-                    aria-label={`Close ${typeof item.label === 'string' ? item.label : 'tab'}`}
+                  <TabsTrigger
+                    ref={(node) => {
+                      if (node) triggers.current.set(item.value, node)
+                      else triggers.current.delete(item.value)
+                    }}
+                    className={cn('min-w-0', item.closable && onItemsChange && 'pe-8')}
+                    value={item.value}
                     disabled={item.disabled}
-                    onClick={() => {
-                      const next = items.filter((tab) => tab.value !== item.value)
-                      const nextValue =
-                        value === item.value
-                          ? ([...items.slice(0, index)].reverse().find((tab) => !tab.disabled)
-                              ?.value ??
-                            items.slice(index + 1).find((tab) => !tab.disabled)?.value ??
-                            '')
-                          : value
-                      pendingFocus.current = nextValue
-                      onItemsChange(next)
-                      if (value === item.value) onValueChange(nextValue)
+                    aria-describedby={item.closable && onItemsChange ? closeHelp : undefined}
+                    aria-keyshortcuts={item.closable && onItemsChange ? 'Delete' : undefined}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Delete' && item.closable && onItemsChange) {
+                        event.preventDefault()
+                        close(item, index)
+                      }
                     }}
                   >
-                    <X className="size-3" aria-hidden="true" />
-                  </button>
+                    <span className="truncate">{item.label}</span>
+                    {item.closable && onItemsChange && (
+                      <span
+                        aria-hidden="true"
+                        title={`Close ${typeof item.label === 'string' ? item.label : 'tab'}`}
+                        className="absolute end-1 top-1/2 inline-flex size-6 -translate-y-1/2 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:bg-foreground/10 hover:text-foreground"
+                        onPointerDown={(event) => {
+                          event.preventDefault()
+                          event.stopPropagation()
+                        }}
+                        onClick={(event) => {
+                          event.stopPropagation()
+                          close(item, index)
+                        }}
+                      >
+                        <X className="size-3" aria-hidden="true" />
+                      </span>
+                    )}
+                  </TabsTrigger>
+                </div>
+              ))}
+            </TabsList>
+          </div>
+          {onItemsChange && items.some((item) => item.closable) && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  type="button"
+                  aria-label="Tab actions"
+                  className="mt-1 inline-flex size-8 shrink-0 items-center justify-center rounded-md border text-muted-foreground hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring"
+                >
+                  <MoreHorizontal className="size-4" aria-hidden="true" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="end"
+                onCloseAutoFocus={(event) => {
+                  if (closedFromMenu.current) {
+                    event.preventDefault()
+                    closedFromMenu.current = false
+                  }
+                }}
+              >
+                {items.map(
+                  (item, index) =>
+                    item.closable && (
+                      <DropdownMenuItem
+                        key={item.value}
+                        disabled={item.disabled}
+                        onSelect={() => {
+                          closedFromMenu.current = true
+                          close(item, index)
+                        }}
+                      >
+                        <X aria-hidden="true" /> Close {item.label}
+                      </DropdownMenuItem>
+                    ),
                 )}
-              </div>
-            ))}
-          </TabsList>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
       ) : (
         <p

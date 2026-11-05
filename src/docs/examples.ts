@@ -1,6 +1,146 @@
 import { installationSnippets } from './installation'
 
 export const examples: Record<string, string> = {
+  kanban: `import { Kanban, type KanbanColumnData } from "@/components/ui/kanban"
+import { useState } from "react"
+
+function Tasks() {
+  const [columns, setColumns] = useState<KanbanColumnData[]>([
+    { id: "todo", title: "To do", cards: [{ id: "design", title: "Design review" }] },
+    { id: "done", title: "Done", limit: 5, cards: [] },
+  ])
+  return <Kanban value={columns} onValueChange={setColumns} onCardMove={move => console.log(move)} />
+}`,
+  'calendar-plus': `import { CalendarPlus } from "@/components/ui/calendar-plus"
+
+<CalendarPlus defaultDate="2026-11-03" defaultView="week" editable
+  defaultEvents={[{ id: "review", title: "Design review", start: "2026-11-03T10:00:00", end: "2026-11-03T11:00:00" }]}
+  onEventsChange={events => console.log(events)}
+  onEventMove={(event, previous) => console.log(event, previous)} />
+// Use events + onEventsChange for application-owned state. All-day end dates are exclusive.
+// Inject persistence in your application; defaultEvents only changes local state.`,
+  'gantt-chart': `import { GanttChart, type GanttTask } from "@/components/ui/gantt-chart"
+import { useState } from "react"
+
+function Schedule() {
+  const [tasks, setTasks] = useState<GanttTask[]>([
+    { id: "design", title: "Design", start: "2026-11-02", end: "2026-11-06", progress: 70 },
+    { id: "ship", title: "Ship", type: "milestone", start: "2026-11-09", dependsOn: ["design"] },
+  ])
+  return <GanttChart label="Release schedule" data={tasks} editable onTasksChange={setTasks} zoom />
+}
+// End dates are inclusive. Dependencies are checked; tasks are not automatically rescheduled.`,
+  'filter-builder': `import { FilterBuilder, matchesFilter, type FilterField, type FilterGroup } from "@/components/ui/filter-builder"
+import { useState } from "react"
+
+const fields: FilterField[] = [{ id: "revenue", label: "Revenue", type: "number" }]
+function Filters() {
+  const [query, setQuery] = useState<FilterGroup>({ id: "root", kind: "group", combinator: "and", children: [] })
+  const matches = [{ revenue: 1200 }, { revenue: 0 }].filter(row => matchesFilter(row, query, fields))
+  return <><FilterBuilder fields={fields} value={query} onValueChange={setQuery} /><output>{matches.length} matches</output></>
+}`,
+  'file-browser': `import { FileBrowser, type FileBrowserEntry } from "@/components/ui/file-browser"
+import { useState } from "react"
+
+function Files() {
+  const [entries, setEntries] = useState<FileBrowserEntry[]>([{ id: "design", name: "Design", kind: "folder" }])
+  return <FileBrowser entries={entries}
+    onCreateFolder={(name, parentId) => setEntries(previous => [...previous, { id: crypto.randomUUID(), name, parentId, kind: "folder" }])}
+    onRename={(entry, name) => setEntries(previous => previous.map(item => item.id === entry.id ? { ...item, name } : item))} />
+}
+// This example is in-memory. Inject your storage/API operations and honor context.signal.`,
+  'image-cropper': `import { ImageCropper } from "@/components/ui/image-cropper"
+
+<ImageCropper defaultImage="/photo.jpg"
+  onExport={(blob, details) => console.log(blob, details.area)}
+  onImageUpload={async (image, { signal }) => {
+    const body = new FormData()
+    body.append("image", image, "cropped.png")
+    const response = await fetch("/api/images", { method: "POST", body, signal })
+    if (!response.ok) throw new Error("Upload failed")
+    const result = await response.json() as { url: string }
+    return result.url
+  }} />
+// Implement /api/images in your application, or replace onImageUpload with your own uploader.
+// A simple (image: Blob) => string | Promise<string> callback also works.`,
+  'command-palette': `import { CommandPalette } from "@/components/ui/command-palette"
+
+<CommandPalette actions={[
+  { id: "overview", label: "Overview", group: "Navigation", onSelect: () => console.log("Navigate in your router") },
+  { id: "settings", label: "Settings", children: [
+    { id: "appearance", label: "Appearance", onSelect: () => console.log("Open appearance settings") },
+  ] },
+]} />
+// Ctrl/Command+K opens the default dialog. Async callbacks receive an AbortSignal.`,
+  'tags-input': `import { TagsInput } from "@/components/ui/tags-input"
+
+<TagsInput label="Skills" name="skills" defaultValue={["React"]}
+  suggestions={["React", "TypeScript", "Design"]} maxTags={8}
+  validateTag={tag => tag.length < 2 ? "Use at least two characters." : undefined}
+  onValueChange={tags => console.log(tags)} />`,
+  'phone-input': `import { PhoneInput } from "@/components/ui/phone-input"
+
+<PhoneInput name="phone" defaultCountry="ID" defaultValue="+6281234567890"
+  validation="strict" onValueChange={value => console.log(value)}
+  onPhoneChange={({ e164, valid, extension }) => console.log({ e164, valid, extension })} />
+// Validate before submitting. Formatting/numbering-plan validity does not verify ownership.`,
+  'json-viewer': `import { JsonViewer } from "@/components/ui/json-viewer"
+
+<JsonViewer value={{ project: "ErgonUI", active: true, members: [{ id: "maya", role: "Designer" }] }}
+  defaultExpandDepth={2} pageSize={20} maxNodes={2000} searchable copyable />`,
+  'code-block': `import { CodeBlock } from "@/components/ui/code-block"
+
+<CodeBlock code={'export const greeting = "Hello"'} language="typescript"
+  filename="greeting.ts" highlightedLines={[1]} lineNumbers downloadable />
+// The engine, two themes, and the requested grammar load lazily. Text never uses raw HTML.`,
+  'diff-viewer': `import { DiffViewer } from "@/components/ui/diff-viewer"
+
+<DiffViewer before={'const radius = 8\n'} after={'const radius = 12\n'}
+  beforeLabel="Before" afterLabel="After" defaultMode="split" contextLines={3} wordHighlight />`,
+  'organization-chart': `import { OrganizationChart } from "@/components/ui/organization-chart"
+
+<OrganizationChart nodes={[
+  { id: "maya", name: "Maya Chen", role: "CEO" },
+  { id: "rio", parentId: "maya", name: "Rio Santoso", role: "Engineering lead" },
+  { id: "ava", parentId: "maya", name: "Ava Morgan", role: "Design lead" },
+]} onNodeSelect={person => console.log(person)} />`,
+  'media-player': `import { MediaPlayer } from "@/components/ui/media-player"
+
+<MediaPlayer src="/video.mp4" title="Product introduction"
+  tracks={[{ src: "/captions.vtt", language: "en", label: "English" }]}
+  onStateChange={state => console.log(state)} />
+// Use kind="audio" with your audio source. Fullscreen and PiP are feature-detected.`,
+  'image-comparison': `import { ImageComparison } from "@/components/ui/image-comparison"
+
+<ImageComparison before={{ src: "/before.jpg", alt: "Original image", label: "Before" }}
+  after={{ src: "/after.jpg", alt: "Edited image", label: "After" }}
+  defaultValue={50} orientation="horizontal" onValueChange={value => console.log(value)} />`,
+  'map-chart': `import { MapChart, type ChartMapSource } from "@/components/ui/map-chart"
+
+// Load your own GeoJSON in application code, then pass the parsed source here.
+// mapName identifies that map in ECharts; region names match GeoJSON properties.name.
+<MapChart label="Revenue by region" mapName="my-regions" geoJSON={geoJSON as ChartMapSource} data={[{ id: "north", name: "North", value: 420 }]} roam selectedMode="multiple" onSelectionChange={setSelectedRegions} />`,
+  'boxplot-chart': `import { BoxplotChart, calculateBoxplotStatistics } from "@/components/ui/boxplot-chart"
+
+const data = [{ id: "api", label: "API", ...calculateBoxplotStatistics([12, 16, 18, 20, 24, 28, 120]) }]
+<BoxplotChart label="Response time distribution" data={data} showOutliers zoom />
+// Or supply summary: [lowerWhisker, q1, median, q3, upperWhisker] and outliers directly.`,
+  'calendar-heatmap-chart': `import { CalendarHeatmapChart } from "@/components/ui/calendar-heatmap-chart"
+
+<CalendarHeatmapChart label="Daily activity" range="2026" firstDay={1} data={[{ id: "jan-1", date: "2026-01-01", value: 24 }, { id: "jan-2", date: "2026-01-02", value: 42 }]} />
+// range also accepts "2026-01" or ["2026-01-01", "2026-03-31"].`,
+  'combo-chart': `import { ComboChart } from "@/components/ui/combo-chart"
+
+<ComboChart label="Revenue and margin" data={[{ id: "jan", label: "Jan", revenue: 420, margin: 24 }, { id: "feb", label: "Feb", revenue: 580, margin: 31 }]} axes={[{ id: "revenue", label: "Revenue", unit: "$" }, { id: "margin", label: "Margin", unit: "%", position: "right" }]} series={[{ key: "revenue", type: "bar", axisId: "revenue" }, { key: "margin", type: "line", axisId: "margin", smooth: true }]} zoom />`,
+  'sankey-chart': `import { SankeyChart } from "@/components/ui/sankey-chart"
+
+<SankeyChart label="Visitor journey" nodes={[{ id: "visits", label: "Visits" }, { id: "signup", label: "Signups" }, { id: "exit", label: "Exited" }]} links={[{ id: "converted", source: "visits", target: "signup", value: 120 }, { id: "exited", source: "visits", target: "exit", value: 80 }]} draggable />`,
+  'candlestick-chart': `import { CandlestickChart } from "@/components/ui/candlestick-chart"
+
+<CandlestickChart label="Price and volume" data={marketRows} movingAverages={[5, 10, 20]} showVolume zoom brush onSelectionChange={({ rows }) => setSelectedRows(rows)} />
+// Each row: { id, date, open, close, low, high, volume? }.
+// Brush range enables pointer selection; From/To + Apply range also work by keyboard.
+// Samples are simulated; provide your own application data source.`,
   chart: `import { Chart, ChartHeader, ChartTitle, ChartCanvas, ChartLegend, ChartDataTable, type ChartHandle } from "@/components/ui/chart"
 import { useRef } from "react"
 import { BarChart as BarSeries } from "echarts/charts"
