@@ -3360,6 +3360,10 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
           "path": "LICENSES/shadcn-ui.txt",
           "type": "registry:file",
           "target": "~/LICENSES/shadcn-ui.txt"
@@ -3400,6 +3404,10 @@
         },
         {
           "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-brush.tsx",
           "type": "registry:ui"
         },
         {
@@ -3450,6 +3458,10 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
           "path": "src/components/ui/chart-cartesian.tsx",
           "type": "registry:ui"
         },
@@ -3494,6 +3506,10 @@
         },
         {
           "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-brush.tsx",
           "type": "registry:ui"
         },
         {
@@ -3544,6 +3560,10 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
           "path": "LICENSES/shadcn-ui.txt",
           "type": "registry:file",
           "target": "~/LICENSES/shadcn-ui.txt"
@@ -3584,6 +3604,10 @@
         },
         {
           "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-brush.tsx",
           "type": "registry:ui"
         },
         {
@@ -3630,6 +3654,10 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
           "path": "LICENSES/shadcn-ui.txt",
           "type": "registry:file",
           "target": "~/LICENSES/shadcn-ui.txt"
@@ -3673,6 +3701,10 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
           "path": "LICENSES/shadcn-ui.txt",
           "type": "registry:file",
           "target": "~/LICENSES/shadcn-ui.txt"
@@ -3713,6 +3745,10 @@
         },
         {
           "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-brush.tsx",
           "type": "registry:ui"
         },
         {
