@@ -49,6 +49,8 @@ export function ConfigProvider({
             className={cn('ergon-root', className)}
             style={
               {
+                '--ergon-control-height': density === 'compact' ? '30px' : '2.25rem',
+                '--ergon-control-py': density === 'compact' ? '0.25rem' : '0.5rem',
                 ...(accent
                   ? {
                       '--primary': accent,
