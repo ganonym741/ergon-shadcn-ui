@@ -1,18 +1,24 @@
 export { RadioGroup as Radio, RadioGroupItem as RadioItem } from '@/components/ui/radio-group'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+/**
+ * Presents a labeled single-choice group with per-option disabled states and controlled value updates.
+ */
 export function RadioButtons({
   options,
   value,
   onValueChange,
   disabled,
+  label,
 }: {
   options: { value: string; label: React.ReactNode; disabled?: boolean }[]
   value?: string
   onValueChange?: (value: string) => void
   disabled?: boolean
+  label?: string
 }) {
   return (
     <RadioGroup
+      aria-label={label}
       value={value}
       onValueChange={onValueChange}
       disabled={disabled}
