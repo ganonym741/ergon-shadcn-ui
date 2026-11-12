@@ -20,7 +20,7 @@ Run `cd my-app`, then your manager's development command:
 | ------------- | ------------- | --------------- | -------------- | -------------- |
 | `npm run dev` | `bun run dev` | `deno task dev` | `pnpm run dev` | `yarn run dev` |
 
-The scaffold configures aliases, Tailwind, theme tokens, and selected source in `src/components/ui`. npm, pnpm and Yarn use a supported Node.js version. With Deno 2.6+, install the `dx` alias once using `deno x --install-alias`; `deno x @ergonui/cli ...` is also available without an alias. Yarn 2+ is supported; the scaffold uses node-modules linking.
+The scaffold configures aliases, Tailwind, theme tokens, and selected source in `src/components/ui`. npm, pnpm and Yarn use a supported Node.js version. With Deno 2.6+, install the `dx` alias once using `deno x --install-alias=dx`; `deno x @ergonui/cli ...` is also available without an alias. Yarn 2+ is supported; the scaffold uses node-modules linking.
 
 ## Existing applications
 

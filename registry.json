@@ -4,6 +4,2019 @@
   "homepage": "http://localhost:5173",
   "items": [
     {
+      "name": "workflow-editor",
+      "type": "registry:ui",
+      "title": "Workflow Editor",
+      "description": "Give every step a clear connection to the next.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/workflow-editor.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/config-provider.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/contrast.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/product-utils.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "pdf-viewer",
+      "type": "registry:ui",
+      "title": "PDF Viewer",
+      "description": "Read, search and explore a document in place.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "pdfjs-dist@6.5.438",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/pdf-viewer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/input.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/product-utils.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        },
+        {
+          "path": "LICENSES/pdfjs.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/pdfjs.txt"
+        }
+      ]
+    },
+    {
+      "name": "signature-pad",
+      "type": "registry:ui",
+      "title": "Signature Pad",
+      "description": "Capture a personal mark, with every stroke editable.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/signature-pad.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/product-utils.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "notification-inbox",
+      "type": "registry:ui",
+      "title": "Notification Inbox",
+      "description": "A considered home for updates that matter.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/notification-inbox.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/product-utils.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/config-provider.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/contrast.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "presence",
+      "type": "registry:ui",
+      "title": "Presence",
+      "description": "Make shared work feel a little more connected.",
+      "dependencies": [
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/presence.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/config-provider.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/contrast.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/product-utils.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "upload-plus",
+      "type": "registry:ui",
+      "title": "Upload+",
+      "description": "Keep large uploads moving, one reliable piece at a time.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/upload-plus.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/product-utils.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "conversation",
+      "type": "registry:ui",
+      "title": "Conversation",
+      "description": "A comfortable place for an ongoing exchange.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/conversation.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/chat-message.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/textarea.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/product-utils.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/text-stream.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "chat-message",
+      "type": "registry:ui",
+      "title": "Chat Message",
+      "description": "Give each response a clear voice and useful actions.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/chat-message.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/textarea.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/product-utils.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/text-stream.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "prompt-composer",
+      "type": "registry:ui",
+      "title": "Prompt Composer",
+      "description": "Turn a thought and its context into a clear request.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/prompt-composer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/textarea.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/product-utils.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "streaming-markdown",
+      "type": "registry:ui",
+      "title": "Streaming Markdown",
+      "description": "Let an answer take shape without losing its structure.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "marked@18.1.3",
+        "radix-ui@1.8.1",
+        "shiki@4.6.0",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/streaming-markdown.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/code-block.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/code-highlighter.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/product-utils.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/text-stream.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "conversation-history",
+      "type": "registry:ui",
+      "title": "Conversation History",
+      "description": "Find a useful conversation and pick up the thread.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/conversation-history.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/input.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/product-utils.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "model-selector",
+      "type": "registry:ui",
+      "title": "Model Selector",
+      "description": "Choose the right perspective for the task at hand.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/model-selector.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/input.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/popover.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/config-provider.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/contrast.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/ai-model.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "citations",
+      "type": "registry:ui",
+      "title": "Citations",
+      "description": "Keep the source close to the answer.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/citations.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/popover.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/config-provider.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/contrast.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/product-utils.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "tool-call",
+      "type": "registry:ui",
+      "title": "Tool Call",
+      "description": "Make a tool’s input, progress and result easy to inspect.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/tool-call.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/json-viewer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/input.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/product-utils.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "agent-run-trace",
+      "type": "registry:ui",
+      "title": "Agent Run Trace",
+      "description": "Follow the public steps of a complex task.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/agent-run-trace.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/input.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/tool-call.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/json-viewer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/product-utils.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "approval-request",
+      "type": "registry:ui",
+      "title": "Approval Request",
+      "description": "Put a clear decision before an important action.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/approval-request.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/textarea.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/json-viewer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/input.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/product-utils.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "artifact-panel",
+      "type": "registry:ui",
+      "title": "Artifact Panel",
+      "description": "Give generated work a place to grow and be reviewed.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "diff@9.0.0",
+        "lucide-react@1.65.0",
+        "marked@18.1.3",
+        "radix-ui@1.8.1",
+        "shiki@4.6.0",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/artifact-panel.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/code-block.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/code-highlighter.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/diff-viewer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/streaming-markdown.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/product-utils.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/text-stream.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "context-usage",
+      "type": "registry:ui",
+      "title": "Context Usage",
+      "description": "Keep an eye on the space an exchange is using.",
+      "dependencies": [
+        "clsx@2.1.1",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/context-usage.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/config-provider.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/contrast.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "generation-settings",
+      "type": "registry:ui",
+      "title": "Generation Settings",
+      "description": "Shape a response with the controls a model supports.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/generation-settings.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/input.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/textarea.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/product-utils.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/ai-model.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "model-comparison",
+      "type": "registry:ui",
+      "title": "Model Comparison",
+      "description": "Explore several responses to the same question.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "marked@18.1.3",
+        "radix-ui@1.8.1",
+        "shiki@4.6.0",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/model-comparison.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/textarea.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/streaming-markdown.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/code-block.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/code-highlighter.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/product-utils.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/text-stream.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/ai-model.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "voice-conversation",
+      "type": "registry:ui",
+      "title": "Voice Conversation",
+      "description": "Make space for a spoken exchange.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/voice-conversation.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/product-utils.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "kanban",
+      "type": "registry:ui",
+      "title": "Kanban",
+      "description": "Give every card a clear place to move forward.",
+      "dependencies": [
+        "@dnd-kit/core@6.3.1",
+        "@dnd-kit/sortable@10.0.0",
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/kanban.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/dialog.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/config-provider.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/contrast.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "calendar-plus",
+      "type": "registry:ui",
+      "title": "Calendar+",
+      "description": "A complete schedule, with room for every event.",
+      "dependencies": [
+        "@fullcalendar/core@6.1.22",
+        "@fullcalendar/daygrid@6.1.22",
+        "@fullcalendar/interaction@6.1.22",
+        "@fullcalendar/list@6.1.22",
+        "@fullcalendar/react@6.1.22",
+        "@fullcalendar/timegrid@6.1.22",
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/calendar-plus.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/input.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/dialog.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/config-provider.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/contrast.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "gantt-chart",
+      "type": "registry:ui",
+      "title": "Gantt Chart",
+      "description": "See how tasks, milestones, and dependencies come together.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "echarts@6.1.0",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/gantt-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/chart-canvas-renderer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/input.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/dialog.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/config-provider.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/contrast.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "filter-builder",
+      "type": "registry:ui",
+      "title": "Filter Builder",
+      "description": "Turn complex questions into clear, reusable conditions.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/filter-builder.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/input.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "file-browser",
+      "type": "registry:ui",
+      "title": "File Browser",
+      "description": "A familiar home for files, folders, and shared work.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/file-browser.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/input.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/dialog.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/config-provider.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/contrast.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "image-cropper",
+      "type": "registry:ui",
+      "title": "Image Cropper",
+      "description": "Frame the right detail before sharing an image.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "react-easy-crop@6.2.4",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/image-cropper.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "command-palette",
+      "type": "registry:ui",
+      "title": "Command Palette",
+      "description": "Bring useful actions closer with a few keystrokes.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "cmdk@1.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/command-palette.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/dialog.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/config-provider.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/contrast.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/command.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "tags-input",
+      "type": "registry:ui",
+      "title": "Tags Input",
+      "description": "Collect ideas, labels, and keywords in one flexible field.",
+      "dependencies": [
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/tags-input.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "phone-input",
+      "type": "registry:ui",
+      "title": "Phone Input",
+      "description": "Make international phone numbers feel local.",
+      "dependencies": [
+        "@tanstack/react-virtual@3.14.24",
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "libphonenumber-js@1.13.15",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/phone-input.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/combobox.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/input.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/popover.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/config-provider.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/contrast.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "json-viewer",
+      "type": "registry:ui",
+      "title": "JSON Viewer",
+      "description": "Explore structured data without losing the details.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/json-viewer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/input.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "code-block",
+      "type": "registry:ui",
+      "title": "Code Block",
+      "description": "Present source with clarity, color, and useful controls.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "shiki@4.6.0",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/code-block.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/code-highlighter.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "diff-viewer",
+      "type": "registry:ui",
+      "title": "Diff Viewer",
+      "description": "Make changes easy to spot and review.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "diff@9.0.0",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/diff-viewer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "organization-chart",
+      "type": "registry:ui",
+      "title": "Organization Chart",
+      "description": "See the people and relationships behind a team.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/organization-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "media-player",
+      "type": "registry:ui",
+      "title": "Media Player",
+      "description": "Thoughtful controls for audio and video.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/media-player.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "image-comparison",
+      "type": "registry:ui",
+      "title": "Image Comparison",
+      "description": "Let a simple gesture reveal what changed.",
+      "dependencies": [
+        "clsx@2.1.1",
+        "lucide-react@1.65.0",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/image-comparison.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/util.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/responsive.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
       "name": "rich-text-editor",
       "type": "registry:ui",
       "title": "Rich Text Editor",
@@ -388,6 +2401,10 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/components/ui/dropdown-menu.tsx",
+          "type": "registry:ui"
+        },
+        {
           "path": "src/components/ui/util.ts",
           "type": "registry:ui"
         },
@@ -740,6 +2757,18 @@
         },
         {
           "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/dropdown-menu.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/config-provider.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/contrast.ts",
           "type": "registry:lib"
         },
         {
@@ -2222,6 +4251,18 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/components/ui/dropdown-menu.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/config-provider.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/contrast.ts",
+          "type": "registry:lib"
+        },
+        {
           "path": "src/components/ui/checkbox.tsx",
           "type": "registry:ui"
         },
@@ -3360,6 +5401,10 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
           "path": "LICENSES/shadcn-ui.txt",
           "type": "registry:file",
           "target": "~/LICENSES/shadcn-ui.txt"
@@ -3400,6 +5445,10 @@
         },
         {
           "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-brush.tsx",
           "type": "registry:ui"
         },
         {
@@ -3450,6 +5499,10 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
           "path": "src/components/ui/chart-cartesian.tsx",
           "type": "registry:ui"
         },
@@ -3494,6 +5547,10 @@
         },
         {
           "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-brush.tsx",
           "type": "registry:ui"
         },
         {
@@ -3544,6 +5601,10 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
           "path": "LICENSES/shadcn-ui.txt",
           "type": "registry:file",
           "target": "~/LICENSES/shadcn-ui.txt"
@@ -3584,6 +5645,10 @@
         },
         {
           "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-brush.tsx",
           "type": "registry:ui"
         },
         {
@@ -3630,6 +5695,10 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
           "path": "LICENSES/shadcn-ui.txt",
           "type": "registry:file",
           "target": "~/LICENSES/shadcn-ui.txt"
@@ -3673,6 +5742,10 @@
           "type": "registry:ui"
         },
         {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
           "path": "LICENSES/shadcn-ui.txt",
           "type": "registry:file",
           "target": "~/LICENSES/shadcn-ui.txt"
@@ -3713,6 +5786,315 @@
         },
         {
           "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "map-chart",
+      "type": "registry:ui",
+      "title": "Geographic Map",
+      "description": "See the regional shape of your data.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "echarts@6.1.0",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/map-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/chart-canvas-renderer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "boxplot-chart",
+      "type": "registry:ui",
+      "title": "Boxplot Chart",
+      "description": "Understand the spread behind the average.",
+      "dependencies": [
+        "clsx@2.1.1",
+        "echarts@6.1.0",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/boxplot-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/chart-canvas-renderer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "calendar-heatmap-chart",
+      "type": "registry:ui",
+      "title": "Calendar Heatmap",
+      "description": "Discover the rhythm in every day.",
+      "dependencies": [
+        "clsx@2.1.1",
+        "echarts@6.1.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/calendar-heatmap-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/chart-canvas-renderer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/config-provider.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/contrast.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "combo-chart",
+      "type": "registry:ui",
+      "title": "Combo Chart",
+      "description": "Bring related metrics into one clear view.",
+      "dependencies": [
+        "clsx@2.1.1",
+        "echarts@6.1.0",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/combo-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/chart-canvas-renderer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "sankey-chart",
+      "type": "registry:ui",
+      "title": "Sankey Chart",
+      "description": "Follow the flow from source to destination.",
+      "dependencies": [
+        "clsx@2.1.1",
+        "echarts@6.1.0",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/sankey-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/chart-canvas-renderer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "LICENSES/shadcn-ui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/shadcn-ui.txt"
+        },
+        {
+          "path": "LICENSES/ergonui.txt",
+          "type": "registry:file",
+          "target": "~/LICENSES/ergonui.txt"
+        }
+      ]
+    },
+    {
+      "name": "candlestick-chart",
+      "type": "registry:ui",
+      "title": "Candlestick Chart",
+      "description": "Read price movements with volume and context.",
+      "dependencies": [
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "echarts@6.1.0",
+        "lucide-react@1.65.0",
+        "radix-ui@1.8.1",
+        "tailwind-merge@3.7.0"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/candlestick-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/ui/chart-canvas-renderer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-zoom.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/chart-brush.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
           "type": "registry:ui"
         },
         {

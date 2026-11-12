@@ -24,19 +24,24 @@ function Checkbox({ className, ...props }: React.ComponentProps<typeof CheckboxP
 }
 
 export { Checkbox }
+/**
+ * Presents independently selectable labeled options and emits the complete selected-value array. An optional label names the group for assistive technology.
+ */
 export function CheckboxGroup({
   options,
   value = [],
   onValueChange,
   disabled,
+  label,
 }: {
   options: { value: string; label: React.ReactNode; disabled?: boolean }[]
   value?: string[]
   onValueChange?: (value: string[]) => void
   disabled?: boolean
+  label?: string
 }) {
   return (
-    <div role="group" className="flex flex-wrap gap-4">
+    <div role="group" aria-label={label} className="flex flex-wrap gap-4">
       {options.map((option) => (
         <label key={option.value} className="flex items-center gap-2 text-sm">
           <Checkbox

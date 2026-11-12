@@ -2,7 +2,20 @@ import * as React from 'react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, act, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Chart, ChartCanvas, ChartLegend, type ChartHandle } from '@/components/ui/chart'
+import {
+  Chart,
+  ChartCanvas,
+  ChartLegend,
+  mergeChartOptions,
+  type ChartHandle,
+} from '@/components/ui/chart'
+import * as echarts from 'echarts/core'
+import { MapChart } from '@/components/ui/map-chart'
+import { BoxplotChart } from '@/components/ui/boxplot-chart'
+import { CalendarHeatmapChart } from '@/components/ui/calendar-heatmap-chart'
+import { ComboChart } from '@/components/ui/combo-chart'
+import { SankeyChart } from '@/components/ui/sankey-chart'
+import { CandlestickChart, type CandlestickDatum } from '@/components/ui/candlestick-chart'
 import { BarChart } from '@/components/ui/bar-chart'
 import { AreaChart } from '@/components/ui/area-chart'
 import { LineChart } from '@/components/ui/line-chart'
@@ -13,6 +26,7 @@ import { HeatmapChart } from '@/components/ui/heatmap-chart'
 import { GaugeChart } from '@/components/ui/gauge-chart'
 import ComponentPlayground from '@/playground'
 import { ThemeProvider } from '@/components/ui/theme-provider'
+import { ConfigProvider } from '@/components/ui/config-provider'
 
 const engine = vi.hoisted(() => ({
   instances: [] as any[],
@@ -23,12 +37,19 @@ vi.mock('echarts/core', async (importOriginal) => {
   return {
     ...actual,
     use: vi.fn(),
+    registerMap: vi.fn(),
     init: vi.fn(() => {
       const handlers = new Map<string, (event: unknown) => void>()
       const selected: Record<string, boolean> = {}
       let disposed = false
+      let currentOption: any = {}
       const instance = {
-        setOption: vi.fn(),
+        setOption: vi.fn((option) => {
+          currentOption = option
+        }),
+        getOption: () => currentOption,
+        getWidth: () => 600,
+        getHeight: () => 320,
         on: vi.fn((event, handler) => handlers.set(event, handler)),
         resize: vi.fn(),
         dispose: vi.fn(() => {
@@ -58,6 +79,467 @@ const option = {
   series: [{ type: 'bar' as const, name: 'Revenue', data: [42] }],
 }
 const latest = () => engine.instances.at(-1)!
+
+describe('dashboard chart compositions', () => {
+  it('isolates simultaneous maps that share their public name and releases geometry on unmount', async () => {
+    const first = { type: 'FeatureCollection' as const, features: [] },
+      second = {
+        type: 'FeatureCollection' as const,
+        features: [
+          {
+            type: 'Feature' as const,
+            properties: { name: 'South' },
+            geometry: {
+              type: 'Polygon' as const,
+              coordinates: [
+                [
+                  [0, 0],
+                  [1, 0],
+                  [1, 1],
+                  [0, 0],
+                ],
+              ],
+            },
+          },
+        ],
+      },
+      data = [{ id: 'north', name: 'North', value: 1 }]
+    const view = render(
+      <>
+        <MapChart label="One" mapName="shared" geoJSON={first} data={data} />
+        <MapChart label="Two" mapName="shared" geoJSON={second} data={data} />
+      </>,
+    )
+    const registrations = vi
+      .mocked(echarts.registerMap)
+      .mock.calls.filter(([name]) => name.startsWith('shared-'))
+    expect(registrations.at(-2)![0]).not.toBe(registrations.at(-1)![0])
+    expect(engine.instances[0].getOption().series[0].map).not.toBe(
+      engine.instances[1].getOption().series[0].map,
+    )
+    const disposedAtRelease: boolean[] = []
+    vi.mocked(echarts.registerMap).mockImplementationOnce((name) => {
+      const owner = engine.instances.find((chart) => chart.getOption().series[0].map === name)
+      disposedAtRelease.push(owner?.isDisposed() ?? false)
+    })
+    view.unmount()
+    await waitFor(() =>
+      expect(vi.mocked(echarts.registerMap).mock.calls.at(-1)![1]).toEqual({
+        type: 'FeatureCollection',
+        features: [],
+      }),
+    )
+    expect(disposedAtRelease).toEqual([true])
+  })
+
+  it('keeps map selections for equivalent geometry and removes regions that leave the data', () => {
+    const geo = { type: 'FeatureCollection' as const, features: [] },
+      data = [{ id: 'north', name: 'North', value: 1 }],
+      selected = vi.fn()
+    const view = render(
+      <MapChart
+        label="Stable regions"
+        mapName="stable"
+        geoJSON={geo}
+        data={data}
+        onSelectionChange={selected}
+      />,
+    )
+    const instance = latest()
+    instance.getOption().series[0].selectedMap = { North: true }
+    act(() => instance.handlers.get('selectchanged')({ selected: [] }))
+    const registrations = vi.mocked(echarts.registerMap).mock.calls.length
+    view.rerender(
+      <MapChart
+        label="Stable regions"
+        mapName="stable"
+        geoJSON={{ features: [], type: geo.type }}
+        data={data}
+        onSelectionChange={selected}
+      />,
+    )
+    expect(screen.getByLabelText('Selected region')).toHaveValue('North')
+    expect(vi.mocked(echarts.registerMap).mock.calls).toHaveLength(registrations)
+    view.rerender(
+      <MapChart
+        label="Stable regions"
+        mapName="stable"
+        geoJSON={geo}
+        data={[{ id: 'south', name: 'South', value: 1 }]}
+        onSelectionChange={selected}
+      />,
+    )
+    expect(selected).toHaveBeenLastCalledWith([])
+    expect(screen.getByLabelText('Selected region')).toHaveValue('')
+    expect(screen.queryByRole('option', { name: 'North' })).not.toBeInTheDocument()
+  })
+
+  it('rejects duplicate or empty map row IDs', () => {
+    const view = render(
+      <MapChart
+        label="Regions"
+        mapName="ids"
+        geoJSON={{ type: 'FeatureCollection', features: [] }}
+        data={[
+          { id: 'one', name: 'North', value: 1 },
+          { id: 'one', name: 'South', value: 2 },
+        ]}
+      />,
+    )
+    expect(screen.getByRole('alert')).toHaveTextContent('unique nonempty IDs')
+    view.rerender(
+      <MapChart
+        label="Regions"
+        mapName="ids"
+        geoJSON={{ type: 'FeatureCollection', features: [] }}
+        data={[{ id: '', name: 'North', value: 1 }]}
+      />,
+    )
+    expect(screen.getByRole('alert')).toHaveTextContent('unique nonempty IDs')
+  })
+  it('refreshes map options after replacing geometry with the same map name', () => {
+    const data = [{ id: 'north', name: 'North', value: 1 }]
+    const first = { type: 'FeatureCollection' as const, features: [] },
+      second = {
+        type: 'FeatureCollection' as const,
+        features: [
+          {
+            type: 'Feature' as const,
+            properties: { name: 'North' },
+            geometry: {
+              type: 'Polygon' as const,
+              coordinates: [
+                [
+                  [0, 0],
+                  [1, 0],
+                  [1, 1],
+                  [0, 0],
+                ],
+              ],
+            },
+          },
+        ],
+      }
+    const view = render(
+      <MapChart label="Live map" mapName="live-map" geoJSON={first} data={data} />,
+    )
+    const chart = latest(),
+      calls = chart.setOption.mock.calls.length
+    view.rerender(<MapChart label="Live map" mapName="live-map" geoJSON={second} data={data} />)
+    expect(echarts.registerMap).toHaveBeenLastCalledWith(
+      expect.stringMatching(/^live-map-/),
+      second,
+    )
+    expect(chart.setOption.mock.calls.length).toBeGreaterThan(calls)
+    expect(vi.mocked(echarts.registerMap).mock.invocationCallOrder.at(-1)!).toBeLessThan(
+      chart.setOption.mock.invocationCallOrder.at(-1)!,
+    )
+    expect(latest()).toBe(chart)
+  })
+
+  it('preserves calendar options on unrelated renders and updates data, locale, range and overrides', () => {
+    const data = [{ id: 'one', date: '2026-01-01', value: 4 }]
+    const renderChart = (locale: string, range: string, values = data, override?: any) => (
+      <ConfigProvider locale={locale}>
+        <CalendarHeatmapChart label="Activity" data={values} range={range} option={override} />
+      </ConfigProvider>
+    )
+    const view = render(renderChart('en-US', '2026'))
+    const chart = latest(),
+      calls = chart.setOption.mock.calls.length
+    view.rerender(renderChart('en-US', '2026'))
+    expect(chart.setOption).toHaveBeenCalledTimes(calls)
+    view.rerender(renderChart('fr-FR', '2026'))
+    expect(chart.getOption().calendar.dayLabel.nameMap[0]).toBe('dim.')
+    view.rerender(renderChart('fr-FR', '2026-01', [{ ...data[0], value: 8 }]))
+    expect(chart.getOption().calendar.range).toEqual(['2026-01-01', '2026-01-31'])
+    expect(chart.getOption().series[0].data[0].value).toEqual(['2026-01-01', 8])
+    view.rerender(renderChart('fr-FR', '2026', data, { tooltip: { show: false } }))
+    expect(chart.getOption().tooltip.show).toBe(false)
+  })
+  it.each([
+    [undefined, 'R&D <Ops>'],
+    ['richText', 'R&D <Ops>'],
+    ['html', 'R&amp;D &lt;Ops&gt;'],
+    ['auto', 'R&amp;D &lt;Ops&gt;'],
+  ] as const)('formats Sankey labels for tooltip mode %s', (mode, expected) => {
+    render(
+      <SankeyChart
+        label="Escaping"
+        nodes={[
+          { id: 'a', label: 'R&D <Ops>' },
+          { id: 'b', label: 'Sales' },
+        ]}
+        links={[{ id: 'ab', source: 'a', target: 'b', value: 42 }]}
+        option={mode ? { tooltip: { renderMode: mode } } : undefined}
+      />,
+    )
+    const formatter = latest().getOption().tooltip.formatter
+    expect(formatter({ name: 'a', data: {}, value: 42 })).toBe(`${expected}: 42`)
+    expect(formatter({ name: 'a > b', data: { source: 'a', target: 'b' }, value: 42 })).toBe(
+      `${expected} → Sales: 42`,
+    )
+  })
+  it('uses the resolved font family so native chart labels can be measured accurately', async () => {
+    const { rerender } = render(
+      <Chart label="Measured labels" option={option} dir="rtl" style={{ fontFamily: 'monospace' }}>
+        <ChartCanvas />
+      </Chart>,
+    )
+    await waitFor(() => expect(latest().getOption().textStyle.fontFamily).toBe('monospace'))
+    expect(screen.getByRole('figure', { name: 'Measured labels' })).toHaveAttribute('dir', 'rtl')
+    expect(screen.getByRole('img', { name: 'Measured labels' })).toHaveAttribute('dir', 'ltr')
+    rerender(
+      <Chart label="Measured labels" option={option} dir="rtl" style={{ fontFamily: 'serif' }}>
+        <ChartCanvas />
+      </Chart>,
+    )
+    await waitFor(() => expect(latest().getOption().textStyle.fontFamily).toBe('serif'))
+  })
+  it('merges native options without mutating a reusable base', () => {
+    const base = { grid: { right: 12 }, series: [{ type: 'bar' as const, data: [0, 1] }] }
+    const merged = mergeChartOptions(base, { grid: { right: 40 } })
+    expect(merged.grid).toMatchObject({ right: 40 })
+    expect(base.grid.right).toBe(12)
+    expect(base.series[0].data).toEqual([0, 1])
+  })
+  it('maps mixed series to named axes, preserves gaps, and offsets axes sharing a side', () => {
+    render(
+      <ComboChart
+        label="Revenue and rate"
+        data={[{ id: 'jan', label: 'Jan', revenue: 0, rate: null }]}
+        axes={[
+          { id: 'money', position: 'left' },
+          { id: 'rate', position: 'left', unit: '%' },
+        ]}
+        series={[
+          { key: 'revenue', type: 'bar', axisId: 'money' },
+          { key: 'rate', type: 'line', axisId: 'rate' },
+        ]}
+      />,
+    )
+    const applied = latest().getOption()
+    expect(applied.series.map((s: any) => [s.type, s.yAxisIndex, s.data])).toEqual([
+      ['bar', 0, [{ id: 'jan', name: 'Jan', value: 0 }]],
+      ['line', 1, [{ id: 'jan', name: 'Jan', value: null }]],
+    ])
+    expect(applied.yAxis[1].offset).toBe(58)
+  })
+  it('renders summary boxes and outlier coordinates in either orientation', () => {
+    render(
+      <BoxplotChart
+        label="Latency"
+        horizontal
+        data={[{ id: 'api', label: 'API', summary: [0, 2, 4, 6, 8], outliers: [20] }]}
+      />,
+    )
+    const applied = latest().getOption()
+    expect(applied.series[0].data[0].value).toEqual([0, 2, 4, 6, 8])
+    expect(applied.series[1].data[0].value).toEqual([20, 0])
+    expect(applied.yAxis.data).toEqual(['API'])
+  })
+  it('filters calendar values to the requested month and retains zeros', () => {
+    render(
+      <CalendarHeatmapChart
+        label="Activity"
+        range="2024-02"
+        data={[
+          { id: 'leap', date: '2024-02-29', value: 0 },
+          { id: 'outside', date: '2024-03-01', value: 12 },
+        ]}
+      />,
+    )
+    const applied = latest().getOption()
+    expect(applied.calendar.range).toEqual(['2024-02-01', '2024-02-29'])
+    expect(applied.series[0].data).toEqual([
+      { id: 'leap', name: '2024-02-29', value: ['2024-02-29', 0] },
+    ])
+    expect(applied.calendar.dayLabel.firstDay).toBe(1)
+  })
+  it('registers injected maps before initialization and forwards named selections', async () => {
+    const user = userEvent.setup()
+    const selection = vi.fn(),
+      event = vi.fn()
+    render(
+      <MapChart
+        label="Regions"
+        mapName="test-map"
+        geoJSON={{ type: 'FeatureCollection', features: [] }}
+        data={[{ id: 'north', name: 'North', value: 0 }]}
+        onSelectionChange={selection}
+        events={{ selectchanged: event }}
+      />,
+    )
+    expect(echarts.registerMap).toHaveBeenCalledWith(expect.stringMatching(/^test-map-/), {
+      type: 'FeatureCollection',
+      features: [],
+    })
+    expect(vi.mocked(echarts.registerMap).mock.invocationCallOrder.at(-1)).toBeLessThan(
+      vi.mocked(echarts.init).mock.invocationCallOrder.at(-1)!,
+    )
+    latest().getOption().series[0].selectedMap = { North: true, South: false }
+    act(() => latest().handlers.get('selectchanged')({ selected: [] }))
+    expect(selection).toHaveBeenCalledWith(['North'])
+    expect(event).toHaveBeenCalled()
+    expect(screen.getByLabelText('Selected region')).toHaveValue('North')
+    await user.click(screen.getByRole('button', { name: 'Clear regions' }))
+    expect(latest().dispatchAction).toHaveBeenCalledWith({
+      type: 'unselect',
+      seriesIndex: 0,
+      name: ['North'],
+    })
+  })
+  it('keeps Sankey layout options stable on an unrelated rerender and rejects zero-flow layouts safely', () => {
+    const nodes = [
+        { id: 'a', label: 'Visitors' },
+        { id: 'b', label: 'Signed up' },
+      ],
+      links = [{ id: 'ab', source: 'a', target: 'b', value: 5 }]
+    const view = render(<SankeyChart label="Flow" nodes={nodes} links={links} />)
+    const instance = latest(),
+      calls = instance.setOption.mock.calls.length
+    view.rerender(<SankeyChart label="Flow" className="p-2" nodes={nodes} links={links} />)
+    expect(instance.setOption).toHaveBeenCalledTimes(calls)
+    expect(instance.getOption().series[0].label.formatter({ name: 'a' })).toBe('Visitors')
+    view.rerender(
+      <SankeyChart label="Zero flow" nodes={nodes} links={[{ ...links[0], value: 0 }]} />,
+    )
+    expect(screen.getByText('No data to display')).toBeInTheDocument()
+  })
+  const market: CandlestickDatum[] = [
+    { id: 'a', date: '2026-01-01', open: 10, close: 11, low: 9, high: 12, volume: 100 },
+    { id: 'b', date: '2026-01-02', open: 11, close: 12, low: 10, high: 13, volume: 200 },
+    { id: 'c', date: '2026-01-03', open: 12, close: 13, low: 11, high: 14, volume: 300 },
+  ]
+  it('restores map selection and viewport when the theme recreates the renderer', async () => {
+    const geo = { type: 'FeatureCollection' as const, features: [] },
+      data = [{ id: 'north', name: 'North', value: 42 }]
+    const view = render(<MapChart label="Regions" mapName="persistent" geoJSON={geo} data={data} />)
+    const initial = latest()
+    Object.assign(initial.getOption().series[0], {
+      zoom: 2,
+      center: [3, 4],
+      selectedMap: { North: true },
+    })
+    act(() => {
+      initial.handlers.get('georoam')({ zoom: 2 })
+      initial.handlers.get('selectchanged')({ selected: [] })
+    })
+    view.rerender(
+      <MapChart label="Regions" mapName="persistent" geoJSON={geo} data={data} theme="dark" />,
+    )
+    await waitFor(() => expect(engine.instances).toHaveLength(2))
+    const options = latest().setOption.mock.calls.map((call: any[]) => call[0])
+    expect(options.some((o: any) => o.series?.[0]?.selectedMap?.North)).toBe(true)
+    expect(
+      options.some((o: any) => o.series?.[0]?.zoom === 2 && o.series?.[0]?.center?.[0] === 3),
+    ).toBe(true)
+    expect(screen.getByLabelText('Selected region')).toHaveValue('North')
+  })
+  it('restores brush data coordinates across theme changes without retaining old panel IDs or repeating semantic callbacks', async () => {
+    const selected = vi.fn(),
+      averages = [2]
+    const view = render(
+      <CandlestickChart
+        label="Market"
+        data={market}
+        movingAverages={averages}
+        zoom={false}
+        onSelectionChange={selected}
+      />,
+    )
+    await waitFor(() => expect(screen.getByRole('button', { name: 'Apply range' })).toBeEnabled())
+    const event = {
+      batch: [
+        {
+          areas: [
+            {
+              brushType: 'lineX',
+              xAxisIndex: 0,
+              coordRange: [1, 2],
+              range: [100, 200],
+              panelId: 'old-engine',
+            },
+          ],
+          selected: [{ seriesIndex: 0, dataIndex: [1, 2] }],
+        },
+      ],
+    }
+    act(() => latest().handlers.get('brushselected')(event))
+    view.rerender(
+      <CandlestickChart
+        label="Market"
+        data={market}
+        movingAverages={averages}
+        zoom={false}
+        theme="dark"
+        onSelectionChange={selected}
+      />,
+    )
+    await waitFor(() => expect(engine.instances).toHaveLength(2))
+    expect(latest().dispatchAction).toHaveBeenCalledWith({
+      type: 'brush',
+      areas: [{ brushType: 'lineX', xAxisIndex: 0, coordRange: [1, 2] }],
+    })
+    act(() => latest().handlers.get('brushselected')(event))
+    expect(selected).toHaveBeenCalledTimes(1)
+    expect(screen.getByText('2 selected')).toBeInTheDocument()
+  })
+  it('orders OHLC dimensions correctly and links volume and average series', () => {
+    render(
+      <CandlestickChart
+        label="Market"
+        data={market}
+        movingAverages={[2]}
+        brush={false}
+        zoom={false}
+      />,
+    )
+    const applied = latest().getOption()
+    expect(applied.series[0].data[0].value).toEqual([10, 11, 9, 12])
+    expect(applied.series[1].data).toEqual([null, 11.5, 12.5])
+    expect(applied.series[2]).toMatchObject({ type: 'bar', xAxisIndex: 1, yAxisIndex: 1 })
+    expect(applied.xAxis[0].data).toEqual(applied.xAxis[1].data)
+  })
+  it('supports keyboard range application, typed brush callbacks and clearing', async () => {
+    const user = userEvent.setup(),
+      selected = vi.fn()
+    render(
+      <CandlestickChart
+        label="Market"
+        data={market}
+        movingAverages={[]}
+        zoom={false}
+        onSelectionChange={selected}
+      />,
+    )
+    await waitFor(() => expect(screen.getByRole('button', { name: 'Apply range' })).toBeEnabled())
+    await user.selectOptions(screen.getByLabelText('Selection start'), '1')
+    await user.click(screen.getByRole('button', { name: 'Apply range' }))
+    expect(latest().dispatchAction).toHaveBeenCalledWith({
+      type: 'brush',
+      areas: [{ brushType: 'lineX', xAxisIndex: 0, coordRange: [1, 2] }],
+    })
+    act(() =>
+      latest().handlers.get('brushselected')({
+        batch: [
+          {
+            selected: [
+              { seriesIndex: 0, dataIndex: [1, 2] },
+              { seriesIndex: 1, dataIndex: [1] },
+            ],
+          },
+        ],
+      }),
+    )
+    expect(selected).toHaveBeenLastCalledWith({ indices: [1, 2], rows: [market[1], market[2]] })
+    expect(screen.getByText('2 selected')).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Clear selection' }))
+    expect(latest().dispatchAction).toHaveBeenCalledWith({ type: 'brush', areas: [] })
+    act(() => latest().handlers.get('brushselected')({ batch: [{ selected: [] }] }))
+    expect(screen.getByText('0 selected')).toBeInTheDocument()
+  })
+})
 
 describe('Chart lifecycle and interactions', () => {
   it('updates the existing instance, resizes and disposes on unmount', () => {

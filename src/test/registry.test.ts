@@ -5,6 +5,53 @@ import { examples } from '@/docs/examples'
 import { coverage } from '@/coverage'
 import { usageInstallIds } from '@/docs/installation'
 describe('source distribution', () => {
+  it('isolates product engines and retains the adapted PDF styling license', async () => {
+    for (const id of [
+      'workflow-editor',
+      'presence',
+      'upload-plus',
+      'prompt-composer',
+      'conversation',
+      'model-selector',
+      'voice-conversation',
+    ]) {
+      const item = JSON.parse(await readFile(`public/r/${id}.json`, 'utf8'))
+      expect(item.dependencies, id).not.toEqual(
+        expect.arrayContaining([
+          expect.stringMatching(/^(pdfjs-dist|marked|@xyflow\/react|maplibre-gl|streamdown)@/),
+        ]),
+      )
+      expect(
+        item.files.every(
+          (file: { path: string }) =>
+            !file.path.includes('/playground/') && !file.path.includes('/docs/'),
+        ),
+        id,
+      ).toBe(true)
+    }
+    const pdf = JSON.parse(await readFile('public/r/pdf-viewer.json', 'utf8')),
+      markdown = JSON.parse(await readFile('public/r/streaming-markdown.json', 'utf8'))
+    expect(pdf.dependencies).toContain('pdfjs-dist@6.5.438')
+    expect(pdf.dependencies).not.toContain('marked@18.1.3')
+    expect(
+      pdf.files.find((file: { path: string }) => file.path === 'LICENSES/pdfjs.txt')?.content,
+    ).toContain('Apache License')
+    expect(markdown.dependencies).toContain('marked@18.1.3')
+    expect(markdown.dependencies).not.toContain('pdfjs-dist@6.5.438')
+  })
+  it('documents real exports without advertising private implementation helpers', async () => {
+    const calendar = JSON.parse(await readFile('public/api/calendar-plus.json', 'utf8')),
+      button = JSON.parse(await readFile('public/api/button.json', 'utf8'))
+    const calendarApi = calendar.api.find(
+        (file: { file: string }) => file.file === 'calendar-plus.tsx',
+      ),
+      buttonApi = button.api.find((file: { file: string }) => file.file === 'button.tsx')
+    expect(calendarApi.exports).toContain('CalendarPlus')
+    expect(calendarApi.exports).not.toContain('dateKey')
+    expect(calendarApi.types.join('\n')).not.toContain('export function fromApi')
+    expect(buttonApi.exports).toContain('Button')
+    expect(buttonApi.types.join('\n')).toContain('export function Button')
+  })
   it('can install every local import used by the suggested usage composition', async () => {
     for (const { id } of components) {
       const files = new Set<string>()
@@ -20,7 +67,7 @@ describe('source distribution', () => {
   })
   it('ships installable chart source with pinned ECharts and portable API signatures', async () => {
     const charts = components.filter((component) => component.category === 'Chart')
-    expect(charts).toHaveLength(9)
+    expect(charts).toHaveLength(16)
     for (const component of charts) {
       const item = JSON.parse(await readFile(`public/r/${component.id}.json`, 'utf8'))
       const api = JSON.parse(await readFile(`public/api/${component.id}.json`, 'utf8'))
@@ -37,13 +84,19 @@ describe('source distribution', () => {
     }
   })
   it('provides a real usage example for every catalog entry', () => {
-    expect(components).toHaveLength(92)
+    expect(components).toHaveLength(134)
     for (const item of components) expect(examples[item.id], item.id).toMatch(/import/)
     for (const item of components) {
       expect(coverage[item.id], item.id).toBeDefined()
       expect(coverage[item.id].implemented.length).toBeGreaterThan(0)
     }
     expect(new Set(components.map((c) => c.id)).size).toBe(components.length)
+  })
+  it('keeps every generated API portable across checkout locations', async () => {
+    for (const { id } of components) {
+      const api = JSON.parse(await readFile(`public/api/${id}.json`, 'utf8'))
+      expect(JSON.stringify(api.api), id).not.toMatch(/(?:[A-Z]:[\\/]|\/node_modules\/)/)
+    }
   })
   it('includes all transitive source imports, package dependencies, and shadcn attribution', async () => {
     for (const component of components) {

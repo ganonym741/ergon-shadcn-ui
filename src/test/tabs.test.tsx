@@ -33,17 +33,35 @@ function Harness({
 }
 
 describe('workspace tabs', () => {
-  it('keeps each close control with its tab without nesting buttons', async () => {
+  it('exposes close actions outside the tablist for touch and screen-reader users', async () => {
+    const user = userEvent.setup()
+    render(<Harness />)
+    const actions = screen.getByRole('button', { name: 'Tab actions' })
+    expect(screen.getByRole('tablist')).not.toContainElement(actions)
+    await user.click(actions)
+    await user.click(screen.getByRole('menuitem', { name: 'Close Activity' }))
+    expect(screen.queryByRole('tab', { name: 'Activity' })).not.toBeInTheDocument()
+    expect(screen.getByRole('tab', { name: 'Overview' })).toHaveFocus()
+  })
+  it('closes the last tab from the actions menu and focuses the empty state', async () => {
+    const user = userEvent.setup()
+    render(<Harness items={initialItems.slice(0, 1)} />)
+    await user.click(screen.getByRole('button', { name: 'Tab actions' }))
+    await user.click(screen.getByRole('menuitem', { name: 'Close Overview' }))
+    expect(screen.getByRole('status')).toHaveFocus()
+    expect(screen.queryByRole('button', { name: 'Tab actions' })).not.toBeInTheDocument()
+  })
+  it('keeps pointer close affordances within their tab without nested interactive controls', async () => {
     const user = userEvent.setup()
     render(<Harness />)
     for (const item of initialItems) {
       const tab = screen.getByRole('tab', { name: String(item.label) })
-      const close = within(tab.parentElement!).getByRole('button', {
-        name: `Close ${item.label}`,
-      })
-      expect(tab).not.toContainElement(close)
+      const close = within(tab).getByTitle(`Close ${item.label}`)
+      expect(tab).toContainElement(close)
+      expect(within(tab).queryByRole('button')).not.toBeInTheDocument()
+      expect(tab).toHaveAttribute('aria-keyshortcuts', 'Delete')
     }
-    await user.click(screen.getByRole('button', { name: 'Close Activity' }))
+    await user.click(screen.getByTitle('Close Activity'))
     expect(screen.queryByRole('tab', { name: 'Activity' })).not.toBeInTheDocument()
     expect(screen.getByRole('tab', { name: 'Overview' })).toHaveFocus()
     expect(screen.getByRole('tabpanel')).toHaveTextContent('Overview content')
@@ -57,10 +75,8 @@ describe('workspace tabs', () => {
         items={initialItems.map((item) => ({ ...item, disabled: item.value === 'b' }))}
       />,
     )
-    expect(screen.getByRole('button', { name: 'Close Activity' })).toBeDisabled()
-    await user.click(
-      screen.getByRole('button', { name: value === 'a' ? 'Close Overview' : 'Close Settings' }),
-    )
+    expect(screen.getByRole('tab', { name: 'Activity' })).toBeDisabled()
+    await user.click(screen.getByTitle(value === 'a' ? 'Close Overview' : 'Close Settings'))
     const neighbor = screen.getByRole('tab', { name: value === 'a' ? 'Settings' : 'Overview' })
     expect(neighbor).toHaveAttribute('aria-selected', 'true')
     expect(neighbor).toHaveFocus()
@@ -100,7 +116,7 @@ describe('workspace tabs', () => {
       'Settings',
       'Overview',
     ])
-    await user.click(screen.getByRole('button', { name: 'Close Overview' }))
+    await user.click(screen.getByTitle('Close Overview'))
     expect(screen.getByRole('tab', { name: 'Settings' })).toHaveFocus()
     expect(screen.getByRole('tabpanel')).toHaveTextContent('Settings content')
   })
@@ -108,7 +124,7 @@ describe('workspace tabs', () => {
   it('provides a focused empty state after the final tab closes', async () => {
     const user = userEvent.setup()
     render(<Harness items={initialItems.slice(0, 1)} />)
-    await user.click(screen.getByRole('button', { name: 'Close Overview' }))
+    await user.click(screen.getByTitle('Close Overview'))
     expect(screen.queryByRole('tablist')).not.toBeInTheDocument()
     expect(screen.getByRole('status')).toHaveTextContent('No open tabs')
     expect(screen.getByRole('status')).toHaveFocus()
@@ -116,7 +132,7 @@ describe('workspace tabs', () => {
 
   it('omits close controls when changes are not enabled', () => {
     render(<WorkspaceTabs items={initialItems} value="a" onValueChange={() => {}} />)
-    expect(screen.queryByRole('button', { name: /Close/ })).not.toBeInTheDocument()
+    expect(screen.queryByTitle(/Close/)).not.toBeInTheDocument()
     expect(screen.getAllByRole('tab')).toHaveLength(3)
   })
 
@@ -127,9 +143,21 @@ describe('workspace tabs', () => {
         items={initialItems.slice(0, 2).map((item) => ({ ...item, disabled: item.value === 'b' }))}
       />,
     )
-    await user.click(screen.getByRole('button', { name: 'Close Overview' }))
+    await user.click(screen.getByTitle('Close Overview'))
     expect(screen.getByRole('tablist')).toHaveFocus()
     expect(screen.getByRole('tab', { name: 'Activity' })).toBeDisabled()
     expect(screen.queryByRole('tabpanel')).not.toBeInTheDocument()
+  })
+
+  it('closes the focused tab with Delete and focuses the next available tab', async () => {
+    const user = userEvent.setup()
+    render(<Harness />)
+    const activity = screen.getByRole('tab', { name: 'Activity' })
+    expect(activity).toHaveAccessibleDescription('Press Delete to close a closable tab.')
+    await user.click(activity)
+    await user.keyboard('{Delete}')
+    expect(screen.queryByRole('tab', { name: 'Activity' })).not.toBeInTheDocument()
+    expect(screen.getByRole('tab', { name: 'Settings' })).toHaveFocus()
+    expect(screen.getByRole('tabpanel')).toHaveTextContent('Settings content')
   })
 })

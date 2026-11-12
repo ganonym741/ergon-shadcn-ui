@@ -18,7 +18,7 @@ These commands require CLI **0.2 or later**.
 | pnpm            | `pnpm dlx @ergonui/cli` | `pnpm run dev`      |
 | Yarn            | `yarn dlx @ergonui/cli` | `yarn run dev`      |
 
-Examples below use npm; substitute your runner and development command from the table. For Deno 2.6+, set up `dx` once with `deno x --install-alias`. Yarn's `dlx` requires Yarn 2+.
+Examples below use npm; substitute your runner and development command from the table. For Deno 2.6+, set up `dx` once with `deno x --install-alias=dx`. Yarn's `dlx` requires Yarn 2+.
 
 **New application:** create a project and install the selected components.
 
@@ -46,22 +46,13 @@ Components are copied into your application for you to customize. Enhanced compo
 
 - [Installation and usage](docs/INSTALLATION.md)
 - [Charts](docs/CHARTS.md)
+- [Product and AI integrations](docs/INTEGRATIONS.md)
 - [Component capabilities](docs/COVERAGE.md)
 - [CLI options](packages/cli/README.md)
 
 ## Contribute
 
-Repository tooling uses Bun and Node.js 24.
-
-```sh
-bun install --frozen-lockfile
-bun install --cwd packages/cli --frozen-lockfile
-bun run dev
-```
-
-Before submitting changes, run `bun run verify`. Run `bun run registry:build` after editing component source. CLI development and deployment are covered in the [maintainer guide](docs/PUBLISHING.md); testing scope is documented in [verification](docs/VERIFICATION.md).
-
-Husky runs ESLint before formatting staged files and validates Conventional Commit messages. Use `bun run commit` for the Commitizen prompt; pushes run the full `bun run verify` checks.
+Read the [contributor guide](CONTRIBUTING.md) for local setup, development guidelines, checks, and the review workflow. All changes to `main` require a pull request with at least **one approving review**.
 
 ## Attribution
 

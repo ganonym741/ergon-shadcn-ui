@@ -5,6 +5,9 @@ const ThemeContext = React.createContext<{
   resolvedTheme: 'light' | 'dark'
   setTheme: (theme: string) => void
 }>({ theme: 'light', resolvedTheme: 'light', setTheme: () => {} })
+/**
+ * Resolves the selected or system appearance and supplies theme controls. Applies the appearance in memory even when persistence is blocked.
+ */
 export function ThemeProvider({
   children,
   defaultTheme = 'system',
@@ -35,7 +38,11 @@ export function ThemeProvider({
   React.useLayoutEffect(() => {
     document.documentElement.classList.toggle('dark', resolvedTheme === 'dark')
     document.documentElement.style.colorScheme = resolvedTheme
-    localStorage.setItem('ergon-appearance', theme)
+    try {
+      localStorage.setItem('ergon-appearance', theme)
+    } catch {
+      // Restricted storage must not prevent in-memory theme changes or rendering.
+    }
   }, [theme, resolvedTheme])
   return (
     <ThemeContext.Provider

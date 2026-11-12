@@ -11,6 +11,7 @@ export interface UploadFile {
   preview?: string
 }
 export interface UploadProps {
+  label?: string
   accept?: string
   multiple?: boolean
   maxSize?: number
@@ -31,7 +32,11 @@ export interface UploadProps {
   beforeUpload?: (file: File) => File | false | Promise<File | false>
   paste?: boolean
 }
+/**
+ * Manages local file selection, previews, and optional application-provided upload requests. Aborts active requests and releases object URLs on cleanup.
+ */
 export function Upload({
+  label,
   accept,
   multiple = true,
   maxSize = 10 * 1024 * 1024,
@@ -173,6 +178,11 @@ export function Upload({
     >
       <button
         type="button"
+        aria-label={
+          label
+            ? `${label}: Click to upload or drag and drop ${accept || 'Any file type'} · up to ${maxSize / 1024 / 1024} MB`
+            : undefined
+        }
         disabled={disabled}
         onClick={() => input.current?.click()}
         onDragOver={(e) => {
@@ -204,7 +214,7 @@ export function Upload({
         multiple={multiple}
         {...(directory ? { webkitdirectory: '' } : {})}
         disabled={disabled}
-        aria-label="Choose files"
+        aria-label={label ?? 'Choose files'}
         onChange={(e) => {
           add(Array.from(e.target.files ?? []))
           e.target.value = ''

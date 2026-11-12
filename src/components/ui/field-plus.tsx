@@ -43,11 +43,15 @@ export interface FieldPlusProps {
   placeholder?: string
   disabled?: boolean
   id?: string
+  label?: string
   currency?: string
   locale?: string
   invalid?: boolean
   treeNodes?: TreeNode[]
 }
+/**
+ * Maps a typed field configuration to a readable value or controlled editor. Forwards an optional label to native controls and composite field groups.
+ */
 export function FieldPlus({
   type = 'text',
   value,
@@ -57,6 +61,7 @@ export function FieldPlus({
   placeholder,
   disabled,
   id,
+  label,
   currency = 'USD',
   locale,
   invalid,
@@ -80,7 +85,7 @@ export function FieldPlus({
     if (type === 'select')
       return <span>{options.find((o) => o.value === value)?.label ?? String(value)}</span>
     if (type === 'password') return <span>••••••••</span>
-    if (type === 'rate') return <Rate value={Number(value)} disabled />
+    if (type === 'rate') return <Rate value={Number(value)} label={label} disabled />
     if (type === 'color')
       return (
         <span className="inline-flex items-center gap-2">
@@ -118,7 +123,7 @@ export function FieldPlus({
   if (type === 'slider')
     return (
       <Slider
-        aria-label={placeholder ?? 'Value'}
+        aria-label={label ?? placeholder ?? 'Value'}
         value={[Number(value) || 0]}
         onValueChange={(next) => onValueChange?.(next[0])}
         disabled={disabled}
@@ -128,6 +133,7 @@ export function FieldPlus({
   if (type === 'radio')
     return (
       <RadioButtons
+        label={label}
         options={options}
         value={String(value ?? '')}
         onValueChange={onValueChange}
@@ -137,6 +143,7 @@ export function FieldPlus({
   if (type === 'checkbox-group')
     return (
       <CheckboxGroup
+        label={label}
         options={options}
         value={Array.isArray(value) ? value : []}
         onValueChange={onValueChange}
@@ -146,6 +153,7 @@ export function FieldPlus({
   if (type === 'tree-select')
     return (
       <TreeSelect
+        label={label}
         nodes={treeNodes}
         value={Array.isArray(value) ? value : []}
         onValueChange={onValueChange}
@@ -156,6 +164,7 @@ export function FieldPlus({
     const Picker = type === 'date-range' ? DateRangePicker : DateTimeRangePicker
     return (
       <Picker
+        label={label}
         value={
           typeof value === 'object' && value
             ? (value as { from: Date | undefined; to?: Date })
@@ -169,6 +178,7 @@ export function FieldPlus({
   if (type === 'upload')
     return (
       <Upload
+        label={label}
         fileList={Array.isArray(value) ? value : []}
         onFileListChange={onValueChange}
         disabled={disabled}
@@ -178,7 +188,7 @@ export function FieldPlus({
     return (
       <Textarea
         id={id}
-        aria-label={id ? undefined : (placeholder ?? 'Field value')}
+        aria-label={label ?? (id ? undefined : (placeholder ?? 'Field value'))}
         aria-invalid={invalid}
         value={String(value ?? '')}
         onChange={(e) => onValueChange?.(e.target.value)}
@@ -190,6 +200,7 @@ export function FieldPlus({
     return (
       <Switch
         id={id}
+        aria-label={label}
         checked={!!value}
         onCheckedChange={onValueChange}
         disabled={disabled}
@@ -200,6 +211,7 @@ export function FieldPlus({
     return (
       <Checkbox
         id={id}
+        aria-label={label}
         checked={!!value}
         onCheckedChange={onValueChange}
         disabled={disabled}
@@ -210,6 +222,7 @@ export function FieldPlus({
     return (
       <Combobox
         id={id}
+        label={label}
         value={value ? [String(value)] : []}
         onValueChange={(v) => onValueChange?.(v[0] ?? '')}
         options={options}
@@ -218,11 +231,18 @@ export function FieldPlus({
       />
     )
   if (type === 'rate')
-    return <Rate value={Number(value) || 0} onValueChange={onValueChange} disabled={disabled} />
+    return (
+      <Rate
+        label={label}
+        value={Number(value) || 0}
+        onValueChange={onValueChange}
+        disabled={disabled}
+      />
+    )
   return (
     <Input
       id={id}
-      aria-label={id ? undefined : (placeholder ?? 'Field value')}
+      aria-label={label ?? (id ? undefined : (placeholder ?? 'Field value'))}
       aria-invalid={invalid}
       type={
         type === 'datetime'

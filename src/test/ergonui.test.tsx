@@ -214,7 +214,8 @@ describe('composable workflows', () => {
       )
     }
     render(<Harness />)
-    await user.click(screen.getByLabelText('Close A'))
+    await user.click(screen.getByRole('tab', { name: 'A' }))
+    await user.keyboard('{Delete}')
     expect(screen.getByRole('tab', { name: 'B' })).toHaveAttribute('aria-selected', 'true')
     expect(screen.getByRole('tabpanel')).toHaveTextContent('Second')
   })
@@ -405,7 +406,7 @@ describe('data transactions', () => {
 })
 describe('catalog and playground contract', () => {
   it('keeps enhanced components in functional categories and supplies typed control recipes', () => {
-    expect(categories).toHaveLength(8)
+    expect(categories).toHaveLength(9)
     for (const component of components) {
       const spec = playgrounds[component.id]
       expect(spec.controls.length, component.id).toBeGreaterThan(0)
