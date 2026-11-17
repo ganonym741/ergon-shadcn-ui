@@ -1,0 +1,61 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 2 /Kids [3 0 R 4 0 R] >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 5 0 R >> >> /Contents 6 0 R >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 5 0 R >> >> /Contents 7 0 R >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+6 0 obj
+<< /Length 723 >>
+stream
+q 0.94 0.96 0.98 rg 0 680 612 112 re f Q
+q 0.33 0.47 0.74 rg 48 720 32 4 re f Q
+BT /F1 25 Tf 48 672 Td (A calmer workspace) Tj ET
+BT /F1 13 Tf 48 622 Td (Good tools make complex work feel approachable.) Tj ET
+BT /F1 12 Tf 48 588 Td (Keep the next useful action visible.) Tj ET
+BT /F1 12 Tf 48 554 Td (Group related controls and leave enough room to think.) Tj ET
+BT /F1 12 Tf 48 520 Td (Use a clear hierarchy, familiar patterns, and timely feedback.) Tj ET
+BT /F1 12 Tf 48 486 Td (This workspace guide is an original two-page PDF fixture.) Tj ET
+BT /F1 12 Tf 48 452 Td (Search for workspace, select text, zoom, or rotate the page.) Tj ET
+BT /F1 10 Tf 48 42 Td (Original ErgonUI demonstration document - local example) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Length 726 >>
+stream
+q 0.94 0.96 0.98 rg 0 680 612 112 re f Q
+q 0.33 0.47 0.74 rg 48 720 32 4 re f Q
+BT /F1 25 Tf 48 672 Td (A practical review checklist) Tj ET
+BT /F1 13 Tf 48 622 Td (Review the details before sharing your workspace.) Tj ET
+BT /F1 12 Tf 48 588 Td (1. Can every action be reached with the keyboard?) Tj ET
+BT /F1 12 Tf 48 554 Td (2. Is the important information clear at a glance?) Tj ET
+BT /F1 12 Tf 48 520 Td (3. Do loading, empty, and error states help the reader?) Tj ET
+BT /F1 12 Tf 48 486 Td (4. Are related controls kept close to their task?) Tj ET
+BT /F1 12 Tf 48 452 Td (5. Does the layout have room to breathe on small screens?) Tj ET
+BT /F1 10 Tf 48 42 Td (Original ErgonUI demonstration document - local example) Tj ET
+endstream
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000121 00000 n 
+0000000247 00000 n 
+0000000373 00000 n 
+0000000443 00000 n 
+0000001217 00000 n 
+trailer
+<< /Size 8 /Root 1 0 R >>
+startxref
+1994
+%%EOF
