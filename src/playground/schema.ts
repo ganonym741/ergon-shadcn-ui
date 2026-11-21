@@ -1,10 +1,20 @@
 import { components } from '@/catalog'
+import { expansionControls } from './expansion-schema'
+import { productControls } from './product-schema'
 import { chartIds, chartData, chartSeries, customChartOption, radarIndicators } from './chart-data'
+import {
+  advancedChartIds,
+  advancedChartData,
+  advancedChartTitles,
+  comboSeries,
+  comboAxes,
+  sankeyLinks,
+} from './advanced-chart-data'
 export type Config = Record<string, string | number | boolean>
 export interface Control {
   key: string
   label: string
-  type: 'text' | 'number' | 'boolean' | 'select' | 'color' | 'json'
+  type: 'text' | 'textarea' | 'number' | 'boolean' | 'select' | 'color' | 'json'
   initial: string | number | boolean
   options?: string[]
   min?: number
@@ -238,6 +248,7 @@ const controls: Record<string, Control[]> = {
     num('current', 'Current step', 1, 0, 3),
     select('status', 'Current status', 'process', ['wait', 'process', 'finish', 'error']),
     vertical,
+    bool('responsive', 'Adapt to available width', true),
     bool('description', 'Descriptions', true),
     bool('icons', 'Custom icons'),
   ],
@@ -809,37 +820,69 @@ const controls: Record<string, Control[]> = {
     bool('breakpoints', 'Live breakpoint map', true),
   ],
 }
-for (const id of chartIds) {
+for (const id of [...chartIds, ...advancedChartIds]) {
   controls[id] = [
     text(
       'title',
       'Title',
-      id === 'chart'
-        ? 'Revenue & targets'
-        : id === 'gauge-chart'
-          ? 'Quarterly goal'
-          : id === 'heatmap-chart'
-            ? 'Weekly activity'
-            : id === 'radar-chart'
-              ? 'Team strengths'
-              : id === 'pie-chart'
-                ? 'Traffic sources'
-                : id === 'scatter-chart'
-                  ? 'Project performance'
-                  : 'Revenue overview',
+      advancedChartTitles[id] ??
+        (id === 'chart'
+          ? 'Revenue & targets'
+          : id === 'gauge-chart'
+            ? 'Quarterly goal'
+            : id === 'heatmap-chart'
+              ? 'Weekly activity'
+              : id === 'radar-chart'
+                ? 'Team strengths'
+                : id === 'pie-chart'
+                  ? 'Traffic sources'
+                  : id === 'scatter-chart'
+                    ? 'Project performance'
+                    : 'Revenue overview'),
     ),
     text('description', 'Description', 'Sample data. Every detail is yours to shape.'),
-    num('height', 'Chart height', 320, 180, 720),
+    num(
+      'height',
+      'Chart height',
+      id === 'candlestick-chart' ? 420 : id === 'calendar-heatmap-chart' ? 220 : 320,
+      180,
+      900,
+    ),
     select('renderer', 'Renderer', 'svg', ['svg', 'canvas']),
     select('theme', 'Chart theme', 'auto', ['auto', 'light', 'dark']),
     bool('animated', 'Animate', true),
     bool('showTooltip', 'Tooltips', true),
-    json('palette', 'Custom palette', []),
+    ...(!['map-chart', 'boxplot-chart', 'calendar-heatmap-chart'].includes(id)
+      ? [json('palette', 'Custom palette', [])]
+      : []),
     bool('showDataTable', 'Data table', true),
-    ...(!['heatmap-chart', 'gauge-chart'].includes(id) ? [bool('showLegend', 'Legend', true)] : []),
+    ...(![
+      'heatmap-chart',
+      'gauge-chart',
+      'map-chart',
+      'boxplot-chart',
+      'calendar-heatmap-chart',
+      'sankey-chart',
+    ].includes(id)
+      ? [bool('showLegend', 'Legend', true)]
+      : []),
     bool('loading', 'Loading'),
     bool('empty', 'Empty data'),
     bool('error', 'Error state'),
+    ...(['map-chart', 'calendar-heatmap-chart'].includes(id)
+      ? [
+          json(
+            'colors',
+            'Color scale',
+            id === 'map-chart'
+              ? ['#dcece4', '#72b7a1', '#146c51']
+              : ['#f0f2ed', '#b3d4bd', '#589c76', '#216645'],
+          ),
+          num('min', 'Color minimum', 0, -10000, 10000),
+          bool('autoMax', 'Automatic color maximum', true),
+          num('max', 'Color maximum', 100, -10000, 10000),
+        ]
+      : []),
     ...(id === 'chart'
       ? [json('option', 'ECharts option', customChartOption)]
       : id === 'gauge-chart'
@@ -849,7 +892,82 @@ for (const id of chartIds) {
             text('unit', 'Unit', '%'),
             bool('showPointer', 'Show pointer'),
           ]
-        : [json('data', 'Data', chartData[id])]),
+        : [json('data', 'Data', advancedChartData[id] ?? chartData[id])]),
+    ...(id === 'map-chart'
+      ? [
+          text('geoJSONURL', 'GeoJSON URL', '/maps/world.geo.json'),
+          text('nameProperty', 'Region-name property', 'name'),
+          select('roam', 'Map navigation', 'pan-and-zoom', ['pan-and-zoom', 'pan', 'zoom', 'none']),
+          select('selectedMode', 'Selection mode', 'single', ['single', 'multiple', 'none']),
+          bool('showLabels', 'Region labels'),
+          bool('showSelectionControl', 'Keyboard selection control', true),
+          bool('showNavigation', 'Navigation controls', true),
+          bool('showVisualMap', 'Color scale', true),
+        ]
+      : []),
+    ...(id === 'boxplot-chart'
+      ? [
+          bool('horizontal', 'Horizontal'),
+          bool('showOutliers', 'Show outliers', true),
+          { key: 'boxColor', label: 'Box outline', type: 'color', initial: '#b93e28' } as Control,
+          {
+            key: 'outlierColor',
+            label: 'Outlier color',
+            type: 'color',
+            initial: '#5579bd',
+          } as Control,
+          bool('zoom', 'Data zoom'),
+        ]
+      : []),
+    ...(id === 'calendar-heatmap-chart'
+      ? [
+          text('range', 'Calendar range (year, month, or start,end)', '2026'),
+          select('orientation', 'Orientation', 'horizontal', ['horizontal', 'vertical']),
+          select('firstDay', 'First weekday (0 = Sunday)', '1', [
+            '0',
+            '1',
+            '2',
+            '3',
+            '4',
+            '5',
+            '6',
+          ]),
+          num('minimumCellSize', 'Minimum cell size', 12, 8, 30),
+          bool('showDayLabels', 'Weekday labels', true),
+          bool('showMonthLabels', 'Month labels', true),
+          bool('showVisualMap', 'Color scale', true),
+        ]
+      : []),
+    ...(id === 'combo-chart'
+      ? [
+          json('series', 'Series', comboSeries),
+          json('axes', 'Value axes', comboAxes),
+          bool('zoom', 'Data zoom'),
+          bool('showGrid', 'Grid lines', true),
+          bool('showLabels', 'Data labels'),
+        ]
+      : []),
+    ...(id === 'sankey-chart'
+      ? [
+          json('links', 'Links', sankeyLinks),
+          select('orientation', 'Orientation', 'horizontal', ['horizontal', 'vertical']),
+          select('nodeAlign', 'Node alignment', 'justify', ['left', 'right', 'justify']),
+          num('nodeWidth', 'Node width', 18, 8, 40),
+          num('nodeGap', 'Node gap', 14, 4, 40),
+          bool('draggable', 'Drag nodes', true),
+          bool('showLabels', 'Node labels', true),
+        ]
+      : []),
+    ...(id === 'candlestick-chart'
+      ? ([
+          json('movingAverages', 'Moving-average periods', [5, 10, 20]),
+          bool('showVolume', 'Volume panel', true),
+          bool('zoom', 'Linked data zoom', true),
+          bool('brush', 'Brush selection', true),
+          { key: 'upColor', label: 'Rising candle', type: 'color', initial: '#16956d' },
+          { key: 'downColor', label: 'Falling candle', type: 'color', initial: '#d95454' },
+        ] as Control[])
+      : []),
     ...(['line-chart', 'area-chart', 'bar-chart'].includes(id)
       ? [
           json('series', 'Series', chartSeries),
@@ -892,6 +1010,8 @@ export interface PlaygroundSpec {
   controls: Control[]
   presets: { name: string; values: Config }[]
 }
+Object.assign(controls, expansionControls)
+Object.assign(controls, productControls)
 export const playgrounds: Record<string, PlaygroundSpec> = Object.fromEntries(
   components.map((component) => {
     const fields = controls[component.id]
@@ -963,9 +1083,17 @@ export const playgrounds: Record<string, PlaygroundSpec> = Object.fromEntries(
                   .map((field) => [
                     field.key,
                     (component.id === 'spin' && field.key === 'loading') ||
-                      !['disabled', 'loading', 'empty', 'error', 'failure', 'collapsed'].includes(
-                        field.key,
-                      ),
+                      ![
+                        'disabled',
+                        'loading',
+                        'empty',
+                        'error',
+                        'failure',
+                        'collapsed',
+                        'readOnly',
+                        'disabledAction',
+                        ...(component.id === 'approval-request' ? ['expired', 'reject'] : []),
+                      ].includes(field.key),
                   ]),
               ),
             },

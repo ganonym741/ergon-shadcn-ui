@@ -1,3 +1,7 @@
+import { AdvancedChartThumbnail } from './chart-thumbnails'
+import { ExpansionThumbnail } from './expansion-thumbnails'
+import { ProductThumbnail } from './product-thumbnails'
+import { productIds } from '@/playground/product-data'
 import {
   ArrowUpRight,
   ArrowRight,
@@ -76,9 +80,43 @@ function FormThumb() {
     </div>
   )
 }
+/**
+ * Selects a lightweight illustrative component preview for the catalog grid without requiring an interactive playground.
+ */
 export function Thumbnail({ id }: { id: string }) {
+  if ((productIds as readonly string[]).includes(id))
+    return (
+      <div className="thumb">
+        <ProductThumbnail id={id} />
+      </div>
+    )
   let content: React.ReactNode
   switch (id) {
+    case 'kanban':
+    case 'calendar-plus':
+    case 'gantt-chart':
+    case 'filter-builder':
+    case 'file-browser':
+    case 'image-cropper':
+    case 'command-palette':
+    case 'tags-input':
+    case 'phone-input':
+    case 'json-viewer':
+    case 'code-block':
+    case 'diff-viewer':
+    case 'organization-chart':
+    case 'media-player':
+    case 'image-comparison':
+      content = <ExpansionThumbnail id={id} />
+      break
+    case 'map-chart':
+    case 'boxplot-chart':
+    case 'calendar-heatmap-chart':
+    case 'combo-chart':
+    case 'sankey-chart':
+    case 'candlestick-chart':
+      content = <AdvancedChartThumbnail id={id} />
+      break
     case 'chart':
     case 'line-chart':
     case 'area-chart':

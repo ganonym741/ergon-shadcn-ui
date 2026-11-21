@@ -1,6 +1,42 @@
 # ErgonUI
 React components built on shadcn/ui component source and community work, including copied/adapted MIT-licensed components alongside original ErgonUI components.
 
+- Workflow Editor: /r/workflow-editor.json — Give every step a clear connection to the next.
+- PDF Viewer: /r/pdf-viewer.json — Read, search and explore a document in place.
+- Signature Pad: /r/signature-pad.json — Capture a personal mark, with every stroke editable.
+- Notification Inbox: /r/notification-inbox.json — A considered home for updates that matter.
+- Presence: /r/presence.json — Make shared work feel a little more connected.
+- Upload+: /r/upload-plus.json — Keep large uploads moving, one reliable piece at a time.
+- Conversation: /r/conversation.json — A comfortable place for an ongoing exchange.
+- Chat Message: /r/chat-message.json — Give each response a clear voice and useful actions.
+- Prompt Composer: /r/prompt-composer.json — Turn a thought and its context into a clear request.
+- Streaming Markdown: /r/streaming-markdown.json — Let an answer take shape without losing its structure.
+- Conversation History: /r/conversation-history.json — Find a useful conversation and pick up the thread.
+- Model Selector: /r/model-selector.json — Choose the right perspective for the task at hand.
+- Citations: /r/citations.json — Keep the source close to the answer.
+- Tool Call: /r/tool-call.json — Make a tool’s input, progress and result easy to inspect.
+- Agent Run Trace: /r/agent-run-trace.json — Follow the public steps of a complex task.
+- Approval Request: /r/approval-request.json — Put a clear decision before an important action.
+- Artifact Panel: /r/artifact-panel.json — Give generated work a place to grow and be reviewed.
+- Context Usage: /r/context-usage.json — Keep an eye on the space an exchange is using.
+- Generation Settings: /r/generation-settings.json — Shape a response with the controls a model supports.
+- Model Comparison: /r/model-comparison.json — Explore several responses to the same question.
+- Voice Conversation: /r/voice-conversation.json — Make space for a spoken exchange.
+- Kanban: /r/kanban.json — Give every card a clear place to move forward.
+- Calendar+: /r/calendar-plus.json — A complete schedule, with room for every event.
+- Gantt Chart: /r/gantt-chart.json — See how tasks, milestones, and dependencies come together.
+- Filter Builder: /r/filter-builder.json — Turn complex questions into clear, reusable conditions.
+- File Browser: /r/file-browser.json — A familiar home for files, folders, and shared work.
+- Image Cropper: /r/image-cropper.json — Frame the right detail before sharing an image.
+- Command Palette: /r/command-palette.json — Bring useful actions closer with a few keystrokes.
+- Tags Input: /r/tags-input.json — Collect ideas, labels, and keywords in one flexible field.
+- Phone Input: /r/phone-input.json — Make international phone numbers feel local.
+- JSON Viewer: /r/json-viewer.json — Explore structured data without losing the details.
+- Code Block: /r/code-block.json — Present source with clarity, color, and useful controls.
+- Diff Viewer: /r/diff-viewer.json — Make changes easy to spot and review.
+- Organization Chart: /r/organization-chart.json — See the people and relationships behind a team.
+- Media Player: /r/media-player.json — Thoughtful controls for audio and video.
+- Image Comparison: /r/image-comparison.json — Let a simple gesture reveal what changed.
 - Rich Text Editor: /r/rich-text-editor.json — Give stories shape, with images right where they belong.
 - Button: /r/button.json — A small surface for your next big action.
 - Float Button: /r/float-button.json — Keep useful actions within easy reach.
@@ -76,6 +112,12 @@ React components built on shadcn/ui component source and community work, includi
 - Radar Chart: /r/radar-chart.json — Compare strengths from every angle.
 - Heatmap Chart: /r/heatmap-chart.json — Let intensity reveal the pattern.
 - Gauge Chart: /r/gauge-chart.json — A clear reading of progress toward a goal.
+- Geographic Map: /r/map-chart.json — See the regional shape of your data.
+- Boxplot Chart: /r/boxplot-chart.json — Understand the spread behind the average.
+- Calendar Heatmap: /r/calendar-heatmap-chart.json — Discover the rhythm in every day.
+- Combo Chart: /r/combo-chart.json — Bring related metrics into one clear view.
+- Sankey Chart: /r/sankey-chart.json — Follow the flow from source to destination.
+- Candlestick Chart: /r/candlestick-chart.json — Read price movements with volume and context.
 - Alert: /r/alert.json — The right message in the right tone.
 - Drawer: /r/drawer.json — A little more space, without leaving the page.
 - Message: /r/message.json — Quick feedback that keeps things moving.

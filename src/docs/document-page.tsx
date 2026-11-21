@@ -14,6 +14,9 @@ import {
   type DocsPackageManager,
 } from './installation'
 import { PackageManagerSelect } from './package-manager-select'
+/**
+ * Displays the requested documentation guide, including installation, component conventions, attribution, verification, and release notes.
+ */
 export function DocumentPage({ page }: { page: string }) {
   const [query, setQuery] = React.useState('')
   const [manager, setManager] = React.useState<DocsPackageManager>('npm')
@@ -205,10 +208,18 @@ export function DocumentPage({ page }: { page: string }) {
             <p>
               React, Radix UI, TanStack Table and Virtual, React Hook Form, Lucide, React Day
               Picker, date-fns, Embla, Sonner, Vaul, React Resizable Panels, cmdk, qrcode.react,
-              Tiptap, ProseMirror, Tailwind, Bun, and Vite. The documentation uses Geist and Geist
-              Mono under the SIL Open Font License.
+              Tiptap, ProseMirror, dnd-kit, FullCalendar, react-easy-crop, libphonenumber-js, Shiki,
+              jsdiff, PDF.js, Marked, Tailwind, Bun, and Vite. The documentation uses Geist and
+              Geist Mono under the SIL Open Font License.
             </p>
-            <p>See LICENSE and THIRD-PARTY-NOTICES.md for the complete notices.</p>
+            <p>
+              PDF Viewer text-layer styling is adapted from Mozilla’s Apache-2.0 PDF.js. Its{' '}
+              <a href="/LICENSES/pdfjs.txt" target="_blank" rel="noreferrer">
+                complete license
+              </a>{' '}
+              is retained and included in PDF Viewer registry downloads. See LICENSE and
+              THIRD-PARTY-NOTICES.md for all notices.
+            </p>
           </>
         ) : page === 'coverage' ? (
           <>
@@ -265,6 +276,35 @@ export function DocumentPage({ page }: { page: string }) {
           </>
         ) : page === 'changelog' ? (
           <>
+            <h2>0.3.0</h2>
+            <ul>
+              <li>
+                Added Kanban, Calendar+, Gantt Chart, Filter Builder, File Browser, Image Cropper,
+                Command Palette, Tags Input, Phone Input, JSON Viewer, Code Block, Diff Viewer,
+                Organization Chart, Media Player, and Image Comparison, with installable source,
+                typed APIs and interactive playgrounds.
+              </li>
+              <li>
+                Added Geographic Map, Boxplot, Calendar Heatmap, Combo, Sankey, and Candlestick
+                charts with interactive playgrounds and modular ECharts imports.
+              </li>
+              <li>
+                Added shared chart brush events and optional brush loading, with pointer and
+                keyboard range selection for Candlestick charts.
+              </li>
+              <li>
+                Corrected compact density in installed components and narrow table/step layouts.
+              </li>
+              <li>
+                Improved date picker opening month, mention dismissal, and tab/editing
+                accessibility.
+              </li>
+              <li>
+                Fixed nested anchor tracking, responsive sidebar previews, and restricted-storage
+                theming.
+              </li>
+              <li>Corrected Deno alias setup and dependency installation in CI.</li>
+            </ul>
             <h2>0.2.0</h2>
             <ul>
               <li>All + components integrated into their functional collections.</li>

@@ -78,6 +78,7 @@ const categoryIcons: Record<Category, typeof Box> = {
   'Data entry': MousePointer2,
   'Data display': Layers,
   Chart: ChartNoAxesCombined,
+  AI: Sparkles,
   Feedback: CircleHelp,
   Other: Blocks,
 }
@@ -528,6 +529,9 @@ function Detail({ id, settings }: { id: string; settings: ThemeSettings }) {
     </>
   )
 }
+/**
+ * Renders the documentation shell, component navigation, and shared appearance controls. Keeps appearance changes usable when browser storage is unavailable.
+ */
 export default function App() {
   const { path, params } = useRoute()
   const { resolvedTheme, setTheme } = useTheme()
@@ -544,7 +548,11 @@ export default function App() {
     }
   })
   React.useEffect(() => {
-    localStorage.setItem('ergonui-theme', JSON.stringify(settings))
+    try {
+      localStorage.setItem('ergonui-theme', JSON.stringify(settings))
+    } catch {
+      // Keep the website's appearance controls usable when persistence is unavailable.
+    }
     const el = document.documentElement
     const accent = themeAccent(settings.accent, resolvedTheme)
     el.style.setProperty('--primary', accent)
@@ -558,7 +566,7 @@ export default function App() {
   }, [path, params.get('category')])
   React.useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      if (!e.defaultPrevented && (e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault()
         setSearchOpen((o) => !o)
       }
@@ -637,7 +645,7 @@ export default function App() {
             <span>Search anything…</span>
             <kbd>⌘ K</kbd>
           </button>
-          <span className="version-chip">v0.2.0</span>
+          <span className="version-chip">v0.3.0</span>
           <a
             className="header-icon inline-flex shrink-0 items-center justify-center rounded-md"
             href="https://github.com/ganonym741/ergon-shadcn-ui"
