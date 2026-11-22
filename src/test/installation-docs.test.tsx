@@ -24,6 +24,7 @@ it('switches all installation commands to the selected package runner without re
     expect(snippets).toContain(`${runner} add button table-plus`)
     expect(snippets).toContain(task)
     expect(snippets).not.toContain('--package-manager')
+    if (label === 'Deno') expect(container).toHaveTextContent('deno x --install-alias=dx')
   }
 })
 
